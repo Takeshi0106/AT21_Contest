@@ -1,0 +1,6 @@
+{
+    "googleDriveFolder": "C://Users//takes//HAL//unityRoms",
+    "buildRetentionDays": 30,
+    "buildDebug": true,
+    "buildRelease": false
+}

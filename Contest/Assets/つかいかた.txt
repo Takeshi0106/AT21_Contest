@@ -1,0 +1,27 @@
+【内容物構成】
+├Assets
+│├AutoBuildSystem.cs		Unity用ビルドツール
+│└BuildConfig.json			ビルド用設定ファイル
+├Deploy.bat					Unityをバッチモードで実行し、ROMをデプロイする
+├Fetch.bat					（プロジェクトフォルダがgitでバージョン管理されている場合）最新のバージョンを取得する
+├FetchAndBuild.bat			Fetch.batとDeploy.batを順次実行する
+├giturl.ini					Fetch.batで使用する。gitのリポジトリURLが記載されている。
+└path.ini					Deploy.batで使用する。Unity.exeのパスとプロジェクトフォルダのパスが記載されている。
+
+【つかいかた】
+1.内容物をすべてUnityのプロジェクトルートフォルダへコピー
+2.path.iniを編集
+	1行目はプロジェクトに使用しているUnity.exeのパス
+	2行目はUnityプロジェクトのルートフォルダ
+3.(gitでバージョン管理をしている場合)giturl.iniを編集
+	https://【ユーザー名】:【トークン名】@github.com/【ユーザー名】/【リポジトリ名】.git
+	という形に変更
+4.Assets\Editor\BuildConfig.jsonを編集（Unityエディタを起動して、Tools > AutoBuildSystemから設定してもよい)
+	ROMをデプロイするディレクトリを書く。
+	""で囲み、\を\\にすると認識されやすい。
+	例："C:\\UnityRoms\\MyProject"
+5.Deploy.batおよびFetch.batを実行し、結果を確認する
+	エラーが出たらいい感じに対応してね。
+6.FetchAndBuild.batをタスクスケジューラに登録する
+
+おわり。
