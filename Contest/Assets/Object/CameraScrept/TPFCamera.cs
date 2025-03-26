@@ -11,105 +11,117 @@ public class TPFCamera : MonoBehaviour
     public string objectName = "Player"; //オブジェクト名
 
     [Header("オブジェクトとカメラの距離")]
-    public float distance = 3.0f; //オブジェクトとカメラの距離
+    public float distance = 5.0f; //オブジェクトとカメラの距離
 
     [Header("マウス感度設定")]
     public float sensitivity = 3.0f; //マウス感度
 
-    [Header("カメラの注視点設定(オブジェクトからの相対位置)")]
-    public Vector2 lookPoint = new Vector2(0.7f, 1.0f); //オブジェクトの中心からのカメラの位置
+    [Header("カメラの注視点設定(オブジェクトからの相対位置を入れる)")]
+    public Vector2 lookPoint = new Vector2(0.0f, 1.0f); //オブジェクトの中心からのカメラの位置
 
-    GameObject obj; //カメラを入れるオブジェクト
-    Transform cameraTrans; //カメラのトランスフォーム
-    Vector3 targetPos; //カメラのベクトルを入れる
+    // カメラを入れるオブジェクト
+    GameObject obj;
+    // カメラのトランスフォーム
+    Transform cameraTrans;
+    // カメラのベクトル(向き)
+    Vector3 targetPos;
 
-    // マウスの入力を代入する
+    // マウスの入力
     float mouseInputX;
     float mouseInputY;
 
     // Start is called before the first frame update
     void Start()
     {
-        //名前検索でオブジェクトを見つける
+        // オブジェクトを代入
         obj = GameObject.Find(objectName);
-        if (obj == null) //プレイヤーオブジェクトが見つからなければエラー
+
+        // 見つからなければエラー
+        if (obj == null)
         {
-            Debug.LogError("プレイヤーオブジェクトが見つかりません");
+            Debug.LogError("TPFCamera ： プレイヤーオブジェクトが見つかりません");
             return;
         }
 
-        //自身のtransformを取得しておく
+        // カメラのtransform代入
         cameraTrans = this.transform;
 
-        //カメラの注視点を決める（キャラクターの少し右上）
-        targetPos = ExportTargetPos(obj); //キャラクターの座標を取得
+        // オブジェクトの座標にlookPointを計算した値を代入する
+        targetPos = ExportTargetPos(obj);
 
-        //カメラの位置を決める（キャラクタの後ろ方向へkyoriだけ移動させた地点）
-        Vector3 k = obj.transform.forward; //キャラクターの正面方向のベクトルを取得
-        k = k * -1; //-1を掛けてキャラクターの真後ろ方向のベクトルにする
-        k = k.normalized * distance;//ベクトルの長さをkyoriにする
-        cameraTrans.position = targetPos + k; //カメラの位置を決定する
+        // カメラの位置計算   ===================================
+        // オブジェクトのベクトル(向き)を取得
+        Vector3 objOppositeVector = obj.transform.forward;
+        // 逆ベクトルを計算
+        objOppositeVector = objOppositeVector * -1;
+        //ベクトルの長さをdistanceにする
+        objOppositeVector = objOppositeVector.normalized * distance;
 
-        //カメラを注視点へ向ける
+        // カメラの位置を代入
+        cameraTrans.position = targetPos + objOppositeVector;
+        //カメラのベクトル(向き)を計算
         cameraTrans.LookAt(targetPos);
 
         //カーソル非表示
         Cursor.visible = false;
-        //カーソルのロック
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //キャラクターが移動していたら
+        // オブジェクトの座標にlookPointを計算した値を代入する
         Vector3 tpos = ExportTargetPos(obj);
+        // キャラクターが移動していたら
         if (tpos != targetPos)
         {
-            //移動差を取得
+            // 移動量を計算   
             Vector3 sa = targetPos - tpos;
-
-            //カメラの位置も同じだけ動かす
+            // カメラの位置を移動
             cameraTrans.position -= sa;
-
-            //カメラの注視点を更新
+            // カメラの注視点を更新
             targetPos = tpos;
         }
 
-        //マウス入力を取得
-        mouseInputX = Input.GetAxis("Mouse X"); //X方向
-        mouseInputY = Input.GetAxis("Mouse Y"); //Y方向
+        // マウス入力を取得
+        mouseInputX = Input.GetAxis("Mouse X");
+        mouseInputY = Input.GetAxis("Mouse Y");
 
-        //X方向にカメラを移動させる
+        // X方向にカメラを移動させる
         cameraTrans.RotateAround(targetPos, Vector3.up, mouseInputX * sensitivity);
 
-        //Y方向にカメラを移動させる
+        // Y方向にカメラを移動させる
         Vector3 oldPos = cameraTrans.position;
         Quaternion oldRot = cameraTrans.rotation;
 
+        // マウス入力を反転させる
         mouseInputY *= -1;
-
+        // カメラの回転を計算
         cameraTrans.RotateAround(targetPos, cameraTrans.right, mouseInputY * sensitivity);
-        float camAngle = Mathf.Abs(Vector3.Angle(Vector3.up, targetPos - cameraTrans.position)); //カメラの角度を求める
-        if (camAngle < 45 || camAngle > 135) //カメラの角度が一定範囲外なら動かさない
+        // カメラの角度を計算
+        float camAngle = Mathf.Abs(Vector3.Angle(Vector3.up, targetPos - cameraTrans.position));
+
+        //カメラの角度が一定範囲外なら動かさない
+        if (camAngle < 45 || camAngle > 135)
         {
             cameraTrans.position = oldPos;
             cameraTrans.rotation = oldRot;
         }
-
-        //カメラがZ軸方向に回転しないようにする
+        // カメラのZ軸方向を固定する
         cameraTrans.eulerAngles = new Vector3(cameraTrans.eulerAngles.x, cameraTrans.eulerAngles.y, 0.0f);
     }
 
 
-    //カメラの注視点を取得する
+    // オブジェクトからの相対的位置計算する
     Vector3 ExportTargetPos(GameObject obj)
     {
-        Vector3 res = obj.transform.position; //プレイヤーの位置
+        // オブジェクトの位置
+        Vector3 res = obj.transform.position;
 
-        res += obj.transform.right * lookPoint.x; //注視点調整（X方向）
-        res += obj.transform.up * lookPoint.y; //注視点調整（Y方向）
-
-        return res; //計算結果を返す
+        // X方向の計算
+        res += obj.transform.right * lookPoint.x;
+        // Y方向の計算
+        res += obj.transform.up * lookPoint.y;
+        return res;
     }
 }
