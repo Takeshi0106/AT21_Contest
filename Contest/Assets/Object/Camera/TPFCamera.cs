@@ -70,6 +70,23 @@ public class TPFCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // ESCキーが押されたらロックを解除する
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Cursor.visible == false)
+            {
+                // カーソルを表示
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                //カーソル非表示
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+        }
+
         // オブジェクトの座標にlookPointを計算した値を代入する
         Vector3 tpos = ExportTargetPos(obj);
         // キャラクターが移動していたら
