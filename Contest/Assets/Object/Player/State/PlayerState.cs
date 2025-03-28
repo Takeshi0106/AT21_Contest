@@ -14,6 +14,8 @@ public class PlayerState : MonoBehaviour
     StateClass playerState;
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
     [HideInInspector] public Transform cameraTransform { get; private set; }
+    // Playerのリジッドボディ
+    [HideInInspector] public Rigidbody playerRigidbody { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,15 @@ public class PlayerState : MonoBehaviour
         if (cameraTransform == null)
         {
             Debug.LogError("PlayerState : カメラオブジェクトが見つかりません");
+            return;
+        }
+
+        // Playerリジッドボディー
+        // Rigidbodyを探す
+        playerRigidbody = this.gameObject.GetComponent<Rigidbody>();
+        if (playerRigidbody == null)
+        {
+            Debug.LogError("PlayerState : Rigidbodyが見つかりません");
             return;
         }
     }

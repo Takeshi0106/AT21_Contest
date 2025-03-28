@@ -12,8 +12,6 @@ public class MoveState : StateClass
 {
     // インスタンスを入れる変数
     private static MoveState instance;
-    // Playerのリジッドボディ
-    Rigidbody rb;
     // PlayerStateを入れる変数
     PlayerState playerState;
     // 移動度
@@ -46,13 +44,6 @@ public class MoveState : StateClass
     {
         Debug.LogError("MoveState : 開始");
 
-        // Rigidbodyを探す
-        rb = player.GetComponent<Rigidbody>();
-        if (rb == null)
-        {
-            Debug.LogError("MoveState : Rigidbodyが見つかりません");
-            return;
-        }
         // PlayerStateを探す
         playerState = player.GetComponent<PlayerState>();
         if (playerState == null)
@@ -77,7 +68,7 @@ public class MoveState : StateClass
         moveForward = Vector3.Scale(moveForward, new Vector3(1, 0, 1)).normalized * playerState.speed;
 
         // 移動度に移動速度を掛けて力を加える
-        rb.velocity = new Vector3(moveForward.x, rb.velocity.y, moveForward.z);
+        playerState.playerRigidbody.velocity = new Vector3(moveForward.x, playerState.playerRigidbody.velocity.y, moveForward.z);
 
         //キャラクターを回転させる
         player.transform.eulerAngles = new Vector3(player.transform.eulerAngles.x, playerState.cameraTransform.eulerAngles.y, player.transform.eulerAngles.z);
