@@ -447,6 +447,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraName: Main Camera
   speed: 3
+  CounterActiveFreams: 500
+  counterKey: 32
 --- !u!1 &971330555
 GameObject:
   m_ObjectHideFlags: 0

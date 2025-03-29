@@ -6,9 +6,13 @@ public class PlayerState : MonoBehaviour
 {
     [Header("カメラオブジェクト名")]
     public string cameraName = "Main Camera"; //カメラオブジェクト名
-
     [Header("移動速度")]
     public float speed = 2.0f; //移動速度
+    [Header("カウンターの有効フレーム")]
+    public int CounterActiveFreams = 30; //フレーム数
+    [Header("カウンターキー")]
+    public KeyCode counterKey = KeyCode.Space; //フレーム数
+
 
     // プレイヤーのStateを入れる変数    
     StateClass playerState;
@@ -16,6 +20,8 @@ public class PlayerState : MonoBehaviour
     [HideInInspector] public Transform cameraTransform { get; private set; }
     // Playerのリジッドボディ
     [HideInInspector] public Rigidbody playerRigidbody { get; private set; }
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +49,8 @@ public class PlayerState : MonoBehaviour
         }
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
@@ -51,6 +59,8 @@ public class PlayerState : MonoBehaviour
         // 状態の更新
         playerState.Excute(this.gameObject);
     }
+
+
 
     // StateをChangする処理
     public void ChangPlayerState(StateClass stateClass)
@@ -62,4 +72,7 @@ public class PlayerState : MonoBehaviour
         // 開始処理
         playerState.Enter(this.gameObject);
     }
+
+
+
 }

@@ -16,6 +16,8 @@ public class MoveState : StateClass
     // 移動度
     Vector3 moveForward;
 
+
+
     // インスタンスを取得する関数
     public static MoveState Instance
     {
@@ -29,14 +31,24 @@ public class MoveState : StateClass
         }
     }
 
+
+
     // 状態の変更処理
     public override void Change(GameObject player)
     {
+        // 移動キー入力がないとき、待機状態に変更
         if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
         {
             playerState.ChangPlayerState(StandingState.Instance);
         }
+        // カウンター状態に変更
+        if (Input.GetKeyDown(playerState.counterKey))
+        {
+            playerState.ChangPlayerState(CounterState.Instance);
+        }
     }
+
+
 
     // 状態の開始処理
     public override void Enter(GameObject player)
@@ -51,6 +63,8 @@ public class MoveState : StateClass
             return;
         }
     }
+
+
 
     // 状態中の処理
     public override void Excute(GameObject player)
@@ -73,9 +87,14 @@ public class MoveState : StateClass
         player.transform.eulerAngles = new Vector3(player.transform.eulerAngles.x, playerState.cameraTransform.eulerAngles.y, player.transform.eulerAngles.z);
     }
 
+
+
     // 状態中の終了処理
     public override void Exit(GameObject player)
     {
 
     }
+
+
+
 }
