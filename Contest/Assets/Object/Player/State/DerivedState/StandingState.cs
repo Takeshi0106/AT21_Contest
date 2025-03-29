@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // =====================================
-// プレイヤーの立っている状態
+// プレイヤーの何もしていない状態
 // =====================================
 
 public class StandingState : StateClass
