@@ -11,7 +11,11 @@ public class DashState : StateClass<PlayerState>
     // 移動度
     Vector3 moveForward;
 
-
+#if UNITY_EDITOR
+    // エディタ実行時に実行される
+    // 元の色を保存
+    Color originalColor;
+#endif
 
     // インスタンスを取得する関数
     public static DashState Instance
@@ -55,6 +59,15 @@ public class DashState : StateClass<PlayerState>
     public override void Enter(PlayerState playerState)
     {
         Debug.LogError("DashState : 開始");
+
+#if UNITY_EDITOR
+        // エディタ実行時に取得して色を変更する
+        if (playerState.playerRenderer != null)
+        {
+            originalColor = playerState.playerRenderer.material.color; // 元の色を保存
+            playerState.playerRenderer.material.color = Color.cyan;    // ダッシュ中の色
+        }
+#endif
     }
 
 
@@ -86,7 +99,13 @@ public class DashState : StateClass<PlayerState>
     // 状態中の終了処理
     public override void Exit(PlayerState playerState)
     {
-
+#if UNITY_EDITOR
+        // エディタ実行時に色を元に戻す
+        if (playerState.playerRenderer != null)
+        {
+            playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
+        }
+#endif
     }
 
 
