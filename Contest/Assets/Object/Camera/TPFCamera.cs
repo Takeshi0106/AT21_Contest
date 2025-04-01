@@ -9,15 +9,13 @@ public class TPFCamera : MonoBehaviour
 {
     [Header("カメラを付けるオブジェクトの名前")]
     public string objectName = "Player"; //オブジェクト名
-
     [Header("オブジェクトとカメラの距離")]
     public float distance = 5.0f; //オブジェクトとカメラの距離
-
     [Header("マウス感度設定")]
     public float sensitivity = 3.0f; //マウス感度
-
     [Header("カメラの注視点設定(オブジェクトからの相対位置を入れる)")]
     public Vector2 lookPoint = new Vector2(0.0f, 1.0f); //オブジェクトの中心からのカメラの位置
+
 
     // カメラを入れるオブジェクト
     GameObject obj;
@@ -25,10 +23,11 @@ public class TPFCamera : MonoBehaviour
     Transform cameraTrans;
     // カメラのベクトル(向き)
     Vector3 targetPos;
-
     // マウスの入力
     float mouseInputX;
     float mouseInputY;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +65,8 @@ public class TPFCamera : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -129,6 +130,7 @@ public class TPFCamera : MonoBehaviour
     }
 
 
+
     // オブジェクトからの相対的位置計算する
     Vector3 ExportTargetPos(GameObject obj)
     {
@@ -141,4 +143,7 @@ public class TPFCamera : MonoBehaviour
         res += obj.transform.up * lookPoint.y;
         return res;
     }
+
+
+
 }

@@ -1,29 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class PlayerState : MonoBehaviour
+// =====================================
+// プレイヤーの状態
+// =====================================
+
+// Rigidbodyコンポーネントが必須
+[RequireComponent(typeof(Rigidbody))]
+
+#if UNITY_EDITOR
+// エディタ実行時に実行される
+[RequireComponent(typeof(Renderer))]
+#endif
+
+public class PlayerState : BaseState<PlayerState>
 {
+    // インスペクタービューから変更できる
     [Header("カメラオブジェクト名")]
-    public string cameraName = "Main Camera"; //カメラオブジェクト名
+    [SerializeField] private string cameraName = "Main Camera"; //カメラオブジェクト名
+    [Header("プレイヤーの移動速度")]
+    [SerializeField] private float speed = 2.0f; //移動速度
 
-    [Header("移動速度")]
-    public float speed = 2.0f; //移動速度
+    // 衝突したオブジェクトを保存するリスト
+    [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
 
-    // プレイヤーのStateを入れる変数    
-    StateClass playerState;
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
-    [HideInInspector] public Transform cameraTransform { get; private set; }
+    [HideInInspector] private Transform cameraTransform;
     // Playerのリジッドボディ
-    [HideInInspector] public Rigidbody playerRigidbody { get; private set; }
+    [HideInInspector] private Rigidbody playerRigidbody;
+    // Playerのコライダー
+    [HideInInspector] private Collider playerCollider;
+    // Playerのトランスフォーム
+    [HideInInspector] private Transform playerTransform;
+    // Playerのカウンターマネージャー
+    [HideInInspector] private CounterManager playerCounterManager;
+
+#if UNITY_EDITOR
+    // エディタ実行時に実行される
+    // Playerのレンダラー
+    [HideInInspector] public Renderer playerRenderer;
+#endif
 
     // Start is called before the first frame update
     void Start()
     {
         // 状態をセット
-        playerState = StandingState.Instance;
+        currentState = StandingState.Instance;
+
         // 状態の開始処理
-        playerState.Enter(this.gameObject);
+        currentState.Enter(this);
 
         //　カメラオブジェクトを代入
         cameraTransform = GameObject.Find(cameraName).transform;
@@ -34,32 +61,93 @@ public class PlayerState : MonoBehaviour
         }
 
         // Playerリジッドボディー
-        // Rigidbodyを探す
         playerRigidbody = this.gameObject.GetComponent<Rigidbody>();
         if (playerRigidbody == null)
         {
             Debug.LogError("PlayerState : Rigidbodyが見つかりません");
             return;
         }
+
+        // Playerコライダー
+        playerCollider = this.gameObject.GetComponent<Collider>();
+        if (playerCollider == null)
+        {
+            Debug.LogError("PlayerState : Colliderが見つかりません");
+            return;
+        }
+
+        // Playerトランスフォーム
+        playerTransform = this.gameObject.GetComponent<Transform>();
+        if (playerTransform == null)
+        {
+            Debug.LogError("PlayerState : Transformが見つかりません");
+            return;
+        }
+
+        // カウンターマネージャー
+        playerCounterManager = this.gameObject.GetComponent<CounterManager>();
+        if(playerCounterManager == null)
+        {
+            Debug.LogError("PlayerState : CounterManagerが見つかりません");
+            return;
+        }
+
+#if UNITY_EDITOR
+        // エディタ実行時に取得して色を変更する
+        playerRenderer = this.gameObject.GetComponent<Renderer>();
+        if (playerRigidbody == null)
+        {
+            Debug.LogError("PlayerState : Rendererが見つかりません");
+            return;
+        }
+#endif
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    // プレイヤーが敵にぶつかった時の処理
+    void OnCollisionEnter(Collision other)
     {
-        // 状態の変更
-        playerState.Change(this.gameObject);
-        // 状態の更新
-        playerState.Excute(this.gameObject);
+        Collider collider = other.collider;
+        if (!collidedObjects.Contains(other.collider))
+        {
+            collidedObjects.Add(other.collider);
+        }
+#if UNITY_EDITOR
+        // エディタ実行時に実行される
+        Debug.Log("Objectに当たった : " + other.gameObject.name);
+#endif
     }
 
-    // StateをChangする処理
-    public void ChangPlayerState(StateClass stateClass)
+
+
+    // プレイヤーが敵と離れた時の処理
+    void OnCollisionExit(Collision other)
     {
-        // 終了処理
-        playerState.Exit(this.gameObject);
-        // State変更
-        playerState = stateClass;
-        // 開始処理
-        playerState.Enter(this.gameObject);
+        Collider collider = other.collider;
+        if (collidedObjects.Contains(other.collider))
+        {
+            collidedObjects.Remove(other.collider);
+        }
+#if UNITY_EDITOR
+        // エディタ実行時に実行される
+        Debug.Log("Objectが離れた : " + other.gameObject.name);
+#endif
     }
+
+
+
+    // ゲッター
+    public float GetSpeed() => speed; 
+    public List<Collider> GetCollidedObjects() => collidedObjects;
+    public Transform GetCameraTransform() => cameraTransform;
+    public Rigidbody GetPlayerRigidbody() => playerRigidbody;
+    public Collider GetPlayerCollider() => playerCollider;
+    public Transform GetPlayerTransform() => playerTransform;
+    public CounterManager GetPlayerCounterManager() => playerCounterManager;
+#if UNITY_EDITOR
+    // エディタ実行時に実行される
+    public Renderer GetPlayerRenderer() => playerRenderer;
+#endif
 }
+
