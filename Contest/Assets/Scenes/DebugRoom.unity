@@ -447,7 +447,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraName: Main Camera
-  speed: 5
+  walkSpeed: 2
+  dashSpeed: 5
   playerRenderer: {fileID: 0}
 --- !u!114 &857400832
 MonoBehaviour:

@@ -29,13 +29,19 @@ public class StandingState : StateClass<PlayerState>
     // 状態の変更処理
     public override void Change(PlayerState playerState)
     {
-        // 移動状態に変更
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)   
+        // 走り移動状態に変更
+        if((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)&&
+            Input.GetButton("Dash"))
         {
-            playerState.ChangeState(MoveState.Instance);
+            playerState.ChangeState(DashState.Instance);
+        }
+        else if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0&&
+            !Input.GetButton("Dash"))   
+        {
+            playerState.ChangeState(WalkState.Instance);
         }
         // カウンター状態に変更
-        if(Input.GetButtonDown("Counter"))
+        else if(Input.GetButtonDown("Counter"))
         {
             playerState.ChangeState(CounterStanceState.Instance);
         }

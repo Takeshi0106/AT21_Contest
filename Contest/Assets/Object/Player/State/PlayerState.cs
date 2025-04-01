@@ -20,8 +20,10 @@ public class PlayerState : BaseState<PlayerState>
     // インスペクタービューから変更できる
     [Header("カメラオブジェクト名")]
     [SerializeField] private string cameraName = "Main Camera"; //カメラオブジェクト名
-    [Header("プレイヤーの移動速度")]
-    [SerializeField] private float speed = 2.0f; //移動速度
+    [Header("プレイヤーの歩く移動速度")]
+    [SerializeField] private float walkSpeed = 2.0f; //移動速度
+    [Header("プレイヤーの歩く移動速度")]
+    [SerializeField] private float dashSpeed = 4.0f; //移動速度
 
     // 衝突したオブジェクトを保存するリスト
     [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
@@ -138,7 +140,8 @@ public class PlayerState : BaseState<PlayerState>
 
 
     // ゲッター
-    public float GetSpeed() => speed; 
+    public float GetWalkSpeed() => walkSpeed;
+    public float GetDashSpeed() => dashSpeed;
     public List<Collider> GetCollidedObjects() => collidedObjects;
     public Transform GetCameraTransform() => cameraTransform;
     public Rigidbody GetPlayerRigidbody() => playerRigidbody;
