@@ -18,26 +18,65 @@ public class CounterManager : MonoBehaviour
     [SerializeField] private int[] counterSuccessFrames = { 10, 10, 10, 10, 10 };
     [Header("カウンター準備のフレーム（ランクごと）")]
     [SerializeField] private int[] counterStartupFrames = { 10, 10, 10, 10, 10 };
-    [Header("ランクが落ちるまでのフレーム数")]
-    [SerializeField] private int rankDecayFrames = 300;
-    [Header("成功時に減衰が無効になる猶予フレーム")]
-    [SerializeField] private int decayGraceFrames = 120;
+    [Header("ランクが落ちるまでのフレーム数(ランクごと)")]
+    [SerializeField] private int[] rankDecayFrames = { 300, 300, 300, 300, 300 };
+    [Header("成功時に減衰が無効になる猶予フレーム（ランクごと）")]
+    [SerializeField] private int[] decayGraceFrames = { 120, 120, 120, 120, 120 };
 
     // 最新のゲージを入れる
     private float currentGauge = 0f;
     // 最新のランクを入れる
     private int currentRank = 0;
-
+    // カウンターが落ちるフレームを入れる変数
+    private int downTime = 0;
+    // 猶予フレームを入れる変数
+    private int graceTimer = 0;
+    // 猶予フレームが過ぎたかのスイッチ
+    private bool isInGracePeriod = false;
 
 
     // ゲージ量を上げる処理
     public void IncreaseGauge()
     {
+        // ゲージ計算
         currentGauge += counterSuccessGain;
+
         if (currentGauge >= counterGauge[currentRank])
         {
             RankUp();
             currentGauge = 0;
+        }
+
+        // 猶予期間をリセット
+        isInGracePeriod = true;
+        graceTimer = 0;
+        downTime = 0;
+    }
+
+
+
+    // カウンターランクが落ちるかの処理
+    public void GaugeDecay()
+    {
+        if (isInGracePeriod)
+        {
+            graceTimer++;
+
+            if (graceTimer >= decayGraceFrames[currentRank])
+            {
+                isInGracePeriod = false;
+                graceTimer = 0;
+            }
+            // 猶予期間中は減衰タイマーを進めない
+            return;
+        }
+
+        downTime++;
+
+        if (downTime >= rankDecayFrames[currentRank])
+        {
+            RankDown();
+            downTime = 0;
         }
     }
 
@@ -52,6 +91,19 @@ public class CounterManager : MonoBehaviour
             Debug.Log($"カウンターランクアップ！現在のランク: {currentRank + 1}");
         }
     }
+
+
+
+    // ランクダウン処理
+    private void RankDown()
+    {
+        if (currentRank > 0)
+        {
+            currentRank--;
+            Debug.Log($"カウンターランクダウン！現在のランク: {currentRank + 1}");
+        }
+    }
+
 
 
     // ゲッター

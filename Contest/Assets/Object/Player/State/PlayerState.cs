@@ -109,7 +109,10 @@ public class PlayerState : BaseState<PlayerState>
 
     void Update()
     {
+        // 状態を更新する
         StateUpdate();
+        // カウンターランクが落ちる処理
+        playerCounterManager.GaugeDecay();
     }
 
 
