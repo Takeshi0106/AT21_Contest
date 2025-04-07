@@ -8,19 +8,19 @@ public class CounterManager : MonoBehaviour
     [SerializeField] private float[] counterGauge = { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
     [Header("カウンター成功時のゲージ増加量")]
     [SerializeField] private float counterSuccessGain = 20f;
-    [Header("カウンターのダメージ倍率（ランクごと）")]
+    [Header("ダメージアップ倍率（ランクごと）")]
     [SerializeField] private float[] damageMultipliers = { 1.0f, 1.2f, 1.5f, 2.0f,5.0f };
-    [Header("カウンターの持続フレーム（ランクごと/準備フレームとは別）")]
+    [Header("カウンターの受付フレーム（ランクごと)")]
     [SerializeField] private int[] counterFrames = { 30, 40, 50, 60, 70 };
-    [Header("カウンター失敗時の硬直フレーム（ランクごと）")]
+    [Header("カウンター失敗硬直フレーム（ランクごと）")]
     [SerializeField] private int[] counterStaggerFrames = { 10, 10, 10, 10, 10 };
-    [Header("カウンター成功時のフレーム（ランクごと）")]
+    [Header("カウンター成功フレーム（ランクごと）")]
     [SerializeField] private int[] counterSuccessFrames = { 10, 10, 10, 10, 10 };
-    [Header("カウンター準備のフレーム（ランクごと）")]
+    [Header("カウンターを構えるフレーム（ランクごと）")]
     [SerializeField] private int[] counterStartupFrames = { 10, 10, 10, 10, 10 };
-    [Header("ランクが落ちるまでのフレーム数(ランクごと)")]
+    [Header("ランクが落ちるまでのフレーム(ランクごと)")]
     [SerializeField] private int[] rankDecayFrames = { 300, 300, 300, 300, 300 };
-    [Header("成功時に減衰が無効になる猶予フレーム（ランクごと）")]
+    [Header("カウンター成功時からランクダウン開始までの無効フレーム（ランクごと）")]
     [SerializeField] private int[] decayGraceFrames = { 120, 120, 120, 120, 120 };
 
     // 最新のゲージを入れる
