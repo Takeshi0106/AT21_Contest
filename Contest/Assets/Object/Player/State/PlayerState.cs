@@ -49,60 +49,67 @@ public class PlayerState : BaseState<PlayerState>
     void Start()
     {
         // 状態をセット
-        currentState = StandingState.Instance;
+        currentState = PlayerStandingState.Instance;
 
         // 状態の開始処理
         currentState.Enter(this);
 
         //　カメラオブジェクトを代入
         cameraTransform = GameObject.Find(cameraName).transform;
+        // Playerリジッドボディー
+        playerRigidbody = this.gameObject.GetComponent<Rigidbody>();
+        // Playerコライダー
+        playerCollider = this.gameObject.GetComponent<Collider>();
+        // Playerトランスフォーム
+        playerTransform = this.gameObject.GetComponent<Transform>();
+        // カウンターマネージャー
+        playerCounterManager = this.gameObject.GetComponent<CounterManager>();
+        
+
+#if UNITY_EDITOR
+        // エディタ実行時に取得して色を変更する
+        playerRenderer = this.gameObject.GetComponent<Renderer>();
+
+
+        // 所得出来ていないときエラーを出す
         if (cameraTransform == null)
         {
             Debug.LogError("PlayerState : カメラオブジェクトが見つかりません");
             return;
         }
-
-        // Playerリジッドボディー
-        playerRigidbody = this.gameObject.GetComponent<Rigidbody>();
         if (playerRigidbody == null)
         {
             Debug.LogError("PlayerState : Rigidbodyが見つかりません");
             return;
         }
-
-        // Playerコライダー
-        playerCollider = this.gameObject.GetComponent<Collider>();
         if (playerCollider == null)
         {
             Debug.LogError("PlayerState : Colliderが見つかりません");
             return;
         }
-
-        // Playerトランスフォーム
-        playerTransform = this.gameObject.GetComponent<Transform>();
         if (playerTransform == null)
         {
             Debug.LogError("PlayerState : Transformが見つかりません");
             return;
         }
-
-        // カウンターマネージャー
-        playerCounterManager = this.gameObject.GetComponent<CounterManager>();
-        if(playerCounterManager == null)
+        if (playerCounterManager == null)
         {
             Debug.LogError("PlayerState : CounterManagerが見つかりません");
             return;
         }
-
-#if UNITY_EDITOR
-        // エディタ実行時に取得して色を変更する
-        playerRenderer = this.gameObject.GetComponent<Renderer>();
         if (playerRigidbody == null)
         {
             Debug.LogError("PlayerState : Rendererが見つかりません");
             return;
         }
 #endif
+    }
+
+
+
+    void Update()
+    {
+        StateUpdate();
     }
 
 
@@ -142,7 +149,7 @@ public class PlayerState : BaseState<PlayerState>
     // ゲッター
     public float GetWalkSpeed() => walkSpeed;
     public float GetDashSpeed() => dashSpeed;
-    public List<Collider> GetCollidedObjects() => collidedObjects;
+    public List<Collider> GetPlayerCollidedObjects() => collidedObjects;
     public Transform GetCameraTransform() => cameraTransform;
     public Rigidbody GetPlayerRigidbody() => playerRigidbody;
     public Collider GetPlayerCollider() => playerCollider;

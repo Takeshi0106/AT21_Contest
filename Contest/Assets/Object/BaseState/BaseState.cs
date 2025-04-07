@@ -1,10 +1,14 @@
 using UnityEngine;
 
+// ===================================
+// ó‘Ô‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+// ===================================
+
 public class BaseState<T> : MonoBehaviour where T : BaseState<T>
 {
     protected StateClass<T> currentState;
 
-    void Update()
+    protected void StateUpdate()
     {
         currentState.Change((T)this);
         currentState.Excute((T)this);

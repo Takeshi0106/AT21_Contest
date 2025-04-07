@@ -4,21 +4,21 @@ using UnityEngine;
 // プレイヤーの何もしていない状態
 // =====================================
 
-public class StandingState : StateClass<PlayerState>
+public class PlayerStandingState : StateClass<PlayerState>
 {
     // インスタンスを入れる変数
-    private static StandingState instance;
+    private static PlayerStandingState instance;
 
 
 
     // インスタンスを取得する関数
-    public static StandingState Instance
+    public static PlayerStandingState Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = new StandingState();
+                instance = new PlayerStandingState();
             }
             return instance;
         }
@@ -33,17 +33,17 @@ public class StandingState : StateClass<PlayerState>
         if((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)&&
             Input.GetButton("Dash"))
         {
-            playerState.ChangeState(DashState.Instance);
+            playerState.ChangeState(PlayerDashState.Instance);
         }
         else if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0&&
             !Input.GetButton("Dash"))   
         {
-            playerState.ChangeState(WalkState.Instance);
+            playerState.ChangeState(PlayerWalkState.Instance);
         }
         // カウンター状態に変更
         else if(Input.GetButtonDown("Counter"))
         {
-            playerState.ChangeState(CounterStanceState.Instance);
+            playerState.ChangeState(PlayerCounterStanceState.Instance);
         }
     }
 
@@ -52,7 +52,9 @@ public class StandingState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
-        Debug.LogError("StandingState : 開始");
+#if UNITY_EDITOR
+        Debug.LogError("PlayerStandingState : 開始");
+#endif
     }
 
 

@@ -4,23 +4,23 @@ using UnityEngine;
 // プレイヤーの歩き移動状態
 // =====================================
 
-public class WalkState : StateClass<PlayerState>
+public class PlayerWalkState : StateClass<PlayerState>
 {
     // インスタンスを入れる変数
-    private static WalkState instance;
+    private static PlayerWalkState instance;
     // 移動度
     Vector3 moveForward;
 
 
 
     // インスタンスを取得する関数
-    public static WalkState Instance
+    public static PlayerWalkState Instance
     {
         get
         {
             if(instance==null)
             {
-                instance = new WalkState();
+                instance = new PlayerWalkState();
             }
             return instance;
         }
@@ -31,21 +31,23 @@ public class WalkState : StateClass<PlayerState>
     // 状態の変更処理
     public override void Change(PlayerState playerState)
     {
-        // ダッシュ状態に変更
-        if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) &&
-            Input.GetButton("Dash"))
+        // カウンター状態に変更
+        if (Input.GetButtonDown("Counter"))
         {
-            playerState.ChangeState(DashState.Instance);
+            playerState.ChangeState(PlayerCounterStanceState.Instance);
+            return;
         }
         // 移動キー入力がないとき、待機状態に変更
-        else if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+        if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
         {
-            playerState.ChangeState(StandingState.Instance);
+            playerState.ChangeState(PlayerStandingState.Instance);
+            return;
         }
-        // カウンター状態に変更
-        else if (Input.GetButtonDown("Counter"))
+        // Dash ボタンを押した場合に Dash 状態へ変更
+        if (Input.GetButtonDown("Dash")) // ここを `GetButtonDown` に変更
         {
-            playerState.ChangeState(CounterStanceState.Instance);
+            playerState.ChangeState(PlayerDashState.Instance);
+            return;
         }
     }
 
@@ -54,7 +56,9 @@ public class WalkState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
+#if UNITY_EDITOR
         Debug.LogError("WalkState : 開始");
+#endif
     }
 
 
