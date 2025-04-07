@@ -5,14 +5,16 @@ using UnityEngine;
 // プレイヤーのカウンター構え状態
 // ================================
 
-public class CounterStanceState : StateClass<PlayerState>
+public class PlayerCounterStanceState : StateClass<PlayerState>
 {
     // インスタンスを入れる変数
-    private static CounterStanceState instance;
+    private static PlayerCounterStanceState instance;
     // フレームを計る
     int freams = 0;
     // カウンターの成否
     bool counterOutcome = false;
+    // カウンターが有効かどうか
+    bool counterActive = false;
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
@@ -23,13 +25,13 @@ public class CounterStanceState : StateClass<PlayerState>
 
 
     // インスタンスを取得する
-    public static CounterStanceState Instance
+    public static PlayerCounterStanceState Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = new CounterStanceState();
+                instance = new PlayerCounterStanceState();
             }
             return instance;
         }
@@ -41,14 +43,17 @@ public class CounterStanceState : StateClass<PlayerState>
     public override void Change(PlayerState playerState)
     {
         // カウンターの有効フレームが過ぎたら
-        if (freams >= playerState.GetPlayerCounterManager().GetCounterFrames())
+        if (freams >= playerState.GetPlayerCounterManager().GetCounterFrames() + 
+            playerState.GetPlayerCounterManager().GetCounterStartupFrames())
         {
-            playerState.ChangeState(CounterStaggerState.Instance);
+            playerState.ChangeState(PlayerCounterStaggerState.Instance);
+            return;
         }
         // カウンターが成功したら
         if(counterOutcome)
         {
-            playerState.ChangeState(CounterStrikeState.Instance);
+            playerState.ChangeState(PlayerCounterStrikeState.Instance);
+            return;
         }
     }
 
@@ -57,15 +62,14 @@ public class CounterStanceState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
+#if UNITY_EDITOR
         Debug.LogError("CounterStanceState : 開始");
 
-
-#if UNITY_EDITOR
         // エディタ実行時に取得して色を変更する
         if (playerState.playerRenderer != null)
         {
             originalColor = playerState.playerRenderer.material.color; // 元の色を保存
-            playerState.playerRenderer.material.color = Color.yellow;    // カウンター構え中の色
+            playerState.playerRenderer.material.color = Color.cyan;    // カウンター構え中の色
         }
 #endif
     }
@@ -75,16 +79,29 @@ public class CounterStanceState : StateClass<PlayerState>
     // 状態中の処理
     public override void Excute(PlayerState playerState)
     {
+        // **カウンター準備時間の処理**
+        if (freams > playerState.GetPlayerCounterManager().GetCounterStartupFrames())
+        {
+            // 準備完了後にカウンター有効化
+            counterActive = true;
+#if UNITY_EDITOR
+            playerState.playerRenderer.material.color = Color.yellow;
+#endif
+        }
+
         // カウンターの成否判定
-        if (freams <= playerState.GetPlayerCounterManager().GetCounterFrames())
+        if (counterActive)
         {
             // ぶつかったオブジェクトのタグをチェック
-            foreach (var obj in playerState.GetCollidedObjects())
+            foreach (var obj in playerState.GetPlayerCollidedObjects())
             {
                 if (obj != null && obj.CompareTag("ParryableAttack"))
                 {
-                    Debug.Log("カウンター成功！ 相手: " + obj.gameObject.name);
                     counterOutcome = true;
+
+#if UNITY_EDITOR
+                    Debug.Log("カウンター成功！ 相手: " + obj.gameObject.name);
+#endif
                 }
             }
         }
@@ -100,6 +117,7 @@ public class CounterStanceState : StateClass<PlayerState>
         // 初期化
         freams = 0;
         counterOutcome = false;
+        counterActive = false;
 
 #if UNITY_EDITOR
         // エディタ実行時に色を元に戻す

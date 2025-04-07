@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // ================================
-// プレイヤーのカウンター攻撃状態
+// プレイヤーのカウンター失敗状態
 // ================================
 
-public class CounterStrikeState : StateClass<PlayerState>
+public class PlayerCounterStaggerState : StateClass<PlayerState>
 {
     // インスタンスを入れる変数
-    private static CounterStrikeState instance;
+    private static PlayerCounterStaggerState instance;
     // フレームを計る
     int freams = 0;
 
@@ -21,13 +21,13 @@ public class CounterStrikeState : StateClass<PlayerState>
 
 
     // インスタンスを取得する
-    public static CounterStrikeState Instance
+    public static PlayerCounterStaggerState Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = new CounterStrikeState();
+                instance = new PlayerCounterStaggerState();
             }
             return instance;
         }
@@ -38,10 +38,11 @@ public class CounterStrikeState : StateClass<PlayerState>
     // 状態を変更する
     public override void Change(PlayerState playerState)
     {
-        // カウンターの有効フレームが過ぎたら
-        if (freams >= playerState.GetPlayerCounterManager().GetCounterSuccessFrames())
+        // カウンター失敗フレームが過ぎたら
+        if (freams >= playerState.GetPlayerCounterManager().GetCounterStaggerFrames())
         {
-            playerState.ChangeState(StandingState.Instance);
+            playerState.ChangeState(PlayerStandingState.Instance);
+            return;
         }
     }
 
@@ -50,16 +51,14 @@ public class CounterStrikeState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
-        Debug.LogError("CounterStrikeState : 開始");
-        // ゲージ量アップ
-        playerState.GetPlayerCounterManager().IncreaseGauge();
-
 #if UNITY_EDITOR
+        Debug.LogError("CounterStaggerState : 開始");
+
         // エディタ実行時に取得して色を変更する
         if (playerState.playerRenderer != null)
         {
             originalColor = playerState.playerRenderer.material.color; // 元の色を保存
-            playerState.playerRenderer.material.color = Color.red;    // カウンター成功時の色
+            playerState.playerRenderer.material.color = Color.blue;    // カウンター成功時の色
         }
 #endif
     }

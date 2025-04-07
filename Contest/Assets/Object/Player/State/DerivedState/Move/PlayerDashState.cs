@@ -4,10 +4,10 @@ using UnityEngine;
 // プレイヤーの走り状態
 // ===============================
 
-public class DashState : StateClass<PlayerState>
+public class PlayerDashState : StateClass<PlayerState>
 {
     // インスタンスを入れる変数
-    private static DashState instance;
+    private static PlayerDashState instance;
     // 移動度
     Vector3 moveForward;
 
@@ -18,13 +18,13 @@ public class DashState : StateClass<PlayerState>
 #endif
 
     // インスタンスを取得する関数
-    public static DashState Instance
+    public static PlayerDashState Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = new DashState();
+                instance = new PlayerDashState();
             }
             return instance;
         }
@@ -35,21 +35,23 @@ public class DashState : StateClass<PlayerState>
     // 状態の変更処理
     public override void Change(PlayerState playerState)
     {
-        // 歩き状態に変更
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0 &&
-            !Input.GetButton("Dash"))
+        // カウンター状態に変更
+        if (Input.GetButtonDown("Counter"))
         {
-            playerState.ChangeState(WalkState.Instance);
+            playerState.ChangeState(PlayerCounterStanceState.Instance);
+            return;
         }
         // 移動キー入力がないとき、待機状態に変更
-        else if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+        if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
         {
-            playerState.ChangeState(StandingState.Instance);
+            playerState.ChangeState(PlayerStandingState.Instance);
+            return;
         }
-        // カウンター状態に変更
-        else if (Input.GetButtonDown("Counter"))
+        // 歩き状態に変更
+        if (!Input.GetButton("Dash"))
         {
-            playerState.ChangeState(CounterStanceState.Instance);
+            playerState.ChangeState(PlayerWalkState.Instance);
+            return;
         }
     }
 
@@ -58,14 +60,14 @@ public class DashState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
+#if UNITY_EDITOR
         Debug.LogError("DashState : 開始");
 
-#if UNITY_EDITOR
         // エディタ実行時に取得して色を変更する
         if (playerState.playerRenderer != null)
         {
             originalColor = playerState.playerRenderer.material.color; // 元の色を保存
-            playerState.playerRenderer.material.color = Color.cyan;    // ダッシュ中の色
+            playerState.playerRenderer.material.color = Color.magenta;    // ダッシュ中の色
         }
 #endif
     }
