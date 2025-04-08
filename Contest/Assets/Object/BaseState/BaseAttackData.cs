@@ -11,15 +11,19 @@ public class BaseAttackData : ScriptableObject
     [SerializeField] private string weponName = "Sword";
     [Header("武器の最大コンボ数")]
     [SerializeField] private int maxCombo = 5;
-    [Header("武器の攻撃フレーム")]
+    [Header("武器の攻撃前フレーム（攻撃判定がない時間）")]
+    [SerializeField] private int[] attackStartupFruem = { 20, 20, 20, 20, 20 };
+    [Header("武器の攻撃中フレーム（攻撃判定がある時間）")]
     [SerializeField] private int[] attackFruem = { 20, 20, 20, 20, 20 };
-    [Header("武器の硬直フレーム")]
+    [Header("武器の攻撃後フレーム（攻撃判定がない時間）")]
     [SerializeField] private int[] attackStaggerFruem = { 20, 20, 20, 20, 20 };
     [Header("攻撃の攻撃力")]
     [SerializeField] private float[] attackDamage = { 10.0f, 10.0f, 10.0f, 10.0f, 10.0f };
 
 
-    // コンボ段数に応じたデータを取得する
+    // ゲッター
+    public string GetWeaponName() => weponName;
+
     public float GetMaxCombo() => maxCombo;
 
     public float GetDamage(int comboStep)
@@ -35,5 +39,10 @@ public class BaseAttackData : ScriptableObject
     public int GetComboSuccessFrames(int comboStep)
     {
         return (comboStep < maxCombo) ? attackFruem[comboStep] : attackFruem[maxCombo - 1];
+    }
+
+    public int GetComboStartupFrames(int comboStep)
+    {
+        return (comboStep < maxCombo) ? attackStartupFruem[comboStep] : attackStartupFruem[maxCombo - 1];
     }
 }

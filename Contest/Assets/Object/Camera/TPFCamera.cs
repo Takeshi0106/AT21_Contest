@@ -33,7 +33,7 @@ public class TPFCamera : MonoBehaviour
     void Start()
     {
         // 1秒のフレーム数を固定する
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = 60;
 
         // オブジェクトを代入
         obj = GameObject.Find(objectName);

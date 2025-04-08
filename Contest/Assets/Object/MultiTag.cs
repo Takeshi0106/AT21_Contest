@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// ==============================
+// タグを制作するクラス
+// ==============================
+
 public class MultiTag : MonoBehaviour
 {
     // カスタムタグリスト

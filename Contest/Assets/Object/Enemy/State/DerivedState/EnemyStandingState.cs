@@ -27,10 +27,7 @@ public class EnemyStandingState : StateClass<EnemyState>
     // ó‘Ô‚Ì•ÏXˆ—
     public override void Change(EnemyState enemyState)
     {
-        if (enemyState.GetChildTransform() != null)
-        {
-            enemyState.ChangeState(EnemySwordAttackState.Instance);
-        }
+
     }
 
 
