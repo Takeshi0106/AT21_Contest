@@ -41,5 +41,12 @@ public class MultiTag : MonoBehaviour
     }
 
 
+    // ƒQƒbƒ^[
+    public List<string> GetTags()
+    {
+        return new List<string>(tags);
+    }
+
+
 
 }

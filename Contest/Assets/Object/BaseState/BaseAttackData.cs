@@ -36,12 +36,12 @@ public class BaseAttackData : ScriptableObject
         return (comboStep < maxCombo) ? attackStaggerFruem[comboStep] : attackStaggerFruem[maxCombo - 1];
     }
 
-    public int GetComboSuccessFrames(int comboStep)
+    public int GetAttackSuccessFrames(int comboStep)
     {
         return (comboStep < maxCombo) ? attackFruem[comboStep] : attackFruem[maxCombo - 1];
     }
 
-    public int GetComboStartupFrames(int comboStep)
+    public int GetAttackStartupFrames(int comboStep)
     {
         return (comboStep < maxCombo) ? attackStartupFruem[comboStep] : attackStartupFruem[maxCombo - 1];
     }

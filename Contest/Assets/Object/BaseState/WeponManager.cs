@@ -83,9 +83,46 @@ public class WeponManager : MonoBehaviour
 
 
 
-    public List<GameObject> GetInstantiatedWeapons()
+    public BaseAttackData GetWeaponData(int i)
     {
-        return instantiatedWeapons;
+        return weaponDataList[i];
+    }
+
+
+
+    public void EnableAllWeaponAttacks()
+    {
+        foreach (var weapon in instantiatedWeapons)
+        {
+            var controllers = weapon.GetComponentsInChildren<AttackController>();
+            foreach (var controller in controllers)
+            {
+                controller.EnableAttack();
+
+#if UNITY_EDITOR
+                // RendererÇ™ë∂ç›Ç∑ÇÈÇ»ÇÁê‘êFÇ…ïœçX
+                var renderer = controller.GetComponentInChildren<Renderer>();
+                if (renderer != null && renderer.material != null)
+                {
+                    renderer.material.color = Color.red;
+                }
+#endif
+            }
+        }
+    }
+
+
+
+    public void DisableAllWeaponAttacks()
+    {
+        foreach (var weapon in instantiatedWeapons)
+        {
+            var controllers = weapon.GetComponentsInChildren<AttackController>();
+            foreach (var controller in controllers)
+            {
+                controller.DisableAttack();
+            }
+        }
     }
 
 

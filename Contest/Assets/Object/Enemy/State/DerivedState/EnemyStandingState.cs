@@ -6,6 +6,8 @@ public class EnemyStandingState : StateClass<EnemyState>
 {
     // インスタンスを入れる変数
     private static EnemyStandingState instance;
+    // フレームを計る
+    int freams = 0;
 
 
 
@@ -27,7 +29,10 @@ public class EnemyStandingState : StateClass<EnemyState>
     // 状態の変更処理
     public override void Change(EnemyState enemyState)
     {
-
+        if (freams < 300)
+        {
+            enemyState.ChangeState(EnemyAttackState.Instance);
+        }
     }
 
 

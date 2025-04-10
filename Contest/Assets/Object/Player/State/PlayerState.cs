@@ -38,6 +38,13 @@ public class PlayerState : BaseState<PlayerState>
     [HideInInspector] private Transform playerTransform;
     // Playerのカウンターマネージャー
     [HideInInspector] private CounterManager playerCounterManager;
+    // Playerのウェポンマネージャー
+    [HideInInspector] private WeponManager playerWeponManager;
+
+    // 現在のコンボ数
+    private int playerConbo = 0;
+    // 現在使っている武器のナンバー
+    private int weponNumber = 0;
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
@@ -64,7 +71,8 @@ public class PlayerState : BaseState<PlayerState>
         playerTransform = this.gameObject.GetComponent<Transform>();
         // カウンターマネージャー
         playerCounterManager = this.gameObject.GetComponent<CounterManager>();
-        
+        // ウェポンマネージャー
+        playerWeponManager = this.gameObject.GetComponent<WeponManager>();
 
 #if UNITY_EDITOR
         // エディタ実行時に取得して色を変更する
@@ -100,6 +108,11 @@ public class PlayerState : BaseState<PlayerState>
         if (playerRigidbody == null)
         {
             Debug.LogError("PlayerState : Rendererが見つかりません");
+            return;
+        }
+        if(playerWeponManager==null)
+        {
+            Debug.Log("PlayerState : WeponManagerが見つかりません");
             return;
         }
 #endif
@@ -147,20 +160,27 @@ public class PlayerState : BaseState<PlayerState>
 #endif
     }
 
-
+    // セッター
+    public void SetPlayerCombo(int value)
+    {
+        playerConbo = value;
+    }
 
     // ゲッター
-    public float GetWalkSpeed() => walkSpeed;
-    public float GetDashSpeed() => dashSpeed;
-    public List<Collider> GetPlayerCollidedObjects() => collidedObjects;
-    public Transform GetCameraTransform() => cameraTransform;
-    public Rigidbody GetPlayerRigidbody() => playerRigidbody;
-    public Collider GetPlayerCollider() => playerCollider;
-    public Transform GetPlayerTransform() => playerTransform;
-    public CounterManager GetPlayerCounterManager() => playerCounterManager;
+    public float GetWalkSpeed()                      { return walkSpeed; }
+    public float GetDashSpeed()                      { return dashSpeed; }
+    public List<Collider> GetPlayerCollidedObjects() { return collidedObjects; }
+    public Transform GetCameraTransform()            { return cameraTransform; }
+    public Rigidbody GetPlayerRigidbody()            { return playerRigidbody; }
+    public Collider GetPlayerCollider()              { return playerCollider; }
+    public Transform GetPlayerTransform()            { return playerTransform; }
+    public CounterManager GetPlayerCounterManager()  { return playerCounterManager; }
+    public WeponManager GetPlayerWeponManager()      { return playerWeponManager; }
+    public int GetPlayerConbo()                      { return playerConbo; }
+    public int GetPlayerWeponNumber()                { return weponNumber; }
 #if UNITY_EDITOR
     // エディタ実行時に実行される
-    public Renderer GetPlayerRenderer() => playerRenderer;
+    public Renderer GetPlayerRenderer()              { return playerRenderer; }
 #endif
 }
 

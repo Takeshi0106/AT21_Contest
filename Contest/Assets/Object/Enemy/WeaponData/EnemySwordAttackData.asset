@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b87207878e16c44b7eb0cb3842e389, type: 3}
   m_Name: EnemySwordAttackData
   m_EditorClassIdentifier: 
-  weponName: Sword
+  weponName: EnemySword
   maxCombo: 5
+  attackStartupFruem: 1400000014000000140000001400000014000000
   attackFruem: 1400000014000000140000001400000014000000
   attackStaggerFruem: 1400000014000000140000001400000014000000
   attackDamage:

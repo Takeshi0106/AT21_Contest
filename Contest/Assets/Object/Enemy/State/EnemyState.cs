@@ -10,9 +10,19 @@ public class EnemyState : BaseState<EnemyState>
 {
     // 衝突したオブジェクトを保存するリスト
     [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
-    // 子供オブジェクトを取得る
-    [HideInInspector] private Transform childTransform;
+    // Enemyのウェポンマネージャー
+    [HideInInspector] private WeponManager enemyWeponManager;
 
+    // 現在のコンボ数
+    private int enemyConbo = 0;
+    // 現在使っている武器のナンバー
+    private int weponNumber = 0;
+
+#if UNITY_EDITOR
+    // エディタ実行時に実行される
+    // Enemyのレンダラー
+    [HideInInspector] public Renderer enemyRenderer;
+#endif
 
     // Start is called before the first frame update
     void Start()
@@ -23,12 +33,17 @@ public class EnemyState : BaseState<EnemyState>
         // 状態の開始処理
         currentState.Enter(this);
 
-        childTransform = transform.Find("Sword"); // 子オブジェクト"Sword"を探す
+        // ウェポンマネージャー
+        enemyWeponManager = this.gameObject.GetComponent<WeponManager>();
 
 #if UNITY_EDITOR
-        if (childTransform != null)
+        // エディタ実行時に取得して色を変更する
+        enemyRenderer = this.gameObject.GetComponent<Renderer>();
+
+        if (enemyWeponManager == null)
         {
-            Debug.Log("子オブジェクトの名前: " + childTransform.gameObject.name);
+            Debug.Log("EnemyState : WeponManagerが見つかりません");
+            return;
         }
 #endif
     }
@@ -74,7 +89,19 @@ public class EnemyState : BaseState<EnemyState>
 
 
 
+    // セッター
+    public void SetEnemyCombo(int value)
+    {
+        enemyConbo = value;
+    }
+
     // ゲッター
-    public List<Collider> GetEnemyCollidedObjects() => collidedObjects;
-    public Transform GetChildTransform() => childTransform;
+    public  List<Collider>  GetEnemyCollidedObjects()  { return collidedObjects; }
+    public  WeponManager    GetEnemyWeponManager()     { return enemyWeponManager; }
+    public  int             GetEnemyConbo()            { return enemyConbo; }
+    public  int             GetEnemyWeponNumber()      { return weponNumber; }
+#if UNITY_EDITOR
+    // エディタ実行時に実行される
+    public  Renderer        GetEnemyRenderer()         { return enemyRenderer; }
+#endif
 }

@@ -107,10 +107,10 @@ public class CounterManager : MonoBehaviour
 
 
     // ƒQƒbƒ^[
-    public float GetDamageMultiplier() => damageMultipliers[(int)currentRank];
-    public int GetCounterFrames() => counterFrames[(int)currentRank];
-    public int GetCounterStaggerFrames() => counterStaggerFrames[(int)currentRank];
-    public int GetCounterSuccessFrames() => counterSuccessFrames[(int)currentRank];
-    public int GetCounterStartupFrames() => counterStartupFrames[(int)currentRank];
-    public float GetCurrentGauge() => currentGauge;
+    public  float  GetDamageMultiplier()     { return damageMultipliers[(int)currentRank]; }
+    public  int    GetCounterFrames()        { return counterFrames[(int)currentRank]; }
+    public  int    GetCounterStaggerFrames() { return counterStaggerFrames[(int)currentRank]; }
+    public  int    GetCounterSuccessFrames() { return counterSuccessFrames[(int)currentRank]; }
+    public  int    GetCounterStartupFrames() { return counterStartupFrames[(int)currentRank]; }
+    public  float  GetCurrentGauge()         { return currentGauge; }
 }
