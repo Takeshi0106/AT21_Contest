@@ -30,10 +30,9 @@ public class EnemyAttackState : StateClass<EnemyState>
     public override void Change(EnemyState enemyState)
     {
         // 攻撃のフレームが過ぎたら
-        if (freams >= weponData.GetAttackStartupFrames(enemyState.GetEnemyConbo()) +
-            weponData.GetAttackSuccessFrames(enemyState.GetEnemyConbo()))
+        if (freams >= (weponData.GetAttackStartupFrames(enemyState.GetEnemyConbo()) +
+    weponData.GetAttackSuccessFrames(enemyState.GetEnemyConbo())))
         {
-            // 後から硬直状態に移行する
             enemyState.ChangeState(EnemyAttackRecoveryState.Instance);
             return;
         }
@@ -45,6 +44,23 @@ public class EnemyAttackState : StateClass<EnemyState>
     public override void Enter(EnemyState enemyState)
     {
         weponData = enemyState.GetEnemyWeponManager().GetWeaponData(enemyState.GetEnemyWeponNumber());
+
+        // アニメーション再生
+        // Animator を取得
+        //var anim = enemyState.GetEnemyAnimator();
+        // AnimationClip を取得
+        var animClip = weponData.GetAttackAnimation(enemyState.GetEnemyConbo());
+        var childAnim = enemyState.GetEnemyWeponManager().GetCurrentWeaponAnimator();
+        /*
+        if (anim != null && animClip != null)
+        {
+            // anim.CrossFade(animClip.name, 0.2f);
+        }
+        */
+        if (childAnim != null && animClip != null)
+        {
+            childAnim.CrossFade(animClip.name, 0.2f);
+        }
 
 #if UNITY_EDITOR
         Debug.LogError($"EnemyAttackState : 開始（Combo数：{enemyState.GetEnemyConbo() + 1}）");
@@ -65,7 +81,7 @@ public class EnemyAttackState : StateClass<EnemyState>
         freams++;
 
         // 攻撃判定をONにする
-        if (freams == weponData.GetAttackStartupFrames(enemyState.GetEnemyConbo()))
+        if (freams >= weponData.GetAttackStartupFrames(enemyState.GetEnemyConbo()))
         {
             enemyState.GetEnemyWeponManager().EnableAllWeaponAttacks();
         }

@@ -11,10 +11,12 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     // フレームを計る
     int freams = 0;
 
-#if UNITY_EDITOR
     // エディタ実行時に実行される
     // 元の色を保存
     Color originalColor;
+
+#if UNITY_EDITOR
+
 #endif
 
 
@@ -47,12 +49,15 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
             return;
         }
         // 攻撃状態に変更
-        if (Input.GetButtonDown("Attack") && playerState.GetPlayerConbo() < weponData.GetMaxCombo() - 1)
+        if ((Input.GetButtonDown("Attack") || playerState.GetPlayerNextAttackReseved())
+            && playerState.GetPlayerConbo() < weponData.GetMaxCombo() - 1)
         {
             // コンボを増やす
             playerState.SetPlayerCombo(playerState.GetPlayerConbo() + 1);
             // 攻撃状態に移行
             playerState.ChangeState(PlayerAttackState.Instance);
+            // スタックを更新
+            playerState.SetPlayerNextAttackReseved(false);
             return;
         }
         // カウンター状態に変更
@@ -73,6 +78,30 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     {
         weponData = playerState.GetPlayerWeponManager().GetWeaponData(playerState.GetPlayerWeponNumber());
 
+        // アニメーション再生
+        // Animator を取得
+        //var anim = playerState.GetPlayerAnimator();
+        // AnimationClip を取得
+        var animClip = weponData.GetAttackStaggerAnimation(playerState.GetPlayerConbo());
+        var childAnim = playerState.GetPlayerWeponManager().GetCurrentWeaponAnimator();
+        /*
+        if (anim != null && animClip != null)
+        {
+            // anim.CrossFade(animClip.name, 0.2f);
+        }
+        */
+        if (childAnim != null && animClip != null)
+        {
+            childAnim.CrossFade(animClip.name, 0.2f);
+        }
+
+        // エディタ実行時に取得して色を変更する
+        if (playerState.playerRenderer != null)
+        {
+            originalColor = playerState.playerRenderer.material.color; // 元の色を保存
+            playerState.playerRenderer.material.color = Color.blue;    // カウンター成功時の色
+        }
+
 #if UNITY_EDITOR
         Debug.LogError("PlayerAttackRecoveryState : 開始");
 
@@ -81,12 +110,7 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
             Debug.LogError("PlayerAttackState : WeponDataが見つかりません");
             return;
         }
-        // エディタ実行時に取得して色を変更する
-        if (playerState.playerRenderer != null)
-        {
-            originalColor = playerState.playerRenderer.material.color; // 元の色を保存
-            playerState.playerRenderer.material.color = Color.blue;    // カウンター成功時の色
-        }
+        
 #endif
     }
 
@@ -106,12 +130,14 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
         // 初期化
         freams = 0;
 
-#if UNITY_EDITOR
         // エディタ実行時に色を元に戻す
         if (playerState.playerRenderer != null)
         {
             playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
         }
+
+#if UNITY_EDITOR
+
 #endif
     }
 

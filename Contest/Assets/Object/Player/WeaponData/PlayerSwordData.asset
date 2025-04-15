@@ -14,12 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weponName: PlayerSword
   maxCombo: 5
-  attackStartupFruem: 1400000014000000140000001400000014000000
-  attackFruem: 1400000014000000140000001400000014000000
-  attackStaggerFruem: 1400000014000000140000001400000014000000
+  attackStartupFruem: 0a0000000f0000000a0000000a0000000a000000
+  attackFruem: 1e0000000f00000014000000140000001e000000
+  attackStaggerFruem: 280000001400000028000000280000000a000000
   attackDamage:
   - 10
   - 10
   - 10
   - 10
   - 10
+  attackAnimations:
+  - {fileID: 7400000, guid: a5048b40e74fe054a853b62e55c5e80a, type: 2}
+  - {fileID: 7400000, guid: dc4dd3a01bd185a4db0c431b5be1191a, type: 2}
+  - {fileID: 7400000, guid: bb914624c6ef2fb4fa40893c8f1adc30, type: 2}
+  - {fileID: 7400000, guid: 038327b195c622b43a1c8e9625423875, type: 2}
+  - {fileID: 7400000, guid: 13ef8bbe4df1d884bbf12b4e0c8b48ee, type: 2}
+  attackStaggerAnimations:
+  - {fileID: 7400000, guid: bdc2f52b3d540ea4aac921dc763a4926, type: 2}
+  - {fileID: 7400000, guid: fd2e6bc12551b98449f5816f0ba36f83, type: 2}
+  - {fileID: 7400000, guid: ca7898388eb5d364aba9e7acc4ab51d3, type: 2}
+  - {fileID: 7400000, guid: 06545c0c48350ab428d821a9bd5166d3, type: 2}
+  - {fileID: 7400000, guid: 727a71819c1749f4e9fad425bc6b45c4, type: 2}

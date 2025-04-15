@@ -16,10 +16,13 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
     // カウンターが有効かどうか
     bool counterActive = false;
 
-#if UNITY_EDITOR
     // エディタ実行時に実行される
     // 元の色を保存
     Color originalColor;
+
+
+#if UNITY_EDITOR
+
 #endif
 
 
@@ -84,24 +87,29 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
         {
             // 準備完了後にカウンター有効化
             counterActive = true;
-#if UNITY_EDITOR
+
             playerState.playerRenderer.material.color = Color.yellow;
+
+#if UNITY_EDITOR
+
 #endif
         }
 
-        // カウンターの成否判定
         if (counterActive)
         {
-            // ぶつかったオブジェクトのタグをチェック
-            foreach (var obj in playerState.GetPlayerCollidedObjects())
+            foreach (var collidedInfo in playerState.GetPlayerCollidedInfos())
             {
-                if (obj != null && obj.CompareTag("ParryableAttack"))
+                if (collidedInfo.collider != null)
                 {
-                    counterOutcome = true;
+                    MultiTag tag = collidedInfo.multiTag;
+                    if (tag != null && tag.HasTag(playerState.GetPlayerCounterPossibleAttack()))
+                    {
+                        counterOutcome = true;
 
 #if UNITY_EDITOR
-                    Debug.Log("カウンター成功！ 相手: " + obj.gameObject.name);
+                        Debug.Log("カウンター成功！相手: " + collidedInfo.collider.gameObject.name);
 #endif
+                    }
                 }
             }
         }
@@ -119,12 +127,14 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
         counterOutcome = false;
         counterActive = false;
 
-#if UNITY_EDITOR
         // エディタ実行時に色を元に戻す
         if (playerState.playerRenderer != null)
         {
             playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
         }
+
+#if UNITY_EDITOR
+
 #endif
     }
 

@@ -45,17 +45,16 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
             enemyState.ChangeState(EnemyStandingState.Instance);
             return;
         }
-        /*
         // 攻撃状態に変更
-        if (enemyState.GetEnemyConbo() < weponData.GetMaxCombo() - 1)
+        if (freams >= weponData.GetAttackStaggerFrames(enemyState.GetEnemyConbo()) - 1 &&
+            enemyState.GetEnemyConbo() < weponData.GetMaxCombo() - 1)
         {
             // コンボを増やす
-            EnemyState.SetEnemyCombo(enemyState.GetEnemyConbo() + 1);
+            enemyState.SetEnemyCombo(enemyState.GetEnemyConbo() + 1);
             // 攻撃状態に移行
             enemyState.ChangeState(EnemyAttackState.Instance);
             return;
         }
-        */
     }
 
 
@@ -64,6 +63,23 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
     public override void Enter(EnemyState enemyState)
     {
         weponData = enemyState.GetEnemyWeponManager().GetWeaponData(enemyState.GetEnemyWeponNumber());
+
+        // アニメーション再生
+        // Animator を取得
+        //var anim = enemyState.GetEnemyAnimator();
+        // AnimationClip を取得
+        var animClip = weponData.GetAttackStaggerAnimation(enemyState.GetEnemyConbo());
+        var childAnim = enemyState.GetEnemyWeponManager().GetCurrentWeaponAnimator();
+        /*
+        if (anim != null && animClip != null)
+        {
+            // anim.CrossFade(animClip.name, 0.2f);
+        }
+        */
+        if (childAnim != null && animClip != null)
+        {
+            childAnim.CrossFade(animClip.name, 0.2f);
+        }
 
 #if UNITY_EDITOR
         Debug.LogError("EnemyAttackRecoveryState : 開始");

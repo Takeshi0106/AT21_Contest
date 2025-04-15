@@ -9,25 +9,22 @@ public class WeponManager : MonoBehaviour
     [Header("所持している武器データ（プレイヤー用は3つまで）")]
     [SerializeField] private List<BaseAttackData> weaponDataList = new List<BaseAttackData>();
 
+    // 武器のオブジェクトを入れる
     private List<GameObject> instantiatedWeapons = new List<GameObject>();
+    // 今持っている武器の番号
+    int weaponHaveNumber = 0;
 
-
+    // 現在の武器の Animator を保持
+    private Animator currentWeaponAnimator;
 
     void Start()
     {
-        AttachWeapons();
+        if (weaponDataList.Count == 0) return;
+
+        // 1つだけ装備
+        ChangeWeapon(weaponHaveNumber);
     }
 
-
-
-    // 最初の武器を生成
-    public void AttachWeapons()
-    {
-        foreach (var weaponData in weaponDataList)
-        {
-            AttachWeapon(weaponData);
-        }
-    }
 
 
     // 武器を追加
@@ -35,12 +32,13 @@ public class WeponManager : MonoBehaviour
     {
         if (weaponDataList.Count >= weponNumber)
         {
+#if UNITY_EDITOR
             Debug.LogWarning("武器の所持数が上限に達しています");
+#endif
             return;
         }
 
         weaponDataList.Add(newWeaponData);
-        AttachWeapon(newWeaponData);
     }
 
 
@@ -50,13 +48,18 @@ public class WeponManager : MonoBehaviour
     {
         if (index < 0 || index >= instantiatedWeapons.Count)
         {
+#if UNITY_EDITOR
             Debug.LogWarning("削除しようとした武器インデックスが無効です");
+#endif
             return;
         }
 
         Destroy(instantiatedWeapons[index]);
         instantiatedWeapons.RemoveAt(index);
         weaponDataList.RemoveAt(index);
+
+        // 次の武器を取得する
+        ChangeWeapon(weaponHaveNumber);
     }
 
 
@@ -66,19 +69,41 @@ public class WeponManager : MonoBehaviour
         if (weaponData == null) return;
 
         string weaponName = weaponData.GetWeaponName();
-        // パスを取得
         string path = $"Object/Weapon/{weaponName}";
         GameObject weaponPrefab = Resources.Load<GameObject>(path);
 
         if (weaponPrefab != null)
         {
+            // 武器の削除  
+            foreach (var oldWeapon in instantiatedWeapons)
+            {
+                if (oldWeapon != null)
+                    Destroy(oldWeapon);
+            }
+            instantiatedWeapons.Clear();
+
+            // 新しい武器の生成と親子関係の設定
             GameObject weaponInstance = Instantiate(weaponPrefab, transform);
+            weaponInstance.name = weaponPrefab.name;
+            instantiatedWeapons.Clear(); // 前のリストもクリア
             instantiatedWeapons.Add(weaponInstance);
+
+            // Animator を取得・保存
+            currentWeaponAnimator = weaponInstance.GetComponentInChildren<Animator>();
+
+#if UNITY_EDITOR
+            if (currentWeaponAnimator == null)
+            {
+                Debug.LogWarning($"武器 {weaponName} に Animator が存在しません");
+            }
+#endif
         }
+#if UNITY_EDITOR
         else
         {
-            Debug.LogWarning($"'{weaponName}' が見つかりません");
+            Debug.LogWarning($"{path} のプレハブが Resources に存在しません");
         }
+#endif
     }
 
 
@@ -126,5 +151,20 @@ public class WeponManager : MonoBehaviour
     }
 
 
+    public void ChangeWeapon(int index)
+    {
+        if (index < 0 || index >= weaponDataList.Count)
+        {
+            Debug.LogWarning("切り替えようとした武器インデックスが無効です");
+            return;
+        }
 
+        // 新しい武器を装備
+        weaponHaveNumber = index;
+        AttachWeapon(weaponDataList[weaponHaveNumber]);
+    }
+
+
+    // ゲッター
+    public Animator GetCurrentWeaponAnimator() { return currentWeaponAnimator; }
 }

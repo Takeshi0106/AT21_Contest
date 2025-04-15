@@ -19,6 +19,10 @@ public class BaseAttackData : ScriptableObject
     [SerializeField] private int[] attackStaggerFruem = { 20, 20, 20, 20, 20 };
     [Header("攻撃の攻撃力")]
     [SerializeField] private float[] attackDamage = { 10.0f, 10.0f, 10.0f, 10.0f, 10.0f };
+    [Header("各コンボに対応する攻撃中アニメーション")]
+    [SerializeField] private AnimationClip[] attackAnimations;
+    [Header("各コンボに対応する攻撃後硬直アニメーション")]
+    [SerializeField] private AnimationClip[] attackStaggerAnimations;
 
 
     // ゲッター
@@ -44,5 +48,15 @@ public class BaseAttackData : ScriptableObject
     public int GetAttackStartupFrames(int comboStep)
     {
         return (comboStep < maxCombo) ? attackStartupFruem[comboStep] : attackStartupFruem[maxCombo - 1];
+    }
+    
+    public AnimationClip GetAttackAnimation(int comboStep)
+    {
+        return (comboStep < attackAnimations.Length) ? attackAnimations[comboStep] : null;
+    }
+
+    public AnimationClip GetAttackStaggerAnimation(int comboStep)
+    {
+        return (comboStep < attackStaggerAnimations.Length) ? attackStaggerAnimations[comboStep] : null;
     }
 }

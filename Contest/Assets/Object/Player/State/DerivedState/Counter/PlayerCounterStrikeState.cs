@@ -12,10 +12,12 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
     // フレームを計る
     int freams = 0;
 
-#if UNITY_EDITOR
     // エディタ実行時に実行される
     // 元の色を保存
     Color originalColor;
+
+#if UNITY_EDITOR
+
 #endif
 
 
@@ -54,8 +56,13 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         // ゲージ量アップ
         playerState.GetPlayerCounterManager().IncreaseGauge();
 
-#if UNITY_EDITOR
-        Debug.LogError("CounterStrikeState : 開始");
+        // Sphere を初期サイズにし、アクティブ化
+        var sphere = playerState.GetPlayerCounterObject();
+        if (sphere != null)
+        {
+            sphere.transform.localScale = Vector3.zero;
+            sphere.SetActive(true);
+        }
 
         // エディタ実行時に取得して色を変更する
         if (playerState.playerRenderer != null)
@@ -63,6 +70,11 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
             originalColor = playerState.playerRenderer.material.color; // 元の色を保存
             playerState.playerRenderer.material.color = Color.red;    // カウンター成功時の色
         }
+
+#if UNITY_EDITOR
+        Debug.LogError("CounterStrikeState : 開始");
+
+        
 #endif
     }
 
@@ -72,6 +84,15 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
     public override void Excute(PlayerState playerState)
     {
         freams++;
+
+        // カウンター中の Sphere 拡大処理
+        var sphere = playerState.GetPlayerCounterObject();
+        if (sphere != null)
+        {
+            float maxSize = 3.0f; // 拡大の最大サイズ
+            float scale = Mathf.Lerp(0f, maxSize, (float)freams / playerState.GetPlayerCounterManager().GetCounterSuccessFrames());
+            sphere.transform.localScale = new Vector3(scale, scale, scale);
+        }
     }
 
 
@@ -82,12 +103,21 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         // 初期化
         freams = 0;
 
-#if UNITY_EDITOR
+        // Sphere を非アクティブに戻す
+        var sphere = playerState.GetPlayerCounterObject();
+        if (sphere != null)
+        {
+            sphere.SetActive(false);
+        }
+
         // エディタ実行時に色を元に戻す
         if (playerState.playerRenderer != null)
         {
             playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
         }
+
+#if UNITY_EDITOR
+
 #endif
     }
 

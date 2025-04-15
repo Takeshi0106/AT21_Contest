@@ -14,12 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weponName: PlayerFist
   maxCombo: 5
-  attackStartupFruem: 1400000014000000140000001400000014000000
-  attackFruem: 2800000028000000280000002800000028000000
-  attackStaggerFruem: 780000006e00000064000000500000003c000000
+  attackStartupFruem: 0000000000000000000000000000000000000000
+  attackFruem: 0a000000080000000a0000000c00000012000000
+  attackStaggerFruem: 0f0000001400000019000000190000001e000000
   attackDamage:
   - 10
   - 10
   - 10
   - 10
   - 10
+  attackAnimations:
+  - {fileID: 7400000, guid: c4cfe4074d5a38f45855fc0283be4752, type: 2}
+  - {fileID: 7400000, guid: f8bc16f4fa665684195d88234b434252, type: 2}
+  - {fileID: 7400000, guid: e16bf873967866046936e5f0bd8eda35, type: 2}
+  - {fileID: 7400000, guid: 21fd967c56486b74183d8130a1dcde20, type: 2}
+  - {fileID: 7400000, guid: bc1be98132712ac45a1351331305bd0f, type: 2}
+  attackStaggerAnimations:
+  - {fileID: 7400000, guid: c29ce054aa62c754e8602d775a1c4955, type: 2}
+  - {fileID: 7400000, guid: 3c852567fbc53b742a416ab3ea2a6f6e, type: 2}
+  - {fileID: 7400000, guid: 864bda473b679444d8115933c2813494, type: 2}
+  - {fileID: 7400000, guid: 384f4ec4c12fc544b92fb6204eb54646, type: 2}
+  - {fileID: 7400000, guid: 09f1df823a70eab408706dffd4bfa512, type: 2}

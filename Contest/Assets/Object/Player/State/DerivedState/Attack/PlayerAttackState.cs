@@ -29,7 +29,7 @@ public class PlayerAttackState : StateClass<PlayerState>
     public override void Change(PlayerState playerState)
     {
         // 攻撃のフレームが過ぎたら
-        if (freams == weponData.GetAttackStartupFrames(playerState.GetPlayerConbo()) +
+        if (freams >= weponData.GetAttackStartupFrames(playerState.GetPlayerConbo()) +
             weponData.GetAttackSuccessFrames(playerState.GetPlayerConbo()))
         {
             // 後から硬直状態に移行する
@@ -45,6 +45,23 @@ public class PlayerAttackState : StateClass<PlayerState>
     {
         weponData = playerState.GetPlayerWeponManager().GetWeaponData(playerState.GetPlayerWeponNumber());
 
+        // アニメーション再生
+        // Animator を取得
+        // var anim = playerState.GetPlayerAnimator();
+        // AnimationClip を取得
+        var animClip = weponData.GetAttackAnimation(playerState.GetPlayerConbo());
+        var childAnim = playerState.GetPlayerWeponManager().GetCurrentWeaponAnimator();
+        /*
+        if (anim != null && animClip != null)
+        {
+            // anim.CrossFade(animClip.name, 0.2f);
+        }
+        */
+        if (childAnim != null && animClip != null)
+        {
+            childAnim.CrossFade(animClip.name, 0.2f);
+        }
+
 #if UNITY_EDITOR
         Debug.LogError($"PlayerAttackState : 開始（Combo数：{playerState.GetPlayerConbo() + 1}）");
 
@@ -53,6 +70,7 @@ public class PlayerAttackState : StateClass<PlayerState>
             Debug.LogError("PlayerAttackState : WeponDataが見つかりません");
             return;
         }
+        // Debug.Log($"Playするアニメーション: {animClip.name}");
 #endif
     }
 
@@ -67,6 +85,12 @@ public class PlayerAttackState : StateClass<PlayerState>
         if (freams >= weponData.GetAttackStartupFrames(playerState.GetPlayerConbo()))
         {
             playerState.GetPlayerWeponManager().EnableAllWeaponAttacks();
+        }
+
+        // 状態変更したときのInputを無効にする　攻撃ボタンを押していたら、次の攻撃を予約
+        if (Input.GetButtonDown("Attack") && freams > 1)
+        {
+            playerState.SetPlayerNextAttackReseved(true);
         }
     }
 
