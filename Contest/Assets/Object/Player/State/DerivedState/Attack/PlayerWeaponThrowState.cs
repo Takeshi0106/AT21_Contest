@@ -54,9 +54,9 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     {
         if (playerState.GetPlayerWeponManager().GetWeaponCount() > 1)
         {
-            // •Ší‚ğíœ
+            // ‘•”õ‚©‚çíœ
             playerState.GetPlayerWeponManager().RemoveWeapon(playerState.GetPlayerWeponNumber());
-            // ó‘ÔˆÚsŠÔ‚ğ•ÏX‚³‚¹‚é
+
             changTime = 20;
         }
         else

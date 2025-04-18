@@ -15,10 +15,12 @@ public class AttackController : MonoBehaviour
     // コライダーを全て取得する
     // private Collider[] colliders;
 
-#if UNITY_EDITOR
     // 子オブジェクトのRendererと元の色を保存する
     private Renderer[] renderers;
     private Color[] originalColors;
+
+#if UNITY_EDITOR
+
 #endif
 
 
@@ -40,6 +42,14 @@ public class AttackController : MonoBehaviour
         // コライダーを所得する
         // colliders = this.GetComponentsInChildren<Collider>();
 
+        // 子オブジェクトも含めたRendererを取得
+        renderers = this.GetComponentsInChildren<Renderer>();
+        originalColors = new Color[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            originalColors[i] = renderers[i].material.color;
+        }
+
 #if UNITY_EDITOR
         if (multiTags == null || multiTags.Length == 0)
         {
@@ -58,13 +68,7 @@ public class AttackController : MonoBehaviour
             return;
         }
         */
-        // 子オブジェクトも含めたRendererを取得
-        renderers = this.GetComponentsInChildren<Renderer>();
-        originalColors = new Color[renderers.Length];
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            originalColors[i] = renderers[i].material.color;
-        }
+        
 #endif
     }
 
@@ -98,11 +102,13 @@ public class AttackController : MonoBehaviour
         }
         */
 
-#if UNITY_EDITOR
         for (int i = 0; i < renderers.Length; i++)
         {
             renderers[i].material.color = Color.red;
         }
+
+#if UNITY_EDITOR
+
 #endif
     }
 
@@ -135,11 +141,13 @@ public class AttackController : MonoBehaviour
         }
         */
 
-#if UNITY_EDITOR
         for (int i = 0; i < renderers.Length; i++)
         {
             renderers[i].material.color = originalColors[i];
         }
+
+#if UNITY_EDITOR
+
 #endif
     }
 

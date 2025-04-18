@@ -17,7 +17,8 @@ public class EnemyState : BaseState<EnemyState>
     [SerializeField] private BaseAttackData dropWeapon;
     [Header("倒した時に武器を渡すプレイヤー")]
     [SerializeField] private GameObject player;
-
+    [Header("敵のマネージャー")]
+    [SerializeField] private GameObject enemyManagerObject;
 
     // 衝突したオブジェクトを保存するリスト
     [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
@@ -25,6 +26,8 @@ public class EnemyState : BaseState<EnemyState>
     [HideInInspector] private WeponManager enemyWeponManager;
     // PlayerのState
     [HideInInspector] private PlayerState playerState;
+    // PlayerのState
+    [HideInInspector] private EnemyManager enemyManager;
 
     // 現在のコンボ数
     private int enemyConbo = 0;
@@ -52,9 +55,14 @@ public class EnemyState : BaseState<EnemyState>
         hpManager = this.gameObject.GetComponent<HPManager>();
         // PlayerState
         playerState = player.GetComponent<PlayerState>();
+        // エネミーマネージャー
+        enemyManager = enemyManagerObject.GetComponent<EnemyManager>();
 
         // HPマネージャーにDie関数を渡す
         hpManager.onDeath.AddListener(Die);
+        // エネミーオブジェクトに自分を渡す
+        enemyManager.RegisterEnemy(this);
+
 
 #if UNITY_EDITOR
         // エディタ実行時に取得して色を変更する
@@ -109,8 +117,13 @@ public class EnemyState : BaseState<EnemyState>
                 {
                     // カウンターの攻撃力を取得する
                     baseDamage = playerState.GetPlayerCounterManager().GetCounterDamage();
+                    // ログを出力する
+                    Debug.Log("カウンターダメージ" + finalDamage);
+
                     // Playerの攻撃力アップ倍率を取得する
                     multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
+                    // ログを出力する
+                    Debug.Log("攻撃力アップ率" + finalDamage);
                 }
                 // 通常攻撃処理
                 else
@@ -126,8 +139,11 @@ public class EnemyState : BaseState<EnemyState>
                 finalDamage = baseDamage * multiplier;
                 // ダメージ処理
                 hpManager.TakeDamage(finalDamage);
+
+#if UNITY_EDITOR
                 // ログを出力する
-                Debug.Log("HP " + hpManager.GetCurrentHP());
+                Debug.Log("Enemyのダメージ" + finalDamage);
+#endif
 
                 break;
             }
@@ -153,6 +169,8 @@ public class EnemyState : BaseState<EnemyState>
 
     private void Die()
     {
+        enemyManager.UnregisterEnemy(this);
+
         Debug.Log($"{gameObject.name} が死亡しました");
 
         if (player != null && dropWeapon != null)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 // =====================================
 // プレイヤーの状態を管理する
@@ -104,6 +105,8 @@ public class PlayerState : BaseState<PlayerState>
         // エディタ実行時に取得して色を変更する
         playerRenderer = this.gameObject.GetComponent<Renderer>();
 
+        // HPマネージャーにDie関数を渡す
+        hpManager.onDeath.AddListener(Die);
 
 #if UNITY_EDITOR
 
@@ -220,6 +223,17 @@ public class PlayerState : BaseState<PlayerState>
             var tag = collidedInfos.FirstOrDefault(info => info.collider == collider).multiTag;
             return tag == null || !tag.HasTag(getAttackTags);
         });
+    }
+
+
+
+    private void Die()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        gameObject.SetActive(false);
+        SceneManager.LoadScene("ResultScene");
     }
 
 

@@ -22,8 +22,9 @@ public class CounterManager : MonoBehaviour
     [SerializeField] private int[] rankDecayFrames = { 300, 300, 300, 300, 300 };
     [Header("カウンター成功時からランクダウン開始までの無効フレーム（ランクごと）")]
     [SerializeField] private int[] decayGraceFrames = { 120, 120, 120, 120, 120 };
-    [Header("カウンター成功時の攻撃力 ( 攻撃力 ＊ ダメージアップ倍率 ) (ランクごと) ")]
-    [SerializeField] private int[] counterDamages = { 20, 20, 20, 20, 20 };
+    [Header("カウンター成功時の攻撃力 ( 攻撃力 ＊ ダメージアップ倍率 )")]
+    [SerializeField] private float counterDamages = 20;
+
 
     // 最新のゲージを入れる
     private float currentGauge = 0f;
@@ -115,5 +116,5 @@ public class CounterManager : MonoBehaviour
     public  int    GetCounterSuccessFrames() { return counterSuccessFrames[(int)currentRank]; }
     public  int    GetCounterStartupFrames() { return counterStartupFrames[(int)currentRank]; }
     public  float  GetCurrentGauge()         { return currentGauge; }
-    public float GetCounterDamage() { return counterDamages[(int)currentRank]; }
+    public float GetCounterDamage() { return counterDamages; }
 }
