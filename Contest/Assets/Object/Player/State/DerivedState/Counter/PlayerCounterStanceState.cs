@@ -65,15 +65,17 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
-#if UNITY_EDITOR
-        Debug.LogError("CounterStanceState : 開始");
-
         // エディタ実行時に取得して色を変更する
         if (playerState.playerRenderer != null)
         {
             originalColor = playerState.playerRenderer.material.color; // 元の色を保存
             playerState.playerRenderer.material.color = Color.cyan;    // カウンター構え中の色
         }
+
+#if UNITY_EDITOR
+        Debug.LogError("CounterStanceState : 開始");
+
+        
 #endif
     }
 

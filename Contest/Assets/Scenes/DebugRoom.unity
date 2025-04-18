@@ -130,6 +130,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3988906008379263456, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: maxHP
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6657423488065977040, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 857400824}
+    - target: {fileID: 6657423488065977040, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: dropWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: d46360db657b7e74fa14216f5499f351, type: 2}
+    - target: {fileID: 6657423488065977040, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: playerCounterTag
+      value: CounterAttack
+      objectReference: {fileID: 0}
     - target: {fileID: 7519806533523942088, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
       propertyPath: m_Name
       value: Enemy (2)
@@ -715,6 +731,7 @@ MonoBehaviour:
   counterStartupFrames: 0a0000000a0000000a0000000a0000000a000000
   rankDecayFrames: 2c0100002c0100002c0100002c0100002c010000
   decayGraceFrames: b4000000b4000000b4000000b4000000b4000000
+  counterDamages: 7800000078000000780000007800000078000000
 --- !u!114 &857400833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -773,6 +790,7 @@ MonoBehaviour:
   onDamaged:
     m_PersistentCalls:
       m_Calls: []
+  currentHP: 0
 --- !u!1001 &904158602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -781,6 +799,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3988906008379263456, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: maxHP
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6657423488065977040, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 857400824}
+    - target: {fileID: 6657423488065977040, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: dropWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 7bd74f80cd643b54fba22753e7d6bbf3, type: 2}
+    - target: {fileID: 6657423488065977040, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: playerCounterTag
+      value: CounterAttack
+      objectReference: {fileID: 0}
     - target: {fileID: 7519806533523942088, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
@@ -948,6 +982,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3988906008379263456, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: maxHP
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3988906008379263456, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3988906008379263456, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6657423488065977040, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 857400824}
+    - target: {fileID: 6657423488065977040, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: dropWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 155ba5082b28bf545a889af5e6ed2c26, type: 2}
+    - target: {fileID: 6657423488065977040, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: playerCounterTag
+      value: CounterAttack
+      objectReference: {fileID: 0}
     - target: {fileID: 7519806533523942088, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
       propertyPath: m_Name
       value: Enemy

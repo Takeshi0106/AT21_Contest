@@ -166,8 +166,6 @@ public class PlayerState : BaseState<PlayerState>
 
     void Update()
     {
-        // HandleDamage(enemyAttackTag);
-
         // 状態を更新する
         StateUpdate();
         // カウンターランクが落ちる処理
@@ -176,7 +174,7 @@ public class PlayerState : BaseState<PlayerState>
 
 
 
-    // 共通のダメージ処理（Tの具象型に依存してアクセス）
+    // ダメージ処理
     public void HandleDamage(string getAttackTags)
     {
         foreach (var info in collidedInfos)

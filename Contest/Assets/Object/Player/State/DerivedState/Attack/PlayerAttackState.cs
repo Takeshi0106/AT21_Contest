@@ -100,6 +100,10 @@ public class PlayerAttackState : StateClass<PlayerState>
             {
                 playerState.SetPlayerNextReseved(RESEVEDSTATE.COUNTER);
             }
+            if (Input.GetButtonDown("Throw"))
+            {
+                playerState.SetPlayerNextReseved(RESEVEDSTATE.COUNTER);
+            }
         }
     }
 

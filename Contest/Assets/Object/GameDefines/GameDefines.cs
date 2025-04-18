@@ -6,5 +6,6 @@ public enum RESEVEDSTATE
 {
     NOTHING,
     ATTACK,
-    COUNTER
+    COUNTER,
+    THROW
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class EnemyStandingState : StateClass<EnemyState>
 {
@@ -52,6 +53,8 @@ public class EnemyStandingState : StateClass<EnemyState>
     // ó‘Ô’†‚Ìˆ—
     public override void Excute(EnemyState enemyState)
     {
+        enemyState.HandleDamage(enemyState.GetEnemyPlayerAttackTag(), enemyState.GetEnemyPlayerCounterAttackTag());
+
         freams++;
     }
 

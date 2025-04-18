@@ -41,7 +41,7 @@ public class HPManager : MonoBehaviour
 
         if (currentHP <= 0)
         {
-            this.gameObject.SetActive(false);
+            onDeath.Invoke();
         }
     }
 

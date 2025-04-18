@@ -61,6 +61,12 @@ public class PlayerDashState : StateClass<PlayerState>
             playerState.ChangeState(PlayerWalkState.Instance);
             return;
         }
+        // •Ší‚ğ“Š‚°‚éó‘Ô‚ÉˆÚs
+        if (Input.GetButtonDown("Throw"))
+        {
+            playerState.ChangeState(PlayerWeaponThrowState.Instance);
+            return;
+        }
     }
 
 

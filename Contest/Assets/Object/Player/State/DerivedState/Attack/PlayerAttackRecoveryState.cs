@@ -67,6 +67,15 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
             playerState.ChangeState(PlayerCounterStanceState.Instance);
             return;
         }
+        // 武器を投げる状態に変更
+        if (Input.GetButtonDown("Throw") || playerState.GetPlayerNextReseved() == RESEVEDSTATE.THROW)
+        {
+            // コンボを初期化する
+            playerState.SetPlayerCombo(0);
+            // 武器を投げる状態に移行
+            playerState.ChangeState(PlayerWeaponThrowState.Instance);
+            return;
+        }
     }
 
 

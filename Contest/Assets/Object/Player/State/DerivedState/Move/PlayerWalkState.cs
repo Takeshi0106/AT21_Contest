@@ -50,9 +50,15 @@ public class PlayerWalkState : StateClass<PlayerState>
             return;
         }
         // Dash ボタンを押した場合に Dash 状態へ変更
-        if (Input.GetButtonDown("Dash")) // ここを `GetButtonDown` に変更
+        if (Input.GetButtonDown("Dash"))
         {
             playerState.ChangeState(PlayerDashState.Instance);
+            return;
+        }
+        // 武器を投げる状態に移行
+        if (Input.GetButtonDown("Throw"))
+        {
+            playerState.ChangeState(PlayerWeaponThrowState.Instance);
             return;
         }
     }

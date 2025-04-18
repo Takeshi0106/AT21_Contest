@@ -167,4 +167,5 @@ public class WeponManager : MonoBehaviour
 
     // ÉQÉbÉ^Å[
     public Animator GetCurrentWeaponAnimator() { return currentWeaponAnimator; }
+    public int GetWeaponCount() { return weaponDataList.Count; }
 }
