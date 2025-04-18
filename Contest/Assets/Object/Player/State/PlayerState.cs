@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Playables;
 
 // =====================================
 // プレイヤーの状態を管理する
@@ -19,19 +20,6 @@ using UnityEngine;
 
 public class PlayerState : BaseState<PlayerState>
 {
-    // 接触したオブジェクトの情報を入れる
-    public struct CollidedInfo
-    {
-        public Collider collider;
-        public MultiTag multiTag;
-
-        public CollidedInfo(Collider collider, MultiTag multiTag)
-        {
-            this.collider = collider;
-            this.multiTag = multiTag;
-        }
-    }
-
     // インスペクタービューから変更できる
     [Header("カメラオブジェクト名")]
     [SerializeField] private string cameraName = "Main Camera"; //カメラオブジェクト名
@@ -43,9 +31,11 @@ public class PlayerState : BaseState<PlayerState>
     [SerializeField] private GameObject playerCounterObject;
     [Header("カウンター可能な攻撃のタグ")]
     [SerializeField] private string counterPossibleAttack = "EnemyAttack";
+    [Header("カウンター成功時の攻撃の大きさ")]
+    [SerializeField] private float counterRange = 5.0f;
+    [Header("敵の攻撃タグ名")]
+    [SerializeField] private string enemyAttackTag = "EnemyAttack";
 
-    // 接触中の情報を入れる配列（Collider + MultiTag）
-    private List<CollidedInfo> collidedInfos = new List<CollidedInfo>();
 
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
     [HideInInspector] private Transform cameraTransform;
@@ -61,14 +51,17 @@ public class PlayerState : BaseState<PlayerState>
     [HideInInspector] private WeponManager playerWeponManager;
     // Playerのアニメーター
     [HideInInspector] private Animator playerAnimator;
-    
+    // カウンターのAttackController
+    [HideInInspector] private AttackController playerCounterAttackController;
+
 
     // 現在のコンボ数
     private int playerConbo = 0;
     // 現在使っている武器のナンバー
     private int weponNumber = 0;
+
     // 入力をスタックする
-    bool nextAttackReserved = false;
+    RESEVEDSTATE nextReserved = RESEVEDSTATE.NOTHING;
 
     // エディタ実行時に実行される
     // Playerのレンダラー
@@ -101,6 +94,12 @@ public class PlayerState : BaseState<PlayerState>
         playerWeponManager = this.gameObject.GetComponent<WeponManager>();
         // アニメーター
         playerAnimator = this.gameObject.GetComponent<Animator>();
+        // カウンターの攻撃コントローラー
+        playerCounterAttackController = playerCounterObject.GetComponent<AttackController>();
+        // HpManager
+        hpManager = this.gameObject.GetComponent<HPManager>(); 
+
+        playerCounterObject.SetActive(false);
 
         // エディタ実行時に取得して色を変更する
         playerRenderer = this.gameObject.GetComponent<Renderer>();
@@ -150,6 +149,16 @@ public class PlayerState : BaseState<PlayerState>
             Debug.Log("PlayerState : PlayerAnimatorが見つかりません");
             return;
         }
+        if (playerCounterAttackController == null)
+        {
+            Debug.Log("PlayerState : PlayerCounterAttackControllerが見つかりません");
+            return;
+        }
+        if (hpManager == null)
+        {
+            Debug.Log("PlayerState : HPManagerが見つかりません");
+            return;
+        }
 #endif
     }
 
@@ -157,6 +166,8 @@ public class PlayerState : BaseState<PlayerState>
 
     void Update()
     {
+        // HandleDamage(enemyAttackTag);
+
         // 状態を更新する
         StateUpdate();
         // カウンターランクが落ちる処理
@@ -165,43 +176,61 @@ public class PlayerState : BaseState<PlayerState>
 
 
 
-    // プレイヤーが敵にぶつかった時の処理
-    void OnTriggerEnter(Collider other)
+    // 共通のダメージ処理（Tの具象型に依存してアクセス）
+    public void HandleDamage(string getAttackTags)
     {
-        // 配列の中に同じものがあるかのチェック
-        if (!collidedInfos.Any(info => info.collider == other))
+        foreach (var info in collidedInfos)
         {
-            // MulltiTagを取得する
-            MultiTag multiTag = other.GetComponent<MultiTag>();
-            // 配列に追加
-            collidedInfos.Add(new CollidedInfo(other, multiTag));
+            // すでにダメージ処理済み、またはタグがないならスキップ
+            if (damagedColliders.Contains(info.collider))
+                continue;
+
+            if (info.multiTag != null && info.multiTag.HasTag(getAttackTags))
+            {
+                // ダメージ処理などをここに追加
+                Debug.Log("ダメージ対象ヒット: " + info.collider.gameObject.name);
+
+                // 一度ダメージを与えたら、このコライダーは記録
+                damagedColliders.Add(info.collider);
+
+                // 親オブジェクトから EnemyState を取得
+                var enemyState = info.collider.GetComponentInParent<EnemyState>();
+
+                if (enemyState != null)
+                {
+                    hpManager.TakeDamage(enemyState.GetEnemyWeponManager().GetWeaponData(0).GetDamage(enemyState.GetEnemyConbo()));
+                }
+
+                // ダメージ処理などをここに追加
+                Debug.Log("HP " + hpManager.GetCurrentHP());
+
+                // 一つ当たったら抜けるなら break（複数なら continue）
+                break;
+            }
         }
 
-#if UNITY_EDITOR
-        Debug.Log("Triggerに当たった : " + other.gameObject.name);
-#endif
+        CleanupInvalidDamageColliders(getAttackTags);
     }
 
 
 
-    // プレイヤーが敵と離れた時の処理
-    void OnTriggerExit(Collider other)
+    // 攻撃タグが元に戻るまで
+    public void CleanupInvalidDamageColliders(string getAttackTags)
     {
-        // 配列から同じ物を探す
-        collidedInfos.RemoveAll(info => info.collider == other);
-
-#if UNITY_EDITOR
-        Debug.Log("Triggerから離れた : " + other.gameObject.name);
-#endif
+        damagedColliders.RemoveWhere(collider =>
+        {
+            var tag = collidedInfos.FirstOrDefault(info => info.collider == collider).multiTag;
+            return tag == null || !tag.HasTag(getAttackTags);
+        });
     }
 
 
 
     // セッター
-    public void SetPlayerCombo(int value)
-    {
-        playerConbo = value;
-    }
+    public void SetPlayerCombo(int value) { playerConbo = value; }
+    public void SetPlayerNextReseved(RESEVEDSTATE next) { nextReserved = next; }
+
+
 
     // ゲッター
     public float GetWalkSpeed()                      { return walkSpeed; }
@@ -218,11 +247,16 @@ public class PlayerState : BaseState<PlayerState>
     public Animator GetPlayerAnimator() { return playerAnimator; }
     public GameObject GetPlayerCounterObject() { return playerCounterObject; }
     public string GetPlayerCounterPossibleAttack() { return counterPossibleAttack; }
-    public bool GetPlayerNextAttackReseved() { return nextAttackReserved; }
-    public void SetPlayerNextAttackReseved(bool next) { nextAttackReserved = next; }
-#if UNITY_EDITOR
+    public RESEVEDSTATE GetPlayerNextReseved() { return nextReserved; }
+    public AttackController GetPlayerCounterAttackController() { return playerCounterAttackController; }
+    public float GetPlayerCounterRange() { return counterRange; }
+    public HPManager GetPlayerHPManager() { return hpManager; }
+    public string GetPlayerEnemyAttackTag() { return enemyAttackTag; }
     // エディタ実行時に実行される
-    public Renderer GetPlayerRenderer()              { return playerRenderer; }
+    public Renderer GetPlayerRenderer() { return playerRenderer; }
+
+#if UNITY_EDITOR
+
 #endif
 }
 

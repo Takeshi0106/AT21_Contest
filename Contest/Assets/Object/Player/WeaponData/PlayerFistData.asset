@@ -18,11 +18,11 @@ MonoBehaviour:
   attackFruem: 0a000000080000000a0000000c00000012000000
   attackStaggerFruem: 0f0000001400000019000000190000001e000000
   attackDamage:
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
+  - 20
+  - 20
+  - 20
+  - 20
+  - 20
   attackAnimations:
   - {fileID: 7400000, guid: c4cfe4074d5a38f45855fc0283be4752, type: 2}
   - {fileID: 7400000, guid: f8bc16f4fa665684195d88234b434252, type: 2}

@@ -82,7 +82,6 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
         }
 
 #if UNITY_EDITOR
-        Debug.LogError("EnemyAttackRecoveryState : ŠJŽn");
 
         if (weponData == null)
         {

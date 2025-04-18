@@ -63,7 +63,6 @@ public class EnemyAttackState : StateClass<EnemyState>
         }
 
 #if UNITY_EDITOR
-        Debug.LogError($"EnemyAttackState : 開始（Combo数：{enemyState.GetEnemyConbo() + 1}）");
 
         if (weponData == null)
         {

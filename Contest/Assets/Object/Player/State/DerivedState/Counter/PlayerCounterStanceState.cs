@@ -97,6 +97,8 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
 
         if (counterActive)
         {
+            playerState.CleanupInvalidDamageColliders(playerState.GetPlayerEnemyAttackTag());
+
             foreach (var collidedInfo in playerState.GetPlayerCollidedInfos())
             {
                 if (collidedInfo.collider != null)
@@ -113,6 +115,11 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
                 }
             }
         }
+        else
+        {
+            playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+        }
+
         // ƒtƒŒ[ƒ€”‚ğŒv‚é
         freams++;
     }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9084482523371321813}
   - component: {fileID: 5998642845752187579}
+  - component: {fileID: 7010355585849470840}
   m_Layer: 0
   m_Name: EnemySword
   m_TagString: Untagged
@@ -50,6 +51,27 @@ MonoBehaviour:
   - ParryableAttack
   noAttackTags:
   - Nothing
+--- !u!95 &7010355585849470840
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701554497830927835}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b69e24d1af6267347be6f71e6a540e12, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4108003269010169297
 GameObject:
   m_ObjectHideFlags: 0

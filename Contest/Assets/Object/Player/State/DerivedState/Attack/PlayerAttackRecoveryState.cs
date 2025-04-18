@@ -49,19 +49,17 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
             return;
         }
         // 攻撃状態に変更
-        if ((Input.GetButtonDown("Attack") || playerState.GetPlayerNextAttackReseved())
+        if ((Input.GetButtonDown("Attack") || playerState.GetPlayerNextReseved() == RESEVEDSTATE.ATTACK)
             && playerState.GetPlayerConbo() < weponData.GetMaxCombo() - 1)
         {
             // コンボを増やす
             playerState.SetPlayerCombo(playerState.GetPlayerConbo() + 1);
             // 攻撃状態に移行
             playerState.ChangeState(PlayerAttackState.Instance);
-            // スタックを更新
-            playerState.SetPlayerNextAttackReseved(false);
             return;
         }
         // カウンター状態に変更
-        if (Input.GetButtonDown("Counter"))
+        if (Input.GetButtonDown("Counter") || playerState.GetPlayerNextReseved() == RESEVEDSTATE.COUNTER)
         {
             // コンボを初期化する
             playerState.SetPlayerCombo(0);
@@ -119,6 +117,8 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     // 状態中の処理
     public override void Excute(PlayerState playerState)
     {
+        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+
         freams++;
     }
 
@@ -129,6 +129,8 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     {
         // 初期化
         freams = 0;
+        // ストックの初期化
+        playerState.SetPlayerNextReseved(RESEVEDSTATE.NOTHING);
 
         // エディタ実行時に色を元に戻す
         if (playerState.playerRenderer != null)

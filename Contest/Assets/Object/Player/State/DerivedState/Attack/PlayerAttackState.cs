@@ -79,6 +79,8 @@ public class PlayerAttackState : StateClass<PlayerState>
     // ó‘Ô’†‚Ìˆ—
     public override void Excute(PlayerState playerState)
     {
+        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+
         freams++;
 
         // UŒ‚”»’è‚ğON‚É‚·‚é
@@ -88,9 +90,16 @@ public class PlayerAttackState : StateClass<PlayerState>
         }
 
         // ó‘Ô•ÏX‚µ‚½‚Æ‚«‚ÌInput‚ğ–³Œø‚É‚·‚é@UŒ‚ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚Ä‚¢‚½‚çAŸ‚ÌUŒ‚‚ğ—\–ñ
-        if (Input.GetButtonDown("Attack") && freams > 1)
+        if (freams > 1)
         {
-            playerState.SetPlayerNextAttackReseved(true);
+            if (Input.GetButtonDown("Attack"))
+            {
+                playerState.SetPlayerNextReseved(RESEVEDSTATE.ATTACK);
+            }
+            if (Input.GetButtonDown("Counter"))
+            {
+                playerState.SetPlayerNextReseved(RESEVEDSTATE.COUNTER);
+            }
         }
     }
 

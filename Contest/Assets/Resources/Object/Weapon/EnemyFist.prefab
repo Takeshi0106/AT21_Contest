@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 4167047925606179688}
   - component: {fileID: 5622758353493704977}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: LeftCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -408,7 +408,7 @@ GameObject:
   - component: {fileID: 8721966748832512534}
   - component: {fileID: 7245513840538004553}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: RightCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

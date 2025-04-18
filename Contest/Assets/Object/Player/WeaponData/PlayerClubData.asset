@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b87207878e16c44b7eb0cb3842e389, type: 3}
+  m_Name: PlayerClubData
+  m_EditorClassIdentifier: 
+  weponName: PlayerClub
+  maxCombo: 5
+  attackStartupFruem: 00000000050000000f0000000000000000000000
+  attackFruem: 0a0000000a0000000a0000000f00000014000000
+  attackStaggerFruem: 0f0000000f000000140000001900000028000000
+  attackDamage:
+  - 20
+  - 20
+  - 20
+  - 20
+  - 20
+  attackAnimations:
+  - {fileID: 7400000, guid: fd4250aec12b7aa4fa66e3cbe861bc0f, type: 2}
+  - {fileID: 7400000, guid: d61329870e20ef846a16b037c4bb6294, type: 2}
+  - {fileID: 7400000, guid: b8ab38f050d0d114cb88a3c7ceac6e1f, type: 2}
+  - {fileID: 7400000, guid: c85ada949e7684c4f831cfc7c36b185a, type: 2}
+  - {fileID: 7400000, guid: bb2611d755f28a847ad24c0b0fba37f7, type: 2}
+  attackStaggerAnimations:
+  - {fileID: 7400000, guid: 4942d04f0fc28744987883ea499e7070, type: 2}
+  - {fileID: 7400000, guid: 1be4c835c7f434d4cb635985b4a05105, type: 2}
+  - {fileID: 7400000, guid: 4ccc640500c7e9740a56cd4dddb49ae5, type: 2}
+  - {fileID: 7400000, guid: ec76a31bcec1970458b26274b4d20647, type: 2}
+  - {fileID: 7400000, guid: e98bef707732cd747ab1d76e8c8d9f74, type: 2}
