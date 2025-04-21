@@ -113,62 +113,52 @@ public class PlayerState : BaseState<PlayerState>
         // エディタ実行時に取得して色を変更する
         playerRenderer = this.gameObject.GetComponent<Renderer>();
 
-        // 所得出来ていないときエラーを出す
+        // 所得出来ていないときログを出す（エラーではなく情報）
         if (cameraTransform == null)
         {
-            Debug.LogError("PlayerState : カメラオブジェクトが見つかりません");
-            return;
+            Debug.Log("PlayerState : カメラオブジェクトが見つかりません");
         }
         if (playerRigidbody == null)
         {
-            Debug.LogError("PlayerState : Rigidbodyが見つかりません");
-            return;
+            Debug.Log("PlayerState : Rigidbodyが見つかりません");
         }
         if (playerCollider == null)
         {
-            Debug.LogError("PlayerState : Colliderが見つかりません");
-            return;
+            Debug.Log("PlayerState : Colliderが見つかりません");
         }
         if (playerTransform == null)
         {
-            Debug.LogError("PlayerState : Transformが見つかりません");
-            return;
+            Debug.Log("PlayerState : Transformが見つかりません");
         }
         if (playerCounterManager == null)
         {
-            Debug.LogError("PlayerState : CounterManagerが見つかりません");
-            return;
+            Debug.Log("PlayerState : CounterManagerが見つかりません");
         }
         if (playerRigidbody == null)
         {
-            Debug.LogError("PlayerState : Rendererが見つかりません");
-            return;
+            Debug.Log("PlayerState : Rendererが見つかりません");
         }
-        if(playerWeponManager==null)
+        if (playerWeponManager == null)
         {
             Debug.Log("PlayerState : WeponManagerが見つかりません");
-            return;
         }
         if (playerAnimator == null)
         {
             Debug.Log("PlayerState : PlayerAnimatorが見つかりません");
-            return;
         }
         if (playerCounterAttackController == null)
         {
             Debug.Log("PlayerState : PlayerCounterAttackControllerが見つかりません");
-            return;
         }
         if (hpManager == null)
         {
             Debug.Log("PlayerState : HPManagerが見つかりません");
-            return;
         }
         if (playerStatusEffectManager == null)
         {
             Debug.Log("PlayerState : playerStatusEffectManagerが見つかりません");
-            return;
         }
+
 #endif
     }
 
