@@ -1015,6 +1015,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1339704434}
   - component: {fileID: 1339704435}
+  - component: {fileID: 1339704436}
   m_Layer: 5
   m_Name: HP
   m_TagString: Untagged
@@ -1095,6 +1096,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1339704436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339704433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ff30899576ab846a61a7813531d3bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpDisplayObject: {fileID: 857400824}
 --- !u!1 &1984632677
 GameObject:
   m_ObjectHideFlags: 0
@@ -1194,6 +1208,18 @@ PrefabInstance:
     - target: {fileID: 4541902489494020682, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
       propertyPath: tags.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8561869833915859036, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: onDamaged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8561869833915859036, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1339704433}
+    - target: {fileID: 8561869833915859036, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -213,6 +213,7 @@ public class PlayerState : BaseState<PlayerState>
 
                     if (enemyState != null)
                     {
+                        // ƒ_ƒ[ƒWˆ—
                         hpManager.TakeDamage(enemyState.GetEnemyWeponManager().GetWeaponData(0).GetDamage(enemyState.GetEnemyConbo()));
                     }
 
