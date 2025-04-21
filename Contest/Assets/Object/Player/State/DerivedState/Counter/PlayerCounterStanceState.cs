@@ -16,13 +16,10 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
     // カウンターが有効かどうか
     bool counterActive = false;
 
+#if UNITY_EDITOR
     // エディタ実行時に実行される
     // 元の色を保存
     Color originalColor;
-
-
-#if UNITY_EDITOR
-
 #endif
 
 
@@ -65,17 +62,15 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
+#if UNITY_EDITOR
+        Debug.LogError("CounterStanceState : 開始");
+
         // エディタ実行時に取得して色を変更する
         if (playerState.playerRenderer != null)
         {
             originalColor = playerState.playerRenderer.material.color; // 元の色を保存
             playerState.playerRenderer.material.color = Color.cyan;    // カウンター構え中の色
         }
-
-#if UNITY_EDITOR
-        Debug.LogError("CounterStanceState : 開始");
-
-        
 #endif
     }
 
@@ -90,10 +85,8 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
             // 準備完了後にカウンター有効化
             counterActive = true;
 
-            playerState.playerRenderer.material.color = Color.yellow;
-
 #if UNITY_EDITOR
-
+            playerState.playerRenderer.material.color = Color.yellow;
 #endif
         }
 
@@ -136,14 +129,12 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
         counterOutcome = false;
         counterActive = false;
 
+#if UNITY_EDITOR
         // エディタ実行時に色を元に戻す
         if (playerState.playerRenderer != null)
         {
             playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
         }
-
-#if UNITY_EDITOR
-
 #endif
     }
 

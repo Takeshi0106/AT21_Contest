@@ -459,18 +459,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3115158779587320297, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
   m_PrefabInstance: {fileID: 3960208513833887759}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &857400825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 857400824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d413398abe3383a47934fbb5ec712429, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &904158602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -670,6 +658,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1765868918453974247, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2427698529513485658, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.24
@@ -718,13 +710,14 @@ PrefabInstance:
       propertyPath: invincibleTime
       value: 1200
       objectReference: {fileID: 0}
+    - target: {fileID: 4541902489494020682, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: tags.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3115158779587320297, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 857400825}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
 --- !u!1001 &6074851699291670812
 PrefabInstance:

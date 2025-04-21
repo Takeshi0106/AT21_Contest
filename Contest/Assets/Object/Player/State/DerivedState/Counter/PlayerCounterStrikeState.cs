@@ -61,17 +61,15 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         // 攻撃タグを付ける
         playerState.GetPlayerCounterAttackController().EnableAttack();
 
+#if UNITY_EDITOR
+        Debug.LogError("CounterStrikeState : 開始");
+
         // エディタ実行時に取得して色を変更する
         if (playerState.playerRenderer != null)
         {
             originalColor = playerState.playerRenderer.material.color; // 元の色を保存
             playerState.playerRenderer.material.color = Color.red;    // カウンター成功時の色
         }
-
-#if UNITY_EDITOR
-        Debug.LogError("CounterStrikeState : 開始");
-
-
 #endif
     }
 

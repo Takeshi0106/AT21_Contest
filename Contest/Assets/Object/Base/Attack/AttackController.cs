@@ -15,12 +15,12 @@ public class AttackController : MonoBehaviour
     // コライダーを全て取得する
     // private Collider[] colliders;
 
+
+
+#if UNITY_EDITOR
     // 子オブジェクトのRendererと元の色を保存する
     private Renderer[] renderers;
     private Color[] originalColors;
-
-#if UNITY_EDITOR
-
 #endif
 
 
@@ -42,33 +42,35 @@ public class AttackController : MonoBehaviour
         // コライダーを所得する
         // colliders = this.GetComponentsInChildren<Collider>();
 
-        // 子オブジェクトも含めたRendererを取得
-        renderers = this.GetComponentsInChildren<Renderer>();
-        originalColors = new Color[renderers.Length];
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            originalColors[i] = renderers[i].material.color;
-        }
-
 #if UNITY_EDITOR
+        if (multiTags == null)
+        {
+            Debug.LogError("[AttackController] multiTags が null です");
+        }
+        else if (multiTags.Length == 0)
+        {
+            Debug.LogWarning("[AttackController] MultiTag を持つ子オブジェクトが 0 件です");
+        }
+        else
+        {
+            Debug.Log($"[AttackController] MultiTag を持つ子オブジェクト数: {multiTags.Length}");
+        }
         if (multiTags == null || multiTags.Length == 0)
         {
             Debug.LogWarning("AttackController : MultiTag を持つ子オブジェクトが見つかりません");
         }
 
-        if (this == null)
+        // 子オブジェクトも含めたRendererを取得
+        renderers = this.GetComponentsInChildren<Renderer>();
+        originalColors = new Color[renderers.Length];
+
+        for (int i = 0; i < renderers.Length; i++)
         {
-            Debug.LogError("AttackController : 攻撃判定オブジェクトが見つかりません");
-            return;
+            if (renderers[i] != null && renderers[i].material != null)
+            {
+                originalColors[i] = renderers[i].material.color; // 元の色を保存
+            }
         }
-        /*
-        if (multiTag == null)
-        {
-            Debug.LogError("AttackController : タグクラスが見つかりません");
-            return;
-        }
-        */
-        
 #endif
     }
 
@@ -77,13 +79,22 @@ public class AttackController : MonoBehaviour
     // 攻撃判定ON
     public void EnableAttack()
     {
+        if (multiTags == null || multiTags.Length == 0)
+        {
+            Debug.LogWarning("[AttackController] MultiTag が初期化されていないか、子オブジェクトに存在しません");
+            return;
+        }
+
         foreach (var mt in multiTags)
         {
             // 一旦すべてのタグを削除
             List<string> currentTags = mt.GetTags();
-            foreach (var tag in currentTags)
+            if (currentTags != null)
             {
-                mt.RemoveTag(tag);
+                foreach (var tag in currentTags)
+                {
+                    mt.RemoveTag(tag);
+                }
             }
 
 
@@ -94,21 +105,17 @@ public class AttackController : MonoBehaviour
             }
         }
 
-        /*
-        // isTrigger を ON
-        foreach (var col in colliders)
-        {
-            col.isTrigger = true;
-        }
-        */
-
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            renderers[i].material.color = Color.red;
-        }
-
 #if UNITY_EDITOR
-
+        if (renderers != null)
+        {
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (renderers[i] != null && renderers[i].material != null)
+                {
+                    renderers[i].material.color = Color.red;
+                }
+            }
+        }
 #endif
     }
 
@@ -121,9 +128,12 @@ public class AttackController : MonoBehaviour
         {
             // 一旦すべてのタグを削除
             List<string> currentTags = mt.GetTags();
-            foreach (var tag in currentTags)
+            if (currentTags != null)
             {
-                mt.RemoveTag(tag);
+                foreach (var tag in currentTags)
+                {
+                    mt.RemoveTag(tag);
+                }
             }
 
             // 攻撃が無効の時のタグを追加
@@ -133,21 +143,17 @@ public class AttackController : MonoBehaviour
             }
         }
 
-        /*
-        // isTrigger を OFF に戻す
-        foreach (var col in colliders)
-        {
-            col.isTrigger = false;
-        }
-        */
-
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            renderers[i].material.color = originalColors[i];
-        }
-
 #if UNITY_EDITOR
-
+        if (renderers != null)
+        {
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (renderers[i] != null)
+                {
+                    renderers[i].material.color = originalColors[i];
+                }
+            }
+        }
 #endif
     }
 

@@ -117,13 +117,8 @@ public class EnemyState : BaseState<EnemyState>
                 {
                     // カウンターの攻撃力を取得する
                     baseDamage = playerState.GetPlayerCounterManager().GetCounterDamage();
-                    // ログを出力する
-                    Debug.Log("カウンターダメージ" + finalDamage);
-
                     // Playerの攻撃力アップ倍率を取得する
                     multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
-                    // ログを出力する
-                    Debug.Log("攻撃力アップ率" + finalDamage);
                 }
                 // 通常攻撃処理
                 else
@@ -171,7 +166,9 @@ public class EnemyState : BaseState<EnemyState>
     {
         enemyManager.UnregisterEnemy(this);
 
+#if UNITY_EDITOR
         Debug.Log($"{gameObject.name} が死亡しました");
+#endif
 
         if (player != null && dropWeapon != null)
         {

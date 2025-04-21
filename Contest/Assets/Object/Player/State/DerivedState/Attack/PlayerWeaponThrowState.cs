@@ -7,16 +7,14 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     // インスタンスを入れる変数
     private static PlayerWeaponThrowState instance;
 
-    // エディタ実行時に実行される
-    // 元の色を保存
-    Color originalColor;
-
     // 状態変更までの時間
     int changTime = 60;
     int freams = 0;
 
 #if UNITY_EDITOR
-
+    // エディタ実行時に実行される
+    // 元の色を保存
+    Color originalColor;
 #endif
 
 
@@ -64,17 +62,15 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
             // 武器が１つしかないときの処理を書く（アニメーションなど）
         }
 
+#if UNITY_EDITOR
+        Debug.LogError("PlayerWeaponThrowState : 開始");
+
         // エディタ実行時に取得して色を変更する
         if (playerState.playerRenderer != null)
         {
             originalColor = playerState.playerRenderer.material.color; // 元の色を保存
             playerState.playerRenderer.material.color = Color.blue;    // カウンター構え中の色
         }
-
-#if UNITY_EDITOR
-        Debug.LogError("PlayerWeaponThrowState : 開始");
-
-        
 #endif
     }
 
@@ -94,14 +90,12 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
         freams = 0;
         changTime = 60;
 
+#if UNITY_EDITOR
         // エディタ実行時に色を元に戻す
         if (playerState.playerRenderer != null)
         {
             playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
         }
-
-#if UNITY_EDITOR
-
 #endif
     }
 

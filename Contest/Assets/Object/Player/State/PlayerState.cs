@@ -68,13 +68,10 @@ public class PlayerState : BaseState<PlayerState>
     // 入力をスタックする
     RESEVEDSTATE nextReserved = RESEVEDSTATE.NOTHING;
 
+#if UNITY_EDITOR
     // エディタ実行時に実行される
     // Playerのレンダラー
     [HideInInspector] public Renderer playerRenderer;
-
-#if UNITY_EDITOR
-
-
 #endif
 
     // Start is called before the first frame update
@@ -107,16 +104,14 @@ public class PlayerState : BaseState<PlayerState>
         // 状態管理
         playerStatusEffectManager = this.gameObject.GetComponent<StatusEffectManager>();
 
-        playerCounterObject.SetActive(false);
-
-        // エディタ実行時に取得して色を変更する
-        playerRenderer = this.gameObject.GetComponent<Renderer>();
-
+        // playerCounterObject.SetActive(false);
         // HPマネージャーにDie関数を渡す
         hpManager.onDeath.AddListener(Die);
 
 #if UNITY_EDITOR
 
+        // エディタ実行時に取得して色を変更する
+        playerRenderer = this.gameObject.GetComponent<Renderer>();
 
         // 所得出来ていないときエラーを出す
         if (cameraTransform == null)
@@ -194,7 +189,10 @@ public class PlayerState : BaseState<PlayerState>
     {
         if (!playerStatusEffectManager.Invincible(invincibleTime))
         {
+#if UNITY_EDITOR
+            // デバッグ用
             playerRenderer.material.color = Color.white;
+#endif
 
             foreach (var info in collidedInfos)
             {
@@ -289,11 +287,10 @@ public class PlayerState : BaseState<PlayerState>
     public HPManager GetPlayerHPManager() { return hpManager; }
     public string GetPlayerEnemyAttackTag() { return enemyAttackTag; }
     public StatusEffectManager GetPlayerStatusEffectManager() {  return playerStatusEffectManager; }
-    // エディタ実行時に実行される
-    public Renderer GetPlayerRenderer() { return playerRenderer; }
 
 #if UNITY_EDITOR
-
+    // エディタ実行時に実行される
+    public Renderer GetPlayerRenderer() { return playerRenderer; }
 #endif
 }
 

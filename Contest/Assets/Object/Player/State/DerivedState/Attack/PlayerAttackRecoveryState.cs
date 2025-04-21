@@ -11,12 +11,10 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     // フレームを計る
     int freams = 0;
 
+#if UNITY_EDITOR
     // エディタ実行時に実行される
     // 元の色を保存
     Color originalColor;
-
-#if UNITY_EDITOR
-
 #endif
 
 
@@ -102,13 +100,6 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
             childAnim.CrossFade(animClip.name, 0.2f);
         }
 
-        // エディタ実行時に取得して色を変更する
-        if (playerState.playerRenderer != null)
-        {
-            originalColor = playerState.playerRenderer.material.color; // 元の色を保存
-            playerState.playerRenderer.material.color = Color.blue;    // カウンター成功時の色
-        }
-
 #if UNITY_EDITOR
         Debug.LogError("PlayerAttackRecoveryState : 開始");
 
@@ -117,7 +108,14 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
             Debug.LogError("PlayerAttackState : WeponDataが見つかりません");
             return;
         }
-        
+
+        // エディタ実行時に取得して色を変更する
+        if (playerState.playerRenderer != null)
+        {
+            originalColor = playerState.playerRenderer.material.color; // 元の色を保存
+            playerState.playerRenderer.material.color = Color.blue;    // カウンター成功時の色
+        }
+
 #endif
     }
 
@@ -141,14 +139,12 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
         // ストックの初期化
         playerState.SetPlayerNextReseved(RESEVEDSTATE.NOTHING);
 
+#if UNITY_EDITOR
         // エディタ実行時に色を元に戻す
         if (playerState.playerRenderer != null)
         {
             playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
         }
-
-#if UNITY_EDITOR
-
 #endif
     }
 
