@@ -37,6 +37,12 @@ public class PlayerWalkState : StateClass<PlayerState>
             playerState.ChangeState(PlayerCounterStanceState.Instance);
             return;
         }
+        // 攻撃状態に変更
+        if (Input.GetButtonDown("Attack"))
+        {
+            playerState.ChangeState(PlayerAttackState.Instance);
+            return;
+        }
         // 移動キー入力がないとき、待機状態に変更
         if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
         {
@@ -44,9 +50,15 @@ public class PlayerWalkState : StateClass<PlayerState>
             return;
         }
         // Dash ボタンを押した場合に Dash 状態へ変更
-        if (Input.GetButtonDown("Dash")) // ここを `GetButtonDown` に変更
+        if (Input.GetButtonDown("Dash"))
         {
             playerState.ChangeState(PlayerDashState.Instance);
+            return;
+        }
+        // 武器を投げる状態に移行
+        if (Input.GetButtonDown("Throw"))
+        {
+            playerState.ChangeState(PlayerWeaponThrowState.Instance);
             return;
         }
     }
@@ -66,6 +78,8 @@ public class PlayerWalkState : StateClass<PlayerState>
     // 状態中の処理
     public override void Excute(PlayerState playerState)
     {
+        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+
         //移動度をリセットする
         moveForward = Vector3.zero;
 
@@ -80,9 +94,12 @@ public class PlayerWalkState : StateClass<PlayerState>
         // 移動度に移動速度を掛けて力を加える
         playerState.GetPlayerRigidbody().velocity = new Vector3(moveForward.x, playerState.GetPlayerRigidbody().velocity.y, moveForward.z);
 
-        //キャラクターを回転させる
-        playerState.transform.eulerAngles = 
-            new Vector3(playerState.transform.eulerAngles.x, playerState.GetCameraTransform().eulerAngles.y, playerState.transform.eulerAngles.z);
+        // 移動方向に向ける
+        if (moveForward.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveForward);
+            playerState.transform.rotation = Quaternion.Slerp(playerState.transform.rotation, targetRotation, Time.deltaTime * 10f);
+        }
     }
 
 

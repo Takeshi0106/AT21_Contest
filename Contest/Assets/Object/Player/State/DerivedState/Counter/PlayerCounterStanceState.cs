@@ -84,27 +84,37 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
         {
             // 準備完了後にカウンター有効化
             counterActive = true;
+
 #if UNITY_EDITOR
             playerState.playerRenderer.material.color = Color.yellow;
 #endif
         }
 
-        // カウンターの成否判定
         if (counterActive)
         {
-            // ぶつかったオブジェクトのタグをチェック
-            foreach (var obj in playerState.GetPlayerCollidedObjects())
+            playerState.CleanupInvalidDamageColliders(playerState.GetPlayerEnemyAttackTag());
+
+            foreach (var collidedInfo in playerState.GetPlayerCollidedInfos())
             {
-                if (obj != null && obj.CompareTag("ParryableAttack"))
+                if (collidedInfo.collider != null)
                 {
-                    counterOutcome = true;
+                    MultiTag tag = collidedInfo.multiTag;
+                    if (tag != null && tag.HasTag(playerState.GetPlayerCounterPossibleAttack()))
+                    {
+                        counterOutcome = true;
 
 #if UNITY_EDITOR
-                    Debug.Log("カウンター成功！ 相手: " + obj.gameObject.name);
+                        Debug.Log("カウンター成功！相手: " + collidedInfo.collider.gameObject.name);
 #endif
+                    }
                 }
             }
         }
+        else
+        {
+            playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+        }
+
         // フレーム数を計る
         freams++;
     }

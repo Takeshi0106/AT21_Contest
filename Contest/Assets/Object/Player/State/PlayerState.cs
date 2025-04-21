@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 // =====================================
-// プレイヤーの状態
+// プレイヤーの状態を管理する
 // =====================================
 
 // Rigidbodyコンポーネントが必須
 [RequireComponent(typeof(Rigidbody))]
 
-#if UNITY_EDITOR
 // エディタ実行時に実行される
 [RequireComponent(typeof(Renderer))]
+
+#if UNITY_EDITOR
+
 #endif
 
 public class PlayerState : BaseState<PlayerState>
@@ -24,9 +28,17 @@ public class PlayerState : BaseState<PlayerState>
     [SerializeField] private float walkSpeed = 2.0f; //移動速度
     [Header("プレイヤーの歩く移動速度")]
     [SerializeField] private float dashSpeed = 4.0f; //移動速度
+    [Header("プレイヤーのカウンター攻撃範囲オブジェクト")]
+    [SerializeField] private GameObject playerCounterObject;
+    [Header("カウンター可能な攻撃のタグ")]
+    [SerializeField] private string counterPossibleAttack = "EnemyAttack";
+    [Header("カウンター成功時の攻撃の大きさ")]
+    [SerializeField] private float counterRange = 5.0f;
+    [Header("敵の攻撃タグ名")]
+    [SerializeField] private string enemyAttackTag = "EnemyAttack";
+    [Header("プレイヤーのカウンター成功後の無敵時間（カウンター成功中の無敵時間とは別）")]
+    [SerializeField] private int invincibleTime = 0;
 
-    // 衝突したオブジェクトを保存するリスト
-    [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
 
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
     [HideInInspector] private Transform cameraTransform;
@@ -38,6 +50,23 @@ public class PlayerState : BaseState<PlayerState>
     [HideInInspector] private Transform playerTransform;
     // Playerのカウンターマネージャー
     [HideInInspector] private CounterManager playerCounterManager;
+    // Playerのウェポンマネージャー
+    [HideInInspector] private WeponManager playerWeponManager;
+    // Playerのアニメーター
+    [HideInInspector] private Animator playerAnimator;
+    // カウンターのAttackController
+    [HideInInspector] private AttackController playerCounterAttackController;
+    // Playerの状態マネージャー
+    [HideInInspector] private StatusEffectManager playerStatusEffectManager;
+
+
+    // 現在のコンボ数
+    private int playerConbo = 0;
+    // 現在使っている武器のナンバー
+    private int weponNumber = 0;
+
+    // 入力をスタックする
+    RESEVEDSTATE nextReserved = RESEVEDSTATE.NOTHING;
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
@@ -64,12 +93,25 @@ public class PlayerState : BaseState<PlayerState>
         playerTransform = this.gameObject.GetComponent<Transform>();
         // カウンターマネージャー
         playerCounterManager = this.gameObject.GetComponent<CounterManager>();
-        
+        // ウェポンマネージャー
+        playerWeponManager = this.gameObject.GetComponent<WeponManager>();
+        // アニメーター
+        playerAnimator = this.gameObject.GetComponent<Animator>();
+        // カウンターの攻撃コントローラー
+        playerCounterAttackController = playerCounterObject.GetComponent<AttackController>();
+        // HpManager
+        hpManager = this.gameObject.GetComponent<HPManager>(); 
+        // 状態管理
+        playerStatusEffectManager = this.gameObject.GetComponent<StatusEffectManager>();
+
+        // playerCounterObject.SetActive(false);
+        // HPマネージャーにDie関数を渡す
+        hpManager.onDeath.AddListener(Die);
 
 #if UNITY_EDITOR
+
         // エディタ実行時に取得して色を変更する
         playerRenderer = this.gameObject.GetComponent<Renderer>();
-
 
         // 所得出来ていないときエラーを出す
         if (cameraTransform == null)
@@ -102,6 +144,31 @@ public class PlayerState : BaseState<PlayerState>
             Debug.LogError("PlayerState : Rendererが見つかりません");
             return;
         }
+        if(playerWeponManager==null)
+        {
+            Debug.Log("PlayerState : WeponManagerが見つかりません");
+            return;
+        }
+        if (playerAnimator == null)
+        {
+            Debug.Log("PlayerState : PlayerAnimatorが見つかりません");
+            return;
+        }
+        if (playerCounterAttackController == null)
+        {
+            Debug.Log("PlayerState : PlayerCounterAttackControllerが見つかりません");
+            return;
+        }
+        if (hpManager == null)
+        {
+            Debug.Log("PlayerState : HPManagerが見つかりません");
+            return;
+        }
+        if (playerStatusEffectManager == null)
+        {
+            Debug.Log("PlayerState : playerStatusEffectManagerが見つかりません");
+            return;
+        }
 #endif
     }
 
@@ -109,55 +176,121 @@ public class PlayerState : BaseState<PlayerState>
 
     void Update()
     {
+        // 状態を更新する
         StateUpdate();
+        // カウンターランクが落ちる処理
+        playerCounterManager.GaugeDecay();
     }
 
 
 
-    // プレイヤーが敵にぶつかった時の処理
-    void OnCollisionEnter(Collision other)
+    // ダメージ処理
+    public void HandleDamage(string getAttackTags)
     {
-        Collider collider = other.collider;
-        if (!collidedObjects.Contains(other.collider))
+        if (!playerStatusEffectManager.Invincible(invincibleTime))
         {
-            collidedObjects.Add(other.collider);
+#if UNITY_EDITOR
+            // デバッグ用
+            playerRenderer.material.color = Color.white;
+#endif
+
+            foreach (var info in collidedInfos)
+            {
+                // すでにダメージ処理済み、またはタグがないならスキップ
+                if (damagedColliders.Contains(info.collider))
+                    continue;
+
+                if (info.multiTag != null && info.multiTag.HasTag(getAttackTags))
+                {
+                    // ダメージ処理などをここに追加
+                    Debug.Log("ダメージ対象ヒット: " + info.collider.gameObject.name);
+
+                    // 一度ダメージを与えたら、このコライダーは記録
+                    damagedColliders.Add(info.collider);
+
+                    // 親オブジェクトから EnemyState を取得
+                    var enemyState = info.collider.GetComponentInParent<EnemyState>();
+
+                    if (enemyState != null)
+                    {
+                        hpManager.TakeDamage(enemyState.GetEnemyWeponManager().GetWeaponData(0).GetDamage(enemyState.GetEnemyConbo()));
+                    }
+
+                    // ダメージ処理などをここに追加
+                    Debug.Log("HP " + hpManager.GetCurrentHP());
+
+                    // 一つ当たったら抜けるなら break（複数なら continue）
+                    break;
+                }
+            }
         }
 #if UNITY_EDITOR
-        // エディタ実行時に実行される
-        Debug.Log("Objectに当たった : " + other.gameObject.name);
-#endif
-    }
-
-
-
-    // プレイヤーが敵と離れた時の処理
-    void OnCollisionExit(Collision other)
-    {
-        Collider collider = other.collider;
-        if (collidedObjects.Contains(other.collider))
+        else
         {
-            collidedObjects.Remove(other.collider);
+            playerRenderer.material.color = Color.yellow;
+
         }
-#if UNITY_EDITOR
-        // エディタ実行時に実行される
-        Debug.Log("Objectが離れた : " + other.gameObject.name);
 #endif
+
+        CleanupInvalidDamageColliders(getAttackTags);
     }
+
+
+
+    // 攻撃タグが元に戻るまで
+    public void CleanupInvalidDamageColliders(string getAttackTags)
+    {
+        damagedColliders.RemoveWhere(collider =>
+        {
+            var tag = collidedInfos.FirstOrDefault(info => info.collider == collider).multiTag;
+            return tag == null || !tag.HasTag(getAttackTags);
+        });
+    }
+
+
+
+    private void Die()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        gameObject.SetActive(false);
+        SceneManager.LoadScene("ResultScene");
+    }
+
+
+
+    // セッター
+    public void SetPlayerCombo(int value) { playerConbo = value; }
+    public void SetPlayerNextReseved(RESEVEDSTATE next) { nextReserved = next; }
 
 
 
     // ゲッター
-    public float GetWalkSpeed() => walkSpeed;
-    public float GetDashSpeed() => dashSpeed;
-    public List<Collider> GetPlayerCollidedObjects() => collidedObjects;
-    public Transform GetCameraTransform() => cameraTransform;
-    public Rigidbody GetPlayerRigidbody() => playerRigidbody;
-    public Collider GetPlayerCollider() => playerCollider;
-    public Transform GetPlayerTransform() => playerTransform;
-    public CounterManager GetPlayerCounterManager() => playerCounterManager;
+    public float GetWalkSpeed()                      { return walkSpeed; }
+    public float GetDashSpeed()                      { return dashSpeed; }
+    public List<CollidedInfo> GetPlayerCollidedInfos() { return collidedInfos; }
+    public Transform GetCameraTransform()            { return cameraTransform; }
+    public Rigidbody GetPlayerRigidbody()            { return playerRigidbody; }
+    public Collider GetPlayerCollider()              { return playerCollider; }
+    public Transform GetPlayerTransform()            { return playerTransform; }
+    public CounterManager GetPlayerCounterManager()  { return playerCounterManager; }
+    public WeponManager GetPlayerWeponManager()      { return playerWeponManager; }
+    public int GetPlayerConbo()                      { return playerConbo; }
+    public int GetPlayerWeponNumber()                { return weponNumber; }
+    public Animator GetPlayerAnimator() { return playerAnimator; }
+    public GameObject GetPlayerCounterObject() { return playerCounterObject; }
+    public string GetPlayerCounterPossibleAttack() { return counterPossibleAttack; }
+    public RESEVEDSTATE GetPlayerNextReseved() { return nextReserved; }
+    public AttackController GetPlayerCounterAttackController() { return playerCounterAttackController; }
+    public float GetPlayerCounterRange() { return counterRange; }
+    public HPManager GetPlayerHPManager() { return hpManager; }
+    public string GetPlayerEnemyAttackTag() { return enemyAttackTag; }
+    public StatusEffectManager GetPlayerStatusEffectManager() {  return playerStatusEffectManager; }
+
 #if UNITY_EDITOR
     // エディタ実行時に実行される
-    public Renderer GetPlayerRenderer() => playerRenderer;
+    public Renderer GetPlayerRenderer() { return playerRenderer; }
 #endif
 }
 

@@ -12,6 +12,7 @@ public class PlayerCounterStaggerState : StateClass<PlayerState>
     // フレームを計る
     int freams = 0;
 
+
 #if UNITY_EDITOR
     // エディタ実行時に実行される
     // 元の色を保存
@@ -68,6 +69,8 @@ public class PlayerCounterStaggerState : StateClass<PlayerState>
     // 状態中の処理
     public override void Excute(PlayerState playerState)
     {
+        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+
         freams++;
     }
 
@@ -78,6 +81,7 @@ public class PlayerCounterStaggerState : StateClass<PlayerState>
     {
         // 初期化
         freams = 0;
+
 
 #if UNITY_EDITOR
         // エディタ実行時に色を元に戻す

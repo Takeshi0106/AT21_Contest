@@ -54,6 +54,13 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         // ゲージ量アップ
         playerState.GetPlayerCounterManager().IncreaseGauge();
 
+        // Sphere を初期サイズにし、アクティブ化
+        playerState.GetPlayerCounterObject().transform.localScale = Vector3.zero;
+        playerState.GetPlayerCounterObject().SetActive(true);
+
+        // 攻撃タグを付ける
+        playerState.GetPlayerCounterAttackController().EnableAttack();
+
 #if UNITY_EDITOR
         Debug.LogError("CounterStrikeState : 開始");
 
@@ -71,7 +78,18 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
     // 状態中の処理
     public override void Excute(PlayerState playerState)
     {
+        playerState.CleanupInvalidDamageColliders(playerState.GetPlayerEnemyAttackTag());
+
         freams++;
+
+        // カウンター中の Sphere 拡大処理
+        var sphere = playerState.GetPlayerCounterObject();
+        if (sphere != null)
+        {
+            float maxSize = playerState.GetPlayerCounterRange(); // 拡大の最大サイズ
+            float scale = Mathf.Lerp(0f, maxSize, (float)freams / playerState.GetPlayerCounterManager().GetCounterSuccessFrames());
+            sphere.transform.localScale = new Vector3(scale, scale, scale);
+        }
     }
 
 
@@ -81,6 +99,19 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
     {
         // 初期化
         freams = 0;
+
+        // 攻撃タグを戻す
+        playerState.GetPlayerCounterAttackController().DisableAttack();
+
+        // Sphere を非アクティブに戻す
+        var sphere = playerState.GetPlayerCounterObject();
+        if (sphere != null)
+        {
+            sphere.SetActive(false);
+        }
+
+        // 無敵を有効にする
+        playerState.GetPlayerStatusEffectManager().StartInvicible();
 
 #if UNITY_EDITOR
         // エディタ実行時に色を元に戻す

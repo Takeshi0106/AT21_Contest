@@ -32,6 +32,9 @@ public class TPFCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // 1秒のフレーム数を固定する
+        Application.targetFrameRate = 60;
+
         // オブジェクトを代入
         obj = GameObject.Find(objectName);
 
