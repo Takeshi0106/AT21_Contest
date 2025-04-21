@@ -14,5 +14,13 @@ SoureceTreeのターミナルから
 以下のコマンドを実行してください
 
 git lfs install
+
+
 git pull
 git lfs pull
+
+をしてください
+
+Git LFS initialized.
+が出れば初期化成功
+
