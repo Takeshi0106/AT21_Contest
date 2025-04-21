@@ -12,12 +12,10 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
     // フレームを計る
     int freams = 0;
 
+#if UNITY_EDITOR
     // エディタ実行時に実行される
     // 元の色を保存
     Color originalColor;
-
-#if UNITY_EDITOR
-
 #endif
 
 
@@ -114,14 +112,15 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
             sphere.SetActive(false);
         }
 
+        // 無敵を有効にする
+        playerState.GetPlayerStatusEffectManager().StartInvicible();
+
+#if UNITY_EDITOR
         // エディタ実行時に色を元に戻す
         if (playerState.playerRenderer != null)
         {
             playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
         }
-
-#if UNITY_EDITOR
-
 #endif
     }
 
