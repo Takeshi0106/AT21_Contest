@@ -72,15 +72,14 @@ public class PlayerDashState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
-
-#if UNITY_EDITOR
         Debug.LogError("DashState : 開始");
 
+#if UNITY_EDITOR
         // エディタ実行時に取得して色を変更する
         if (playerState.playerRenderer != null)
         {
             originalColor = playerState.playerRenderer.material.color; // 元の色を保存
-            playerState.playerRenderer.material.color = Color.magenta;    // ダッシュ中の色
+            playerState.playerRenderer.material.color = Color.black;    // ダッシュ中の色
         }
 #endif
     }

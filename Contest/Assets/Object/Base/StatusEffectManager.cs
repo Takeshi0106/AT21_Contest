@@ -17,6 +17,8 @@ public class StatusEffectManager : MonoBehaviour
     private int invincibleFreams = 0;
     private int stunFreams = 0;
 
+
+
     // 無敵中の処理
     public bool Invincible(int invincibleTime)
     {
@@ -33,6 +35,8 @@ public class StatusEffectManager : MonoBehaviour
         
         return invincibleFlag;
     }
+
+
 
     // スタン中の処理
     public bool Stun(int stunTime)
@@ -51,16 +55,22 @@ public class StatusEffectManager : MonoBehaviour
         return stunFlag;
     }
 
+
+
     // 無敵の開始処理
     public void StartInvicible()
     {
         invincibleFlag = true;
     }
 
+
+
     // スタンの開始処理
     public void StartStun()
     {
         stunFlag = true;
     }
+
+
 
 }

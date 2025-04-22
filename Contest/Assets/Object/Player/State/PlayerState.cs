@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
+
 // =====================================
 // プレイヤーの状態を管理する
 // =====================================
@@ -40,6 +41,7 @@ public class PlayerState : BaseState<PlayerState>
     [SerializeField] private int invincibleTime = 0;
 
 
+
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
     [HideInInspector] private Transform cameraTransform;
     // Playerのリジッドボディ
@@ -58,6 +60,7 @@ public class PlayerState : BaseState<PlayerState>
     [HideInInspector] private AttackController playerCounterAttackController;
     // Playerの状態マネージャー
     [HideInInspector] private StatusEffectManager playerStatusEffectManager;
+
 
 
     // 現在のコンボ数
@@ -177,25 +180,27 @@ public class PlayerState : BaseState<PlayerState>
     // ダメージ処理
     public void HandleDamage(string getAttackTags)
     {
+        // プレイヤーが無敵状態か調べる
         if (!playerStatusEffectManager.Invincible(invincibleTime))
         {
 #if UNITY_EDITOR
             // デバッグ用
             playerRenderer.material.color = Color.white;
 #endif
-
+            // 当たっているオブジェクトのタグを調べる
             foreach (var info in collidedInfos)
             {
-                // すでにダメージ処理済み、またはタグがないならスキップ
-                if (damagedColliders.Contains(info.collider))
-                    continue;
+                // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
+                if (damagedColliders.Contains(info.collider) || info.multiTag == null) { continue; }
 
-                if (info.multiTag != null && info.multiTag.HasTag(getAttackTags))
+                // 敵の攻撃タグがあるかの判定
+                if ( info.multiTag.HasTag(getAttackTags))
                 {
-                    // ダメージ処理などをここに追加
+#if UNITY_EDITOR
                     Debug.Log("ダメージ対象ヒット: " + info.collider.gameObject.name);
+#endif
 
-                    // 一度ダメージを与えたら、このコライダーは記録
+                    // コライダーは記録
                     damagedColliders.Add(info.collider);
 
                     // 親オブジェクトから EnemyState を取得
@@ -209,20 +214,19 @@ public class PlayerState : BaseState<PlayerState>
 
                     // ダメージ処理などをここに追加
                     Debug.Log("HP " + hpManager.GetCurrentHP());
-
-                    // 一つ当たったら抜けるなら break（複数なら continue）
-                    break;
                 }
             }
         }
 #if UNITY_EDITOR
         else
         {
+            // 無敵時Playerのカラーを変更する
             playerRenderer.material.color = Color.yellow;
 
         }
 #endif
 
+        // 保存したコライダーのタグが元に戻る可のチェック
         CleanupInvalidDamageColliders(getAttackTags);
     }
 

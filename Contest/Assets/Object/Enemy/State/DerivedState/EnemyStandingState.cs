@@ -44,7 +44,7 @@ public class EnemyStandingState : StateClass<EnemyState>
         waitTime = Random.Range(30, 120);
 
 #if UNITY_EDITOR
-        Debug.LogError("EnemyStandingState : 開始");
+        // Debug.LogError("EnemyStandingState : 開始");
 #endif
     }
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 // ================================
 // プレイヤーのカウンター失敗状態
@@ -69,6 +70,7 @@ public class PlayerCounterStaggerState : StateClass<PlayerState>
     // 状態中の処理
     public override void Excute(PlayerState playerState)
     {
+
         playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
 
         freams++;
