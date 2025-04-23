@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 // ================================
 // プレイヤーのカウンター失敗状態
