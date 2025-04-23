@@ -174,6 +174,8 @@ public class EnemyState : BaseState<EnemyState>
     {
         // EnemyManager‚É©•ª‚ª“|‚ê‚½‚±‚Æ‚ğ’m‚ç‚¹‚é
         enemyManager.UnregisterEnemy(this);
+        // UŒ‚ƒ^ƒO‚ğŒ³‚É–ß‚·
+        enemyWeponManager.DisableAllWeaponAttacks();
 
         if (player != null && dropWeapon != null && hitCounter)
         {

@@ -235,11 +235,20 @@ public class PlayerState : BaseState<PlayerState>
     // 攻撃タグが元に戻るまで
     public void CleanupInvalidDamageColliders(string getAttackTags)
     {
+        // タグが攻撃タグ以外の物かを調べる
         damagedColliders.RemoveWhere(collider =>
         {
             var tag = collidedInfos.FirstOrDefault(info => info.collider == collider).multiTag;
             return tag == null || !tag.HasTag(getAttackTags);
         });
+        // コライダーが非アクティブ化を調べる
+        damagedColliders.RemoveWhere(collider =>
+        collider == null || !collider.gameObject.activeInHierarchy || !collider.enabled);
+        // 当たっているオブジェクトが非アクティブかを調べる
+        collidedInfos.RemoveAll(info =>
+        info.collider == null ||
+        !info.collider.gameObject.activeInHierarchy ||
+        !info.collider.enabled);
     }
 
 
@@ -251,6 +260,16 @@ public class PlayerState : BaseState<PlayerState>
 
         gameObject.SetActive(false);
         SceneManager.LoadScene("ResultScene");
+    }
+
+
+
+    public void AddDamagedCollider(Collider target)
+    {
+        if (target != null && !damagedColliders.Contains(target))
+        {
+            damagedColliders.Add(target);
+        }
     }
 
 
@@ -282,6 +301,7 @@ public class PlayerState : BaseState<PlayerState>
     public HPManager GetPlayerHPManager() { return hpManager; }
     public string GetPlayerEnemyAttackTag() { return enemyAttackTag; }
     public StatusEffectManager GetPlayerStatusEffectManager() {  return playerStatusEffectManager; }
+    public HashSet<Collider> GetPlayerDamagedColliders() { return damagedColliders; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

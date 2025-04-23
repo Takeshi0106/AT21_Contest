@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 // ================================
@@ -92,26 +93,54 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
 
         if (counterActive)
         {
+            // 攻撃タグが戻っているかをチェック
             playerState.CleanupInvalidDamageColliders(playerState.GetPlayerEnemyAttackTag());
 
+            // 当たっているオブジェクトを調べる
             foreach (var collidedInfo in playerState.GetPlayerCollidedInfos())
             {
                 if (collidedInfo.collider != null)
                 {
+                    // コライダーがすでにダメージ処理をしていたら次のオブジェクトを調べる
+                    if (playerState.GetPlayerDamagedColliders().Contains(collidedInfo.collider)) { continue; }
+
+                    // タグを取得する
                     MultiTag tag = collidedInfo.multiTag;
+
                     if (tag != null && tag.HasTag(playerState.GetPlayerCounterPossibleAttack()))
                     {
+                        // カウンター成功
                         counterOutcome = true;
+                        // コライダーを保存する
+                        playerState.AddDamagedCollider(collidedInfo.collider);
+
 
 #if UNITY_EDITOR
-                        Debug.Log("カウンター成功！相手: " + collidedInfo.collider.gameObject.name);
+                        // 親オブジェクトの名前を取得する
+                        Transform parentTransform = collidedInfo.collider.transform.parent;
+                        // 一番上の親オブジェクトを取得
+                        while (parentTransform.parent != null)
+                        {
+                            parentTransform = parentTransform.parent;
+                        }
+
+                        // ログ表示
+                        if (parentTransform != null)
+                        {
+                            Debug.Log("カウンター成功！相手の親: " + parentTransform.gameObject.name);
+                        }
+                        Debug.Log("攻撃オブジェクト名: " + collidedInfo.collider.gameObject.name);
 #endif
+
+                        // カウンター成功時に処理を終了する
+                        return;
                     }
                 }
             }
         }
         else
         {
+            // ダメージ処理を有効にする
             playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
         }
 
