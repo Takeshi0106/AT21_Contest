@@ -58,7 +58,16 @@ public class PlayerWalkState : StateClass<PlayerState>
         // •Ší‚ğ“Š‚°‚éó‘Ô‚ÉˆÚs
         if (Input.GetButtonDown("Throw"))
         {
-            playerState.ChangeState(PlayerWeaponThrowState.Instance);
+            if (playerState.GetPlayerWeponManager().GetWeaponCount() < 1)
+            {
+                // •Ší‚ğ“Š‚°‚é‚Ì¸”só‘Ô‚ÉˆÚs
+                playerState.ChangeState(PlayerThrowFailedState.Instance);
+            }
+            else
+            {
+                // •Ší‚ğ“Š‚°‚éó‘Ô‚ÉˆÚs
+                playerState.ChangeState(PlayerWeaponThrowState.Instance);
+            }
             return;
         }
     }

@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// =================================
+// 攻撃後の硬直状態（コンボ猶予状態）
+// =================================
+
 public class PlayerAttackRecoveryState : StateClass<PlayerState>
 {
     // インスタンスを入れる変数
@@ -10,12 +14,6 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     private static BaseAttackData weponData;
     // フレームを計る
     int freams = 0;
-
-#if UNITY_EDITOR
-    // エディタ実行時に実行される
-    // 元の色を保存
-    Color originalColor;
-#endif
 
 
 
@@ -70,8 +68,18 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
         {
             // コンボを初期化する
             playerState.SetPlayerCombo(0);
-            // 武器を投げる状態に移行
-            playerState.ChangeState(PlayerWeaponThrowState.Instance);
+
+            if (playerState.GetPlayerWeponManager().GetWeaponCount() < 1)
+            {
+                // 武器を投げるの失敗状態に移行
+                playerState.ChangeState(PlayerThrowFailedState.Instance);
+            }
+            else
+            {
+                // 武器を投げる状態に移行
+                playerState.ChangeState(PlayerWeaponThrowState.Instance);
+            }
+
             return;
         }
     }
@@ -109,12 +117,7 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
             return;
         }
 
-        // エディタ実行時に取得して色を変更する
-        if (playerState.playerRenderer != null)
-        {
-            originalColor = playerState.playerRenderer.material.color; // 元の色を保存
-            playerState.playerRenderer.material.color = Color.blue;    // カウンター成功時の色
-        }
+        playerState.GetPlayerRenderer().material.color = Color.blue;
 
 #endif
     }
@@ -140,11 +143,7 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
         playerState.SetPlayerNextReseved(RESEVEDSTATE.NOTHING);
 
 #if UNITY_EDITOR
-        // エディタ実行時に色を元に戻す
-        if (playerState.playerRenderer != null)
-        {
-            playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
-        }
+        playerState.GetPlayerRenderer().material.color = Color.white;
 #endif
     }
 

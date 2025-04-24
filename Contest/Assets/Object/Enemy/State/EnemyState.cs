@@ -15,9 +15,9 @@ public class EnemyState : BaseState<EnemyState>
     [SerializeField] private string playerCounterTag = "CounterAttack";
     [Header("Playerに倒されたときに渡す武器")]
     [SerializeField] private BaseAttackData dropWeapon;
-    [Header("倒した時に武器を渡すプレイヤー")]
+    [Header("倒した時に武器を渡すプレイヤーの名前")]
     [SerializeField] private GameObject player;
-    [Header("敵のマネージャー")]
+    [Header("敵を管理するマネージャーの名前")]
     [SerializeField] private GameObject enemyManagerObject;
 
     // 衝突したオブジェクトを保存するリスト
@@ -177,7 +177,7 @@ public class EnemyState : BaseState<EnemyState>
         // 攻撃タグを元に戻す
         enemyWeponManager.DisableAllWeaponAttacks();
 
-        if (player != null && dropWeapon != null && hitCounter)
+        if (playerState != null && dropWeapon != null && hitCounter)
         {
             // Playerに武器を渡す
             playerState.GetPlayerWeponManager().AddWeapon(dropWeapon);

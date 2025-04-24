@@ -39,7 +39,12 @@ public class PlayerState : BaseState<PlayerState>
     [SerializeField] private string enemyAttackTag = "EnemyAttack";
     [Header("プレイヤーのカウンター成功後の無敵時間（カウンター成功中の無敵時間とは別）")]
     [SerializeField] private int invincibleTime = 0;
-
+    [Header("プレイヤーがひるんだ時のフレーム数")]
+    [SerializeField] private int FlinchFreams = 0;
+    [Header("プレイヤーが投げるのを失敗したときのフレーム数")]
+    [SerializeField] private int ThrowFailedFreams = 0;
+    [Header("プレイヤーが投げるのを失敗したときのアニメーション")]
+    [SerializeField] private AnimationClip throwFailedAnimations = null;
 
 
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
@@ -184,8 +189,11 @@ public class PlayerState : BaseState<PlayerState>
         if (!playerStatusEffectManager.Invincible(invincibleTime))
         {
 #if UNITY_EDITOR
-            // デバッグ用
-            playerRenderer.material.color = Color.white;
+            // デバッグ用　無敵時間が終わると元に戻す
+            if (playerRenderer.material.color == Color.yellow)
+            {
+                playerRenderer.material.color = Color.white;
+            }
 #endif
             // 当たっているオブジェクトのタグを調べる
             foreach (var info in collidedInfos)
@@ -302,6 +310,9 @@ public class PlayerState : BaseState<PlayerState>
     public string GetPlayerEnemyAttackTag() { return enemyAttackTag; }
     public StatusEffectManager GetPlayerStatusEffectManager() {  return playerStatusEffectManager; }
     public HashSet<Collider> GetPlayerDamagedColliders() { return damagedColliders; }
+    public int GetPlayerFlinchFreams() { return FlinchFreams; }
+    public int GetThrowFailedFreams() { return ThrowFailedFreams; }
+    public AnimationClip GetThrowFailedAnimation() { return throwFailedAnimations; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

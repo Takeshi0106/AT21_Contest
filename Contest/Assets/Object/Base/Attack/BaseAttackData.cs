@@ -24,6 +24,15 @@ public class BaseAttackData : ScriptableObject
     [Header("各コンボに対応する攻撃後硬直アニメーション")]
     [SerializeField] private AnimationClip[] attackStaggerAnimations;
 
+    [Header("投げるときのダメージ")]
+    [SerializeField] private float attackThrowDamage = 0;
+    [Header("投げる前のフレーム")]
+    [SerializeField] private int ThrowStartupFruem = 0;
+    [Header("投げた後の硬直フレーム")]
+    [SerializeField] private int ThrowStaggerFruem = 0;
+    [Header("投げるときのアニメーション")]
+    [SerializeField] private AnimationClip attackThrowAnimations = null;
+
 
     // ゲッター
     public string GetWeaponName() => weponName;
@@ -58,5 +67,25 @@ public class BaseAttackData : ScriptableObject
     public AnimationClip GetAttackStaggerAnimation(int comboStep)
     {
         return (comboStep < attackStaggerAnimations.Length) ? attackStaggerAnimations[comboStep] : null;
+    }
+
+    public float GetThrowDamage()
+    {
+        return attackThrowDamage;
+    }
+
+    public int GetThrowStartUp()
+    {
+        return ThrowStartupFruem;
+    }
+
+    public int GetThrowStagger()
+    {
+        return ThrowStaggerFruem;
+    }
+
+    public AnimationClip GetThrowAnimation()
+    {
+        return attackThrowAnimations;
     }
 }
