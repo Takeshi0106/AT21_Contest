@@ -12,12 +12,6 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
     // フレームを計る
     int freams = 0;
 
-#if UNITY_EDITOR
-    // エディタ実行時に実行される
-    // 元の色を保存
-    Color originalColor;
-#endif
-
 
 
     // インスタンスを取得する
@@ -64,12 +58,8 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
 #if UNITY_EDITOR
         Debug.LogError("CounterStrikeState : 開始");
 
-        // エディタ実行時に取得して色を変更する
-        if (playerState.playerRenderer != null)
-        {
-            originalColor = playerState.playerRenderer.material.color; // 元の色を保存
-            playerState.playerRenderer.material.color = Color.red;    // カウンター成功時の色
-        }
+        // 赤色に変更する
+        playerState.GetPlayerRenderer().material.color = Color.red;
 #endif
     }
 
@@ -114,11 +104,7 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         playerState.GetPlayerStatusEffectManager().StartInvicible();
 
 #if UNITY_EDITOR
-        // エディタ実行時に色を元に戻す
-        if (playerState.playerRenderer != null)
-        {
-            playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
-        }
+        playerState.GetPlayerRenderer().material.color = Color.white;
 #endif
     }
 

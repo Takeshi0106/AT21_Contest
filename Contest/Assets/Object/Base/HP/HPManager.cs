@@ -37,8 +37,10 @@ public class HPManager : MonoBehaviour
         currentHP -= damage;
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
 
+        // HPイベントを呼ぶ
         onDamaged.Invoke();
 
+        // 死亡イベントを呼ぶ
         if (currentHP <= 0)
         {
             onDeath.Invoke();

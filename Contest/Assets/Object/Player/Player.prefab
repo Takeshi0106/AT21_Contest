@@ -13,9 +13,8 @@ GameObject:
   - component: {fileID: 1765868918453974247}
   - component: {fileID: 8078451700553175999}
   - component: {fileID: 4541902489494020682}
-  - component: {fileID: 1812648625909885026}
   m_Layer: 0
-  m_Name: Counter
+  m_Name: CounterObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +33,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2427698529513485658}
+  m_Father: {fileID: 1486194298816201355}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9218138356164290896
 MeshFilter:
@@ -121,23 +120,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tags:
   - Nothing
---- !u!114 &1812648625909885026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022946212921229570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5af6ec15a732c9f4e919391309fefc73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackTags:
-  - PlayerAttack
-  - CounterAttack
-  noAttackTags:
-  - Nothing
 --- !u!1 &3115158779587320297
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +159,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 296034798997530667}
+  - {fileID: 1486194298816201355}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &5227226083743149060
@@ -402,3 +384,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d413398abe3383a47934fbb5ec712429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4439658584703590833
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1486194298816201355}
+  - component: {fileID: 2888286983901664906}
+  m_Layer: 0
+  m_Name: Counter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1486194298816201355
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4439658584703590833}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 296034798997530667}
+  m_Father: {fileID: 2427698529513485658}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2888286983901664906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4439658584703590833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af6ec15a732c9f4e919391309fefc73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackTags:
+  - PlayerAttack
+  - CounterAttack
+  noAttackTags:
+  - Nothing

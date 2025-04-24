@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
+
 // =====================================
 // プレイヤーの状態を管理する
 // =====================================
@@ -38,6 +39,12 @@ public class PlayerState : BaseState<PlayerState>
     [SerializeField] private string enemyAttackTag = "EnemyAttack";
     [Header("プレイヤーのカウンター成功後の無敵時間（カウンター成功中の無敵時間とは別）")]
     [SerializeField] private int invincibleTime = 0;
+    [Header("プレイヤーがひるんだ時のフレーム数")]
+    [SerializeField] private int FlinchFreams = 0;
+    [Header("プレイヤーが投げるのを失敗したときのフレーム数")]
+    [SerializeField] private int ThrowFailedFreams = 0;
+    [Header("プレイヤーが投げるのを失敗したときのアニメーション")]
+    [SerializeField] private AnimationClip throwFailedAnimations = null;
 
 
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
@@ -58,6 +65,7 @@ public class PlayerState : BaseState<PlayerState>
     [HideInInspector] private AttackController playerCounterAttackController;
     // Playerの状態マネージャー
     [HideInInspector] private StatusEffectManager playerStatusEffectManager;
+
 
 
     // 現在のコンボ数
@@ -113,62 +121,52 @@ public class PlayerState : BaseState<PlayerState>
         // エディタ実行時に取得して色を変更する
         playerRenderer = this.gameObject.GetComponent<Renderer>();
 
-        // 所得出来ていないときエラーを出す
+        // 所得出来ていないときログを出す（エラーではなく情報）
         if (cameraTransform == null)
         {
-            Debug.LogError("PlayerState : カメラオブジェクトが見つかりません");
-            return;
+            Debug.Log("PlayerState : カメラオブジェクトが見つかりません");
         }
         if (playerRigidbody == null)
         {
-            Debug.LogError("PlayerState : Rigidbodyが見つかりません");
-            return;
+            Debug.Log("PlayerState : Rigidbodyが見つかりません");
         }
         if (playerCollider == null)
         {
-            Debug.LogError("PlayerState : Colliderが見つかりません");
-            return;
+            Debug.Log("PlayerState : Colliderが見つかりません");
         }
         if (playerTransform == null)
         {
-            Debug.LogError("PlayerState : Transformが見つかりません");
-            return;
+            Debug.Log("PlayerState : Transformが見つかりません");
         }
         if (playerCounterManager == null)
         {
-            Debug.LogError("PlayerState : CounterManagerが見つかりません");
-            return;
+            Debug.Log("PlayerState : CounterManagerが見つかりません");
         }
         if (playerRigidbody == null)
         {
-            Debug.LogError("PlayerState : Rendererが見つかりません");
-            return;
+            Debug.Log("PlayerState : Rendererが見つかりません");
         }
-        if(playerWeponManager==null)
+        if (playerWeponManager == null)
         {
             Debug.Log("PlayerState : WeponManagerが見つかりません");
-            return;
         }
         if (playerAnimator == null)
         {
             Debug.Log("PlayerState : PlayerAnimatorが見つかりません");
-            return;
         }
         if (playerCounterAttackController == null)
         {
             Debug.Log("PlayerState : PlayerCounterAttackControllerが見つかりません");
-            return;
         }
         if (hpManager == null)
         {
             Debug.Log("PlayerState : HPManagerが見つかりません");
-            return;
         }
         if (playerStatusEffectManager == null)
         {
             Debug.Log("PlayerState : playerStatusEffectManagerが見つかりません");
-            return;
         }
+
 #endif
     }
 
@@ -187,25 +185,30 @@ public class PlayerState : BaseState<PlayerState>
     // ダメージ処理
     public void HandleDamage(string getAttackTags)
     {
+        // プレイヤーが無敵状態か調べる
         if (!playerStatusEffectManager.Invincible(invincibleTime))
         {
 #if UNITY_EDITOR
-            // デバッグ用
-            playerRenderer.material.color = Color.white;
+            // デバッグ用　無敵時間が終わると元に戻す
+            if (playerRenderer.material.color == Color.yellow)
+            {
+                playerRenderer.material.color = Color.white;
+            }
 #endif
-
+            // 当たっているオブジェクトのタグを調べる
             foreach (var info in collidedInfos)
             {
-                // すでにダメージ処理済み、またはタグがないならスキップ
-                if (damagedColliders.Contains(info.collider))
-                    continue;
+                // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
+                if (damagedColliders.Contains(info.collider) || info.multiTag == null) { continue; }
 
-                if (info.multiTag != null && info.multiTag.HasTag(getAttackTags))
+                // 敵の攻撃タグがあるかの判定
+                if ( info.multiTag.HasTag(getAttackTags))
                 {
-                    // ダメージ処理などをここに追加
+#if UNITY_EDITOR
                     Debug.Log("ダメージ対象ヒット: " + info.collider.gameObject.name);
+#endif
 
-                    // 一度ダメージを与えたら、このコライダーは記録
+                    // コライダーは記録
                     damagedColliders.Add(info.collider);
 
                     // 親オブジェクトから EnemyState を取得
@@ -213,25 +216,25 @@ public class PlayerState : BaseState<PlayerState>
 
                     if (enemyState != null)
                     {
+                        // ダメージ処理
                         hpManager.TakeDamage(enemyState.GetEnemyWeponManager().GetWeaponData(0).GetDamage(enemyState.GetEnemyConbo()));
                     }
 
                     // ダメージ処理などをここに追加
                     Debug.Log("HP " + hpManager.GetCurrentHP());
-
-                    // 一つ当たったら抜けるなら break（複数なら continue）
-                    break;
                 }
             }
         }
 #if UNITY_EDITOR
         else
         {
+            // 無敵時Playerのカラーを変更する
             playerRenderer.material.color = Color.yellow;
 
         }
 #endif
 
+        // 保存したコライダーのタグが元に戻る可のチェック
         CleanupInvalidDamageColliders(getAttackTags);
     }
 
@@ -240,11 +243,20 @@ public class PlayerState : BaseState<PlayerState>
     // 攻撃タグが元に戻るまで
     public void CleanupInvalidDamageColliders(string getAttackTags)
     {
+        // タグが攻撃タグ以外の物かを調べる
         damagedColliders.RemoveWhere(collider =>
         {
             var tag = collidedInfos.FirstOrDefault(info => info.collider == collider).multiTag;
             return tag == null || !tag.HasTag(getAttackTags);
         });
+        // コライダーが非アクティブ化を調べる
+        damagedColliders.RemoveWhere(collider =>
+        collider == null || !collider.gameObject.activeInHierarchy || !collider.enabled);
+        // 当たっているオブジェクトが非アクティブかを調べる
+        collidedInfos.RemoveAll(info =>
+        info.collider == null ||
+        !info.collider.gameObject.activeInHierarchy ||
+        !info.collider.enabled);
     }
 
 
@@ -256,6 +268,16 @@ public class PlayerState : BaseState<PlayerState>
 
         gameObject.SetActive(false);
         SceneManager.LoadScene("ResultScene");
+    }
+
+
+
+    public void AddDamagedCollider(Collider target)
+    {
+        if (target != null && !damagedColliders.Contains(target))
+        {
+            damagedColliders.Add(target);
+        }
     }
 
 
@@ -287,6 +309,10 @@ public class PlayerState : BaseState<PlayerState>
     public HPManager GetPlayerHPManager() { return hpManager; }
     public string GetPlayerEnemyAttackTag() { return enemyAttackTag; }
     public StatusEffectManager GetPlayerStatusEffectManager() {  return playerStatusEffectManager; }
+    public HashSet<Collider> GetPlayerDamagedColliders() { return damagedColliders; }
+    public int GetPlayerFlinchFreams() { return FlinchFreams; }
+    public int GetThrowFailedFreams() { return ThrowFailedFreams; }
+    public AnimationClip GetThrowFailedAnimation() { return throwFailedAnimations; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

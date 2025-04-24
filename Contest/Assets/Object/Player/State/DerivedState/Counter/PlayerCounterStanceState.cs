@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 // ================================
@@ -15,12 +16,6 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
     bool counterOutcome = false;
     // カウンターが有効かどうか
     bool counterActive = false;
-
-#if UNITY_EDITOR
-    // エディタ実行時に実行される
-    // 元の色を保存
-    Color originalColor;
-#endif
 
 
 
@@ -65,12 +60,8 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
 #if UNITY_EDITOR
         Debug.LogError("CounterStanceState : 開始");
 
-        // エディタ実行時に取得して色を変更する
-        if (playerState.playerRenderer != null)
-        {
-            originalColor = playerState.playerRenderer.material.color; // 元の色を保存
-            playerState.playerRenderer.material.color = Color.cyan;    // カウンター構え中の色
-        }
+        // カウンター構え時緑色にする
+        playerState.GetPlayerRenderer().material.color = Color.green;
 #endif
     }
 
@@ -92,26 +83,54 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
 
         if (counterActive)
         {
+            // 攻撃タグが戻っているかをチェック
             playerState.CleanupInvalidDamageColliders(playerState.GetPlayerEnemyAttackTag());
 
+            // 当たっているオブジェクトを調べる
             foreach (var collidedInfo in playerState.GetPlayerCollidedInfos())
             {
                 if (collidedInfo.collider != null)
                 {
+                    // コライダーがすでにダメージ処理をしていたら次のオブジェクトを調べる
+                    if (playerState.GetPlayerDamagedColliders().Contains(collidedInfo.collider)) { continue; }
+
+                    // タグを取得する
                     MultiTag tag = collidedInfo.multiTag;
+
                     if (tag != null && tag.HasTag(playerState.GetPlayerCounterPossibleAttack()))
                     {
+                        // カウンター成功
                         counterOutcome = true;
+                        // コライダーを保存する
+                        playerState.AddDamagedCollider(collidedInfo.collider);
+
 
 #if UNITY_EDITOR
-                        Debug.Log("カウンター成功！相手: " + collidedInfo.collider.gameObject.name);
+                        // 親オブジェクトの名前を取得する
+                        Transform parentTransform = collidedInfo.collider.transform.parent;
+                        // 一番上の親オブジェクトを取得
+                        while (parentTransform.parent != null)
+                        {
+                            parentTransform = parentTransform.parent;
+                        }
+
+                        // ログ表示
+                        if (parentTransform != null)
+                        {
+                            Debug.Log("カウンター成功！相手の親: " + parentTransform.gameObject.name);
+                        }
+                        Debug.Log("攻撃オブジェクト名: " + collidedInfo.collider.gameObject.name);
 #endif
+
+                        // カウンター成功時に処理を終了する
+                        return;
                     }
                 }
             }
         }
         else
         {
+            // ダメージ処理を有効にする
             playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
         }
 
@@ -130,11 +149,8 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
         counterActive = false;
 
 #if UNITY_EDITOR
-        // エディタ実行時に色を元に戻す
-        if (playerState.playerRenderer != null)
-        {
-            playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
-        }
+        // 元の色に戻す
+        playerState.GetPlayerRenderer().material.color = Color.white;
 #endif
     }
 

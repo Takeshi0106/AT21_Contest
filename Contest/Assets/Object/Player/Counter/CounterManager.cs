@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CounterManager : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class CounterManager : MonoBehaviour
     [SerializeField] private float counterDamages = 20;
 
 
+
     // 最新のゲージを入れる
     private float currentGauge = 0f;
     // 最新のランクを入れる
@@ -36,6 +38,11 @@ public class CounterManager : MonoBehaviour
     private int graceTimer = 0;
     // 猶予フレームが過ぎたかのスイッチ
     private bool isInGracePeriod = false;
+    // カウンター成功時のイベントを入れる
+    private UnityEvent counterRankUpEvent = new UnityEvent();
+    // カウンター失敗時のイベントを入れる
+    private UnityEvent counterRankDownEvent=new UnityEvent();
+
 
 
     // ゲージ量を上げる処理
@@ -44,6 +51,7 @@ public class CounterManager : MonoBehaviour
         // ゲージ計算
         currentGauge += counterSuccessGain;
 
+        // ランクアップ処理を実行する
         if (currentGauge >= counterGauge[currentRank])
         {
             RankUp();
@@ -61,21 +69,26 @@ public class CounterManager : MonoBehaviour
     // カウンターランクが落ちるかの処理
     public void GaugeDecay()
     {
+        // カウンター成功時の猶予処理
         if (isInGracePeriod)
         {
+            // 猶予フレームを更新
             graceTimer++;
 
+            // 猶予が終わった時の処理
             if (graceTimer >= decayGraceFrames[currentRank])
             {
                 isInGracePeriod = false;
                 graceTimer = 0;
             }
-            // 猶予期間中は減衰タイマーを進めない
+            // 猶予期間中は終わる
             return;
         }
 
+        // ランクダウンフレーム更新
         downTime++;
 
+        // ランクダウンしたときの処理
         if (downTime >= rankDecayFrames[currentRank])
         {
             RankDown();
@@ -90,8 +103,15 @@ public class CounterManager : MonoBehaviour
     {
         if (currentRank < counterMaxRank - 1)
         {
+            // ランクアップ
             currentRank++;
+            // ランクアップイベントを呼び出す
+            counterRankUpEvent.Invoke();
+
+#if UNITY_EDITOR
+            // デバッグ用のカウンターランク表示
             Debug.Log($"カウンターランクアップ！現在のランク: {currentRank + 1}");
+#endif
         }
     }
 
@@ -102,11 +122,41 @@ public class CounterManager : MonoBehaviour
     {
         if (currentRank > 0)
         {
+            // ランクダウン
             currentRank--;
+            // ランクダウンイベントを呼び出す
+            counterRankDownEvent.Invoke();
+
+#if UNITY_EDITOR
+            // デバッグ用のカンターランク表示
             Debug.Log($"カウンターランクダウン！現在のランク: {currentRank + 1}");
+#endif
         }
     }
 
+
+
+    // シーン遷移時に呼ばれる
+    private void OnDestroy()
+    {
+        // イベントリスナーを解除
+        counterRankUpEvent.RemoveAllListeners();
+        counterRankDownEvent.RemoveAllListeners();
+        // ポインター初期化
+        counterRankUpEvent = null;
+        counterRankDownEvent = null;
+
+#if UNITY_EDITOR
+        // デバッグ用のカウンターランク表示
+        Debug.Log("CounterManager : OnDestroyを実行しました。");
+#endif
+    }
+
+
+
+    // セッター
+    public void SetCounterRankUpEvent(UnityAction action) { counterRankUpEvent.AddListener(action); }
+    public void SetCounterRankDownEvent(UnityAction action) { counterRankDownEvent.AddListener(action); }
 
 
     // ゲッター
@@ -117,4 +167,5 @@ public class CounterManager : MonoBehaviour
     public  int    GetCounterStartupFrames() { return counterStartupFrames[(int)currentRank]; }
     public  float  GetCurrentGauge()         { return currentGauge; }
     public float GetCounterDamage() { return counterDamages; }
+    public int GetCurrentRank() { return currentRank; }
 }

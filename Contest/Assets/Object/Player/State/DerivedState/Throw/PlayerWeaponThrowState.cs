@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// ===============================
+// 武器を投げる状態
+// ===============================
+
 public class PlayerWeaponThrowState : StateClass<PlayerState>
 {
     // インスタンスを入れる変数
     private static PlayerWeaponThrowState instance;
+    // 武器の情報
+    private static BaseAttackData weponData;
 
     // 状態変更までの時間
-    int changTime = 60;
     int freams = 0;
-
-#if UNITY_EDITOR
-    // エディタ実行時に実行される
-    // 元の色を保存
-    Color originalColor;
-#endif
 
 
 
@@ -38,7 +37,7 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     public override void Change(PlayerState playerState)
     {
         // 立ち状態に戻す
-        if (freams > changTime)
+        if (freams > weponData.GetThrowStartUp() + weponData.GetThrowStagger())
         {
             playerState.ChangeState(PlayerCounterStaggerState.Instance);
             return;
@@ -50,27 +49,23 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
-        if (playerState.GetPlayerWeponManager().GetWeaponCount() > 1)
-        {
-            // 装備から削除
-            playerState.GetPlayerWeponManager().RemoveWeapon(playerState.GetPlayerWeponNumber());
+        // 武器データを取得する
+        weponData = playerState.GetPlayerWeponManager().GetWeaponData(playerState.GetPlayerWeponNumber());
 
-            changTime = 20;
-        }
-        else
+        AnimationClip animClip = weponData.GetThrowAnimation();
+        var childAnim = playerState.GetPlayerWeponManager().GetCurrentWeaponAnimator();
+
+        // アニメーション開始処理
+        if (animClip != null && childAnim != null)
         {
-            // 武器が１つしかないときの処理を書く（アニメーションなど）
+            childAnim.CrossFade(animClip.name, 0.2f);
         }
 
 #if UNITY_EDITOR
         Debug.LogError("PlayerWeaponThrowState : 開始");
 
         // エディタ実行時に取得して色を変更する
-        if (playerState.playerRenderer != null)
-        {
-            originalColor = playerState.playerRenderer.material.color; // 元の色を保存
-            playerState.playerRenderer.material.color = Color.blue;    // カウンター構え中の色
-        }
+        playerState.GetPlayerRenderer().material.color = Color.green;
 #endif
     }
 
@@ -79,6 +74,20 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     // 状態中の処理
     public override void Excute(PlayerState playerState)
     {
+        // ダメージ処理を有効にする
+        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+
+        // 投げる
+        if (freams == weponData.GetThrowStartUp())
+        {
+            // 装備から削除
+            playerState.GetPlayerWeponManager().RemoveWeapon(playerState.GetPlayerWeponNumber());
+
+#if UNITY_EDITOR
+            playerState.GetPlayerRenderer().material.color = Color.blue;
+#endif
+        }
+
         freams++;
     }
 
@@ -88,14 +97,10 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     public override void Exit(PlayerState playerState)
     {
         freams = 0;
-        changTime = 60;
 
 #if UNITY_EDITOR
         // エディタ実行時に色を元に戻す
-        if (playerState.playerRenderer != null)
-        {
-            playerState.playerRenderer.material.color = originalColor; // 元の色に戻す
-        }
+        playerState.GetPlayerRenderer().material.color = Color.white;
 #endif
     }
 

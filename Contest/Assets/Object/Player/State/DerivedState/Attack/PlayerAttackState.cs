@@ -1,6 +1,10 @@
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
+// ======================================
+// プレイヤーの攻撃状態
+// ======================================
+
 public class PlayerAttackState : StateClass<PlayerState>
 {
     // インスタンスを入れる変数
@@ -34,6 +38,32 @@ public class PlayerAttackState : StateClass<PlayerState>
         {
             // 後から硬直状態に移行する
             playerState.ChangeState(PlayerAttackRecoveryState.Instance);
+            return;
+        }
+        if (Input.GetButtonDown("Counter"))
+        {
+            // コンボを初期化する
+            playerState.SetPlayerCombo(0);
+            // カウンター状態に移行
+            playerState.ChangeState(PlayerCounterStanceState.Instance);
+            return;
+        }
+        if (Input.GetButtonDown("Throw"))
+        {
+            // コンボを初期化する
+            playerState.SetPlayerCombo(0);
+
+            if (playerState.GetPlayerWeponManager().GetWeaponCount() < 1)
+            {
+                // 武器を投げるの失敗状態に移行
+                playerState.ChangeState(PlayerThrowFailedState.Instance);
+            }
+            else
+            {
+                // 武器を投げる状態に移行
+                playerState.ChangeState(PlayerWeaponThrowState.Instance);
+            }
+
             return;
         }
     }
@@ -96,14 +126,7 @@ public class PlayerAttackState : StateClass<PlayerState>
             {
                 playerState.SetPlayerNextReseved(RESEVEDSTATE.ATTACK);
             }
-            if (Input.GetButtonDown("Counter"))
-            {
-                playerState.SetPlayerNextReseved(RESEVEDSTATE.COUNTER);
-            }
-            if (Input.GetButtonDown("Throw"))
-            {
-                playerState.SetPlayerNextReseved(RESEVEDSTATE.COUNTER);
-            }
+            
         }
     }
 

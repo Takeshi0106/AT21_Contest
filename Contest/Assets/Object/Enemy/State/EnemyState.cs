@@ -15,9 +15,9 @@ public class EnemyState : BaseState<EnemyState>
     [SerializeField] private string playerCounterTag = "CounterAttack";
     [Header("Playerに倒されたときに渡す武器")]
     [SerializeField] private BaseAttackData dropWeapon;
-    [Header("倒した時に武器を渡すプレイヤー")]
+    [Header("倒した時に武器を渡すプレイヤーの名前")]
     [SerializeField] private GameObject player;
-    [Header("敵のマネージャー")]
+    [Header("敵を管理するマネージャーの名前")]
     [SerializeField] private GameObject enemyManagerObject;
 
     // 衝突したオブジェクトを保存するリスト
@@ -33,6 +33,8 @@ public class EnemyState : BaseState<EnemyState>
     private int enemyConbo = 0;
     // 現在使っている武器のナンバー
     private int weponNumber = 0;
+    // カウンター攻撃で倒れたかのチェック
+    private bool hitCounter = false;
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
@@ -99,6 +101,9 @@ public class EnemyState : BaseState<EnemyState>
             // PlayerAttackがあるかの判定
             if (info.multiTag.HasTag(getAttackTags))
             {
+                // カウンター攻撃をくらったかの初期化
+                hitCounter = false;
+
                 // 基本ダメージを入れる
                 float baseDamage = 0;
                 // 攻撃力アップ倍率を取得する
@@ -119,6 +124,9 @@ public class EnemyState : BaseState<EnemyState>
                     baseDamage = playerState.GetPlayerCounterManager().GetCounterDamage();
                     // Playerの攻撃力アップ倍率を取得する
                     multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
+
+                    // カウンター攻撃を受けた
+                    hitCounter = true;
                 }
                 // 通常攻撃処理
                 else
@@ -164,18 +172,24 @@ public class EnemyState : BaseState<EnemyState>
 
     private void Die()
     {
+        // EnemyManagerに自分が倒れたことを知らせる
         enemyManager.UnregisterEnemy(this);
+        // 攻撃タグを元に戻す
+        enemyWeponManager.DisableAllWeaponAttacks();
+
+        if (playerState != null && dropWeapon != null && hitCounter)
+        {
+            // Playerに武器を渡す
+            playerState.GetPlayerWeponManager().AddWeapon(dropWeapon);
+        }
+
+        // 自分を非アクティブにする
+        gameObject.SetActive(false);
 
 #if UNITY_EDITOR
         Debug.Log($"{gameObject.name} が死亡しました");
 #endif
 
-        if (player != null && dropWeapon != null)
-        {
-            playerState.GetPlayerWeponManager().AddWeapon(dropWeapon);
-        }
-
-        gameObject.SetActive(false);
     }
 
 
