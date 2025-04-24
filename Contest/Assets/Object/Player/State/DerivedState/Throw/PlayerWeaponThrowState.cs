@@ -13,6 +13,11 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     // 武器の情報
     private static BaseAttackData weponData;
 
+    // 投げる武器の投げるまでのフレーム
+    int throwStartUpFreams = 0;
+    // 投げた後の硬直フレーム
+    int throwStaggerFreams = 0;
+
     // 状態変更までの時間
     int freams = 0;
 
@@ -37,7 +42,7 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     public override void Change(PlayerState playerState)
     {
         // 立ち状態に戻す
-        if (freams > weponData.GetThrowStartUp() + weponData.GetThrowStagger())
+        if (freams > throwStartUpFreams + throwStaggerFreams)
         {
             playerState.ChangeState(PlayerCounterStaggerState.Instance);
             return;
@@ -54,6 +59,9 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
 
         AnimationClip animClip = weponData.GetThrowAnimation();
         var childAnim = playerState.GetPlayerWeponManager().GetCurrentWeaponAnimator();
+
+        throwStartUpFreams = weponData.GetThrowStartUp();
+        throwStaggerFreams = weponData.GetThrowStagger();
 
         // アニメーション開始処理
         if (animClip != null && childAnim != null)
@@ -78,7 +86,7 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
         playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
 
         // 投げる
-        if (freams == weponData.GetThrowStartUp())
+        if (freams == throwStartUpFreams)
         {
             // 装備から削除
             playerState.GetPlayerWeponManager().RemoveWeapon(playerState.GetPlayerWeponNumber());
