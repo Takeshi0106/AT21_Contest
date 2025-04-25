@@ -20,7 +20,7 @@ using UnityEngine.SceneManagement;
 
 #endif
 
-public class PlayerState : BaseState<PlayerState>
+public class PlayerState : BaseColliderState<PlayerState>
 {
     // インスペクタービューから変更できる
     [Header("カメラオブジェクト名")]
@@ -65,7 +65,8 @@ public class PlayerState : BaseState<PlayerState>
     [HideInInspector] private AttackController playerCounterAttackController;
     // Playerの状態マネージャー
     [HideInInspector] private StatusEffectManager playerStatusEffectManager;
-
+    // PlayerのHPマネージャー
+    private HPManager hpManager;
 
 
     // 現在のコンボ数

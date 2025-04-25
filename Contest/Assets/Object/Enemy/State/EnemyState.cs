@@ -7,7 +7,7 @@ using UnityEngine;
 // エネミーの状態
 // =====================================
 
-public class EnemyState : BaseState<EnemyState>
+public class EnemyState : BaseColliderState<EnemyState>
 {
     [Header("Playerの攻撃タグ名")]
     [SerializeField] private string playerAttackTag = "PlayerAttack";
@@ -28,6 +28,8 @@ public class EnemyState : BaseState<EnemyState>
     [HideInInspector] private PlayerState playerState;
     // PlayerのState
     [HideInInspector] private EnemyManager enemyManager;
+    // EnemyのHPマネージャー 
+    private HPManager hpManager;
 
     // 現在のコンボ数
     private int enemyConbo = 0;
