@@ -53,7 +53,7 @@ public class PlayerAttackState : StateClass<PlayerState>
             // ƒRƒ“ƒ{‚ğ‰Šú‰»‚·‚é
             playerState.SetPlayerCombo(0);
 
-            if (playerState.GetPlayerWeponManager().GetWeaponCount() < 1)
+            if (playerState.GetPlayerWeponManager().GetWeaponCount() <= 1)
             {
                 // •Ší‚ğ“Š‚°‚é‚Ì¸”só‘Ô‚ÉˆÚs
                 playerState.ChangeState(PlayerThrowFailedState.Instance);

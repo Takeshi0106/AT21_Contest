@@ -87,85 +87,90 @@ public class EnemyState : BaseState<EnemyState>
 
 
 
+    // ダメージ処理（通常攻撃＋カウンター攻撃対応）
     public void HandleDamage(string getAttackTags, string counterAttackTags)
     {
+        // 保存したコライダーのタグが元に戻る可のチェック
+        CleanupInvalidDamageColliders(getAttackTags, counterAttackTags);
+
         foreach (var info in collidedInfos)
         {
-            // すでにダメージ処理済みの場合スキップ
-            if (damagedColliders.Contains(info.collider))
-                continue;
-            // タグがない場合スキップ
-            if (info.multiTag == null)
-                continue;
+            // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
+            if (info.multiTag == null || damagedColliders.Contains(info.collider)) { continue; }
 
-            // PlayerAttackがあるかの判定
+            // プレイヤーの攻撃タグがあるかを調べる
             if (info.multiTag.HasTag(getAttackTags))
             {
-                // カウンター攻撃をくらったかの初期化
-                hitCounter = false;
-
-                // 基本ダメージを入れる
-                float baseDamage = 0;
-                // 攻撃力アップ倍率を取得する
-                float multiplier = 0;
-                // 最終ダメージを計算する
-                float finalDamage = 0;
+                // プレイヤーの基本ダメージを入れる変数
+                float baseDamage = 0.0f;
+                // プレイヤーの攻撃アップ倍率を入れる変数
+                float multiplier = 1.0f;
+                // 最終ダメージを入れる変数
+                float finalDamage = 0f;
 
                 // カウンタータグがあるか調べる
                 bool isCounterAttack = info.multiTag.HasTag(counterAttackTags);
-                
-                // 一度ダメージ処理したコライダーを保存する
-                damagedColliders.Add(info.collider);
 
-                // カウンター処理
+                // 一度ダメージ処理したコライダーを保存
+                damagedColliders.Add(info.collider); 
+
+                // カウンターの場合の処理
                 if (isCounterAttack)
                 {
-                    // カウンターの攻撃力を取得する
                     baseDamage = playerState.GetPlayerCounterManager().GetCounterDamage();
-                    // Playerの攻撃力アップ倍率を取得する
                     multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
-
-                    // カウンター攻撃を受けた
                     hitCounter = true;
                 }
-                // 通常攻撃処理
+                // 通常こうげきの場合の処理
                 else
                 {
-                    // Playerの攻撃力を取得する
-                    baseDamage = playerState.GetPlayerWeponManager().GetWeaponData(playerState.GetPlayerWeponNumber())
-                        .GetDamage(playerState.GetPlayerConbo());
-                    // Playerの攻撃力アップ倍率を取得する
+                    var weaponManager = playerState.GetPlayerWeponManager();
+                    var weaponData = weaponManager.GetWeaponData(playerState.GetPlayerWeponNumber());
+
+                    baseDamage = weaponData.GetDamage(playerState.GetPlayerConbo());
                     multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
                 }
 
-                // ダメージを計算する
+                // ダメージ計算
                 finalDamage = baseDamage * multiplier;
-                // ダメージ処理
-                hpManager.TakeDamage(finalDamage);
 
 #if UNITY_EDITOR
-                // ログを出力する
-                Debug.Log("Enemyのダメージ" + finalDamage);
+                Debug.Log($"Enemyのダメージ: {finalDamage}（{(isCounterAttack ? "カウンター" : "通常")}）");
+                Debug.Log(Time.frameCount + ": Counter Hit!");
 #endif
 
-                break;
+                // ダメージをあたえる
+                hpManager.TakeDamage(finalDamage);
+
+
+
+                break; // 一度ヒットで処理終了
             }
         }
-
-        CleanupInvalidDamageColliders(getAttackTags, counterAttackTags);
     }
 
 
 
 
-    // 攻撃タグまたはカウンタータグが元に戻るまで
+    // 攻撃タグまたはカウンタータグが外れたら削除
     public void CleanupInvalidDamageColliders(string getAttackTags, string counterAttackTags)
     {
+        // タグが攻撃タグ以外の物かを調べる
         damagedColliders.RemoveWhere(collider =>
         {
             var tag = collidedInfos.FirstOrDefault(info => info.collider == collider).multiTag;
-            return tag == null || (!tag.HasTag(getAttackTags) && !tag.HasTag(counterAttackTags));
+            return tag == null || (!tag.HasTag(getAttackTags));
         });
+
+        // コライダーが非アクティブ化を調べる
+        damagedColliders.RemoveWhere(collider =>
+        collider == null || !collider.gameObject.activeInHierarchy || !collider.enabled);
+
+        // 無効なコライダーや非アクティブ化されたものも除外
+        collidedInfos.RemoveAll(info =>
+            info.collider == null ||
+            !info.collider.gameObject.activeInHierarchy ||
+            !info.collider.enabled);
     }
 
 

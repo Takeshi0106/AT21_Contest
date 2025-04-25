@@ -68,9 +68,8 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
     // 状態中の処理
     public override void Excute(PlayerState playerState)
     {
+        // ダメージ処理
         playerState.CleanupInvalidDamageColliders(playerState.GetPlayerEnemyAttackTag());
-
-        freams++;
 
         // カウンター中の Sphere 拡大処理
         var sphere = playerState.GetPlayerCounterObject();
@@ -80,6 +79,9 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
             float scale = Mathf.Lerp(0f, maxSize, (float)freams / playerState.GetPlayerCounterManager().GetCounterSuccessFrames());
             sphere.transform.localScale = new Vector3(scale, scale, scale);
         }
+
+        // フレーム更新
+        freams++;
     }
 
 
