@@ -558,6 +558,7 @@ GameObject:
   - component: {fileID: 599421255}
   - component: {fileID: 599421254}
   - component: {fileID: 599421253}
+  - component: {fileID: 599421257}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -652,6 +653,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &599421257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599421252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb31dc09891190449ea8b272ee5ea41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Stage
 --- !u!1 &679826545
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,7 +1303,15 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 93728141141830463, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: weaponDataList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 93728141141830463, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
       propertyPath: weaponDataList.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7bd74f80cd643b54fba22753e7d6bbf3, type: 2}
+    - target: {fileID: 93728141141830463, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: weaponDataList.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 7bd74f80cd643b54fba22753e7d6bbf3, type: 2}
     - target: {fileID: 1765868918453974247, guid: 07e599ef444625c4b8d6db478b244556, type: 3}

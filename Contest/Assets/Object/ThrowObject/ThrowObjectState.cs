@@ -10,8 +10,10 @@ public class ThrowObjectState : BaseState<ThrowObjectState>
     [SerializeField] private float forcePower;
     [Header("投げた時の重力無効フレーム")]
     [SerializeField] private int noGravityFreams = 0;
-    [Header("プレイヤーのタグ")]
-    [SerializeField] private string playerTag = "Player";
+    [Header("ステージのタグ")]
+    [SerializeField] private string stageTag = "Enemy";
+    [Header("エネミーのタグ")]
+    [SerializeField] private string enemyTag = "Stage";
 
     // プレイヤーのトランスフォームを入れる変数
     private Transform cameraTransform;
@@ -56,13 +58,18 @@ public class ThrowObjectState : BaseState<ThrowObjectState>
     // プレイヤーが敵にぶつかった時の処理
     void OnTriggerEnter(Collider other)
     {
-        // 最上位の親（Rootオブジェクト）を取得
-        Transform rootTransform = other.transform.root;
-        // RootのMultiTagを取得
-        MultiTag multiTag = rootTransform.GetComponent<MultiTag>();
+        // MultiTagを取得
+        MultiTag multiTag = other.transform.GetComponent<MultiTag>();
 
-        // タグリストに追加
-        collidedTags.Add(multiTag);
+        if (multiTag != null)
+        {
+            // タグリストに追加
+            collidedTags.Add(multiTag);
+
+#if UNITY_EDITOR
+            Debug.Log("ThrowObject_Triggerに当たった : " + other.gameObject.name);
+#endif
+        }
     }
 
 
@@ -76,5 +83,6 @@ public class ThrowObjectState : BaseState<ThrowObjectState>
     public float GetForcePower() { return forcePower; }
     public int GetNoGravityFreams() { return noGravityFreams; }
     public GameObject GetThrowObject() { return this.gameObject; }
-    public string GetPlayerTag() { return playerTag; }
+    public string GetStageTag() { return stageTag; }
+    public string GetEnemyTag() { return enemyTag; }
 }

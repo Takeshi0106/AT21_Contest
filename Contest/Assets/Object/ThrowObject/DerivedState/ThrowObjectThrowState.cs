@@ -37,7 +37,7 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
         foreach (var tags in state.GetMultiTagList())
         {
             // プレイヤー以外のタグがあるかタグがないとき
-            if (tags == null || !tags.HasTag(state.GetPlayerTag()))
+            if (tags.HasTag(state.GetEnemyTag()) || tags.HasTag(state.GetStageTag()))
             {
                 state.ChangeState(ThrowObjectDeleteState.Instance);
             }

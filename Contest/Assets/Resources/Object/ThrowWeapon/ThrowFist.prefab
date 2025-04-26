@@ -135,6 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackTags:
   - PlayerAttack
+  - ThrowAttack
   noAttackTags:
   - Nothing
 --- !u!95 &4274090971086409229
@@ -199,6 +200,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forcePower: 20
   noGravityFreams: 10
+  stageTag: Enemy
+  enemyTag: Stage
 --- !u!1 &1305322589974816026
 GameObject:
   m_ObjectHideFlags: 0
