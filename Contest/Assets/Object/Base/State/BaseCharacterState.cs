@@ -7,7 +7,7 @@ using UnityEngine;
 // 当たり判定があるオブジェクトの状態を管理するクラス
 // =============================================================
 
-public class BaseColliderState<T> : BaseState<T> where T : BaseColliderState<T>
+public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T>
 {
     // 接触したオブジェクトの情報を入れる
     public struct CollidedInfo

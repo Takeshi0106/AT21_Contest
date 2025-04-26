@@ -34,7 +34,14 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
     // 状態を変更する
     public override void Change(ThrowObjectState state)
     {
-
+        foreach (var tags in state.GetMultiTagList())
+        {
+            // プレイヤー以外のタグがあるかタグがないとき
+            if (tags == null || !tags.HasTag(state.GetPlayerTag()))
+            {
+                state.ChangeState(ThrowObjectDeleteState.Instance);
+            }
+        }
     }
 
 

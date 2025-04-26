@@ -89,7 +89,7 @@ public class PlayerAttackState : StateClass<PlayerState>
         */
         if (childAnim != null && animClip != null)
         {
-            childAnim.CrossFade(animClip.name, 0.2f);
+            childAnim.CrossFade(animClip.name, 0.0f);
         }
 
 #if UNITY_EDITOR

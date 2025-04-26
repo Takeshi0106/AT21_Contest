@@ -7,7 +7,7 @@ using UnityEngine;
 // エネミーの状態
 // =====================================
 
-public class EnemyState : BaseColliderState<EnemyState>
+public class EnemyState : BaseCharacterState<EnemyState>
 {
     [Header("Playerの攻撃タグ名")]
     [SerializeField] private string playerAttackTag = "PlayerAttack";

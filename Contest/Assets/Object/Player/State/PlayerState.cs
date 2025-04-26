@@ -20,7 +20,7 @@ using UnityEngine.SceneManagement;
 
 #endif
 
-public class PlayerState : BaseColliderState<PlayerState>
+public class PlayerState : BaseCharacterState<PlayerState>
 {
     // インスペクタービューから変更できる
     [Header("カメラオブジェクト名")]
