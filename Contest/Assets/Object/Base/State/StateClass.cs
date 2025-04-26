@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
 // =================================
-// 状態クラス
+// 状態クラスの基底クラス
 // =================================
 
 // Stateの基底クラス

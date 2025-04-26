@@ -86,12 +86,6 @@ public class PlayerState : BaseColliderState<PlayerState>
     // Start is called before the first frame update
     void Start()
     {
-        // 状態をセット
-        currentState = PlayerStandingState.Instance;
-
-        // 状態の開始処理
-        currentState.Enter(this);
-
         //　カメラオブジェクトを代入
         cameraTransform = GameObject.Find(cameraName).transform;
         // Playerリジッドボディー
@@ -116,6 +110,12 @@ public class PlayerState : BaseColliderState<PlayerState>
         // playerCounterObject.SetActive(false);
         // HPマネージャーにDie関数を渡す
         hpManager.onDeath.AddListener(Die);
+
+
+        // 状態をセット
+        currentState = PlayerStandingState.Instance;
+        // 状態の開始処理
+        currentState.Enter(this);
 
 #if UNITY_EDITOR
 

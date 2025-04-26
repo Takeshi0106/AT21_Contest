@@ -119,6 +119,9 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
 
                 // オブジェクトを生成する
                 GameObject thrownObj = GameObject.Instantiate(prefab, worldThrowPos, Quaternion.identity);
+
+                // プレイヤーのトランスフォームをセットする
+                thrownObj.GetComponent<ThrowObjectState>().SetCameraTransfoem(playerState.GetCameraTransform());
             }
 
             // 装備から削除
