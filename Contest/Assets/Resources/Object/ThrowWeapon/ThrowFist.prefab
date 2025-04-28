@@ -94,7 +94,6 @@ GameObject:
   m_Component:
   - component: {fileID: 704175641470080418}
   - component: {fileID: 2753167667090579426}
-  - component: {fileID: 4274090971086409229}
   - component: {fileID: 3067090475865514250}
   - component: {fileID: 3978807346868086660}
   m_Layer: 0
@@ -138,27 +137,6 @@ MonoBehaviour:
   - ThrowAttack
   noAttackTags:
   - Nothing
---- !u!95 &4274090971086409229
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 967796037223507361}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 508238ef0b2059e40a26795c56139292, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!54 &3067090475865514250
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -200,8 +178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forcePower: 20
   noGravityFreams: 10
-  stageTag: Enemy
-  enemyTag: Stage
+  stageTag: Stage
+  enemyTag: Enemy
 --- !u!1 &1305322589974816026
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,9 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [SerializeField] private string playerAttackTag = "PlayerAttack";
     [Header("Playerのカウンタータグ")]
     [SerializeField] private string playerCounterTag = "CounterAttack";
+    [Header("Playerの投げるタグ")]
+    [SerializeField] private string playerThrowTag = "ThrowAttack";
+
     [Header("Playerに倒されたときに渡す武器")]
     [SerializeField] private BaseAttackData dropWeapon;
     [Header("倒した時に武器を渡すプレイヤーの名前")]
@@ -90,10 +93,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
 
     // ダメージ処理（通常攻撃＋カウンター攻撃対応）
-    public void HandleDamage(string getAttackTags, string counterAttackTags)
+    public void HandleDamage()
     {
         // 保存したコライダーのタグが元に戻る可のチェック
-        CleanupInvalidDamageColliders(getAttackTags, counterAttackTags);
+        CleanupInvalidDamageColliders();
 
         foreach (var info in collidedInfos)
         {
@@ -101,7 +104,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
             if (info.multiTag == null || damagedColliders.Contains(info.collider)) { continue; }
 
             // プレイヤーの攻撃タグがあるかを調べる
-            if (info.multiTag.HasTag(getAttackTags))
+            if (info.multiTag.HasTag(playerAttackTag))
             {
                 // プレイヤーの基本ダメージを入れる変数
                 float baseDamage = 0.0f;
@@ -111,7 +114,9 @@ public class EnemyState : BaseCharacterState<EnemyState>
                 float finalDamage = 0f;
 
                 // カウンタータグがあるか調べる
-                bool isCounterAttack = info.multiTag.HasTag(counterAttackTags);
+                bool isCounterAttack = info.multiTag.HasTag(playerCounterTag);
+                // 投げられたボブジェクトがを調べる
+                bool isThrowAttack = info.multiTag.HasTag(playerThrowTag);
 
                 // 一度ダメージ処理したコライダーを保存
                 damagedColliders.Add(info.collider); 
@@ -122,6 +127,15 @@ public class EnemyState : BaseCharacterState<EnemyState>
                     baseDamage = playerState.GetPlayerCounterManager().GetCounterDamage();
                     multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
                     hitCounter = true;
+                }
+                // 投げる攻撃の場合の処理
+                else if(isThrowAttack)
+                {
+                    var weaponManager = playerState.GetPlayerWeponManager();
+                    var weaponData = weaponManager.GetWeaponData(playerState.GetPlayerWeponNumber());
+
+                    baseDamage = weaponData.GetThrowDamage();
+                    multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
                 }
                 // 通常こうげきの場合の処理
                 else
@@ -155,13 +169,13 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
 
     // 攻撃タグまたはカウンタータグが外れたら削除
-    public void CleanupInvalidDamageColliders(string getAttackTags, string counterAttackTags)
+    public void CleanupInvalidDamageColliders()
     {
         // タグが攻撃タグ以外の物かを調べる
         damagedColliders.RemoveWhere(collider =>
         {
             var tag = collidedInfos.FirstOrDefault(info => info.collider == collider).multiTag;
-            return tag == null || (!tag.HasTag(getAttackTags));
+            return tag == null || (!tag.HasTag(playerAttackTag));
         });
 
         // コライダーが非アクティブ化を調べる

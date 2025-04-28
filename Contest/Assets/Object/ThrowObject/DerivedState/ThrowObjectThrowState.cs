@@ -36,8 +36,10 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
     {
         foreach (var tags in state.GetMultiTagList())
         {
-            // プレイヤー以外のタグがあるかタグがないとき
-            if (tags.HasTag(state.GetEnemyTag()) || tags.HasTag(state.GetStageTag()))
+            // エネミーかステージにぶつかった時
+            if (tags.HasTag(state.GetEnemyTag()) ||
+                (tags.HasTag(state.GetStageTag()) && state.GetNoGravityFreams() < freams) ||
+                state.GetThrowObjectTransform().position.y < -200.0f)
             {
                 state.ChangeState(ThrowObjectDeleteState.Instance);
             }
@@ -49,8 +51,11 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
     // 状態の開始処理
     public override void Enter(ThrowObjectState state)
     {
+        // 度のベクトルに飛ばすかの処理
         state.GetThrowObjectRigidbody().AddForce(state.GetCameraTransform().forward * state.GetForcePower(),
     ForceMode.Impulse);
+
+        state.GetThrowAttackController().EnableAttack();
     }
 
 
@@ -77,7 +82,8 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
     // 状態中の終了処理
     public override void Exit(ThrowObjectState state)
     {
-
+        // 攻撃タグを元に戻す
+        // state.GetThrowAttackController().DisableAttack();
     }
 
 

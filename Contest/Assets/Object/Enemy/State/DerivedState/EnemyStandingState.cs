@@ -53,7 +53,7 @@ public class EnemyStandingState : StateClass<EnemyState>
     // ó‘Ô’†‚Ìˆ—
     public override void Excute(EnemyState enemyState)
     {
-        enemyState.HandleDamage(enemyState.GetEnemyPlayerAttackTag(), enemyState.GetEnemyPlayerCounterAttackTag());
+        enemyState.HandleDamage();
 
         freams++;
     }

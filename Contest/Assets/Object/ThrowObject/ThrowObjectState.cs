@@ -11,14 +11,16 @@ public class ThrowObjectState : BaseState<ThrowObjectState>
     [Header("投げた時の重力無効フレーム")]
     [SerializeField] private int noGravityFreams = 0;
     [Header("ステージのタグ")]
-    [SerializeField] private string stageTag = "Enemy";
+    [SerializeField] private string stageTag = "Stage";
     [Header("エネミーのタグ")]
-    [SerializeField] private string enemyTag = "Stage";
+    [SerializeField] private string enemyTag = "Enemy";
 
     // プレイヤーのトランスフォームを入れる変数
     private Transform cameraTransform;
     // 自分のリジッドボディーを取得しておく
     private Rigidbody throwObjectRigidbody;
+    // アタックコントローラーを取得
+    private AttackController throwAttackController;
 
     // 当たったタグを取得しておくリスト
     protected List<MultiTag> collidedTags = new List<MultiTag>();
@@ -29,6 +31,8 @@ public class ThrowObjectState : BaseState<ThrowObjectState>
     {
         // リジッドボディーを取得
         throwObjectRigidbody = this.gameObject.GetComponent<Rigidbody>();
+        // 攻撃コントローラーを取得
+        throwAttackController = this.gameObject.GetComponent<AttackController>();
 
 
         // 状態をセット
@@ -85,4 +89,6 @@ public class ThrowObjectState : BaseState<ThrowObjectState>
     public GameObject GetThrowObject() { return this.gameObject; }
     public string GetStageTag() { return stageTag; }
     public string GetEnemyTag() { return enemyTag; }
+    public Transform GetThrowObjectTransform() { return this.transform; }
+    public AttackController GetThrowAttackController() { return throwAttackController; }
 }
