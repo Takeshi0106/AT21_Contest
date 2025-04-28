@@ -7,12 +7,15 @@ using UnityEngine;
 // エネミーの状態
 // =====================================
 
-public class EnemyState : BaseState<EnemyState>
+public class EnemyState : BaseCharacterState<EnemyState>
 {
     [Header("Playerの攻撃タグ名")]
     [SerializeField] private string playerAttackTag = "PlayerAttack";
     [Header("Playerのカウンタータグ")]
     [SerializeField] private string playerCounterTag = "CounterAttack";
+    [Header("Playerの投げるタグ")]
+    [SerializeField] private string playerThrowTag = "ThrowAttack";
+
     [Header("Playerに倒されたときに渡す武器")]
     [SerializeField] private BaseAttackData dropWeapon;
     [Header("倒した時に武器を渡すプレイヤーの名前")]
@@ -28,6 +31,8 @@ public class EnemyState : BaseState<EnemyState>
     [HideInInspector] private PlayerState playerState;
     // PlayerのState
     [HideInInspector] private EnemyManager enemyManager;
+    // EnemyのHPマネージャー 
+    private HPManager hpManager;
 
     // 現在のコンボ数
     private int enemyConbo = 0;
@@ -87,85 +92,101 @@ public class EnemyState : BaseState<EnemyState>
 
 
 
-    public void HandleDamage(string getAttackTags, string counterAttackTags)
+    // ダメージ処理（通常攻撃＋カウンター攻撃対応）
+    public void HandleDamage()
     {
+        // 保存したコライダーのタグが元に戻る可のチェック
+        CleanupInvalidDamageColliders();
+
         foreach (var info in collidedInfos)
         {
-            // すでにダメージ処理済みの場合スキップ
-            if (damagedColliders.Contains(info.collider))
-                continue;
-            // タグがない場合スキップ
-            if (info.multiTag == null)
-                continue;
+            // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
+            if (info.multiTag == null || damagedColliders.Contains(info.collider)) { continue; }
 
-            // PlayerAttackがあるかの判定
-            if (info.multiTag.HasTag(getAttackTags))
+            // プレイヤーの攻撃タグがあるかを調べる
+            if (info.multiTag.HasTag(playerAttackTag))
             {
-                // カウンター攻撃をくらったかの初期化
-                hitCounter = false;
-
-                // 基本ダメージを入れる
-                float baseDamage = 0;
-                // 攻撃力アップ倍率を取得する
-                float multiplier = 0;
-                // 最終ダメージを計算する
-                float finalDamage = 0;
+                // プレイヤーの基本ダメージを入れる変数
+                float baseDamage = 0.0f;
+                // プレイヤーの攻撃アップ倍率を入れる変数
+                float multiplier = 1.0f;
+                // 最終ダメージを入れる変数
+                float finalDamage = 0f;
 
                 // カウンタータグがあるか調べる
-                bool isCounterAttack = info.multiTag.HasTag(counterAttackTags);
-                
-                // 一度ダメージ処理したコライダーを保存する
-                damagedColliders.Add(info.collider);
+                bool isCounterAttack = info.multiTag.HasTag(playerCounterTag);
+                // 投げられたボブジェクトがを調べる
+                bool isThrowAttack = info.multiTag.HasTag(playerThrowTag);
 
-                // カウンター処理
+                // 一度ダメージ処理したコライダーを保存
+                damagedColliders.Add(info.collider); 
+
+                // カウンターの場合の処理
                 if (isCounterAttack)
                 {
-                    // カウンターの攻撃力を取得する
                     baseDamage = playerState.GetPlayerCounterManager().GetCounterDamage();
-                    // Playerの攻撃力アップ倍率を取得する
                     multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
-
-                    // カウンター攻撃を受けた
                     hitCounter = true;
                 }
-                // 通常攻撃処理
+                // 投げる攻撃の場合の処理
+                else if(isThrowAttack)
+                {
+                    var weaponManager = playerState.GetPlayerWeponManager();
+                    var weaponData = weaponManager.GetWeaponData(playerState.GetPlayerWeponNumber());
+
+                    baseDamage = weaponData.GetThrowDamage();
+                    multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
+                }
+                // 通常こうげきの場合の処理
                 else
                 {
-                    // Playerの攻撃力を取得する
-                    baseDamage = playerState.GetPlayerWeponManager().GetWeaponData(playerState.GetPlayerWeponNumber())
-                        .GetDamage(playerState.GetPlayerConbo());
-                    // Playerの攻撃力アップ倍率を取得する
+                    var weaponManager = playerState.GetPlayerWeponManager();
+                    var weaponData = weaponManager.GetWeaponData(playerState.GetPlayerWeponNumber());
+
+                    baseDamage = weaponData.GetDamage(playerState.GetPlayerConbo());
                     multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
                 }
 
-                // ダメージを計算する
+                // ダメージ計算
                 finalDamage = baseDamage * multiplier;
-                // ダメージ処理
-                hpManager.TakeDamage(finalDamage);
 
 #if UNITY_EDITOR
-                // ログを出力する
-                Debug.Log("Enemyのダメージ" + finalDamage);
+                Debug.Log($"Enemyのダメージ: {finalDamage}（{(isCounterAttack ? "カウンター" : "通常")}）");
+                Debug.Log(Time.frameCount + ": Counter Hit!");
 #endif
 
-                break;
+                // ダメージをあたえる
+                hpManager.TakeDamage(finalDamage);
+
+
+
+                break; // 一度ヒットで処理終了
             }
         }
-
-        CleanupInvalidDamageColliders(getAttackTags, counterAttackTags);
     }
 
 
 
 
-    // 攻撃タグまたはカウンタータグが元に戻るまで
-    public void CleanupInvalidDamageColliders(string getAttackTags, string counterAttackTags)
+    // 攻撃タグまたはカウンタータグが外れたら削除
+    public void CleanupInvalidDamageColliders()
     {
+        // タグが攻撃タグ以外の物かを調べる
         damagedColliders.RemoveWhere(collider =>
         {
             var tag = collidedInfos.FirstOrDefault(info => info.collider == collider).multiTag;
-            return tag == null || (!tag.HasTag(getAttackTags) && !tag.HasTag(counterAttackTags));
+            return tag == null || (!tag.HasTag(playerAttackTag));
         });
+
+        // コライダーが非アクティブ化を調べる
+        damagedColliders.RemoveWhere(collider =>
+        collider == null || !collider.gameObject.activeInHierarchy || !collider.enabled);
+
+        // 無効なコライダーや非アクティブ化されたものも除外
+        collidedInfos.RemoveAll(info =>
+            info.collider == null ||
+            !info.collider.gameObject.activeInHierarchy ||
+            !info.collider.enabled);
     }
 
 

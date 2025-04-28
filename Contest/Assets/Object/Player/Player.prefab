@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3022946212921229570}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -118,8 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fb31dc09891190449ea8b272ee5ea41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tags:
-  - Nothing
+  tags: []
 --- !u!1 &3115158779587320297
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,6 +138,7 @@ GameObject:
   - component: {fileID: 93728141141830463}
   - component: {fileID: 8561869833915859036}
   - component: {fileID: 2700273107075973261}
+  - component: {fileID: 356209660540946336}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -296,11 +296,14 @@ MonoBehaviour:
   cameraName: Main Camera
   walkSpeed: 5
   dashSpeed: 8
-  playerCounterObject: {fileID: 3022946212921229570}
+  playerCounterObject: {fileID: 4439658584703590833}
   counterPossibleAttack: ParryableAttack
   counterRange: 5
   enemyAttackTag: EnemyAttack
-  invincibleTime: 1200
+  invincibleTime: 120
+  FlinchFreams: 0
+  ThrowFailedFreams: 0
+  throwFailedAnimations: {fileID: 0}
   playerRenderer: {fileID: 0}
 --- !u!114 &3586333692824838623
 MonoBehaviour:
@@ -384,6 +387,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d413398abe3383a47934fbb5ec712429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &356209660540946336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3115158779587320297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb31dc09891190449ea8b272ee5ea41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Player
 --- !u!1 &4439658584703590833
 GameObject:
   m_ObjectHideFlags: 0

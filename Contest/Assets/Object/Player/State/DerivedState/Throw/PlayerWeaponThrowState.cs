@@ -12,6 +12,11 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     private static PlayerWeaponThrowState instance;
     // 武器の情報
     private static BaseAttackData weponData;
+    // 武器のオブジェクトを入れる変数
+    private static GameObject prefab = null;
+
+    // 武器の投げる位置を入れる変数
+    private Vector3 weaponPos;
 
     // 投げる武器の投げるまでのフレーム
     int throwStartUpFreams = 0;
@@ -57,11 +62,19 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
         // 武器データを取得する
         weponData = playerState.GetPlayerWeponManager().GetWeaponData(playerState.GetPlayerWeponNumber());
 
+        // アニメーションを取得しておく
         AnimationClip animClip = weponData.GetThrowAnimation();
         var childAnim = playerState.GetPlayerWeponManager().GetCurrentWeaponAnimator();
 
+        // Weponのフレーム数を取得しておく
         throwStartUpFreams = weponData.GetThrowStartUp();
         throwStaggerFreams = weponData.GetThrowStagger();
+
+        // 開始位置を取得しておく
+        weaponPos = weponData.GetThrowStartPosition();
+
+        // 武器を取得する
+        prefab = Resources.Load<GameObject>($"Object/ThrowWeapon/{weponData.GetThrowWeaponName()}");
 
         // アニメーション開始処理
         if (animClip != null && childAnim != null)
@@ -74,6 +87,12 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
 
         // エディタ実行時に取得して色を変更する
         playerState.GetPlayerRenderer().material.color = Color.green;
+
+        if (prefab == null)
+        {
+            Debug.LogError("ThrowWeapon が見つかりません");
+        }
+
 #endif
     }
 
@@ -83,11 +102,28 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     public override void Excute(PlayerState playerState)
     {
         // ダメージ処理を有効にする
-        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+        playerState.HandleDamage();
 
         // 投げる
         if (freams == throwStartUpFreams)
         {
+
+            // 投げる武器のオブジェクトを取得する
+            if (prefab != null)
+            {
+                // 投げる位置のグローバルな位置を計算する
+                Vector3 worldThrowPos = playerState.GetPlayerTransform().position
+                      + (playerState.GetPlayerTransform().forward * weaponPos.z)
+                      + (playerState.GetPlayerTransform().right * weaponPos.x)
+                      + (playerState.GetPlayerTransform().up * weaponPos.y);
+
+                // オブジェクトを生成する
+                GameObject thrownObj = GameObject.Instantiate(prefab, worldThrowPos, Quaternion.identity);
+
+                // プレイヤーのトランスフォームをセットする
+                thrownObj.GetComponent<ThrowObjectState>().SetCameraTransfoem(playerState.GetCameraTransform());
+            }
+
             // 装備から削除
             playerState.GetPlayerWeponManager().RemoveWeapon(playerState.GetPlayerWeponNumber());
 

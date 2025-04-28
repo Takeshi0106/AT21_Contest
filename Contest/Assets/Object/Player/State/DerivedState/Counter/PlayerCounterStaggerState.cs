@@ -58,7 +58,7 @@ public class PlayerCounterStaggerState : StateClass<PlayerState>
     public override void Excute(PlayerState playerState)
     {
 
-        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+        playerState.HandleDamage();
 
         freams++;
     }

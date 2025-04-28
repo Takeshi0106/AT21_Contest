@@ -53,7 +53,7 @@ public class PlayerAttackState : StateClass<PlayerState>
             // ƒRƒ“ƒ{‚ğ‰Šú‰»‚·‚é
             playerState.SetPlayerCombo(0);
 
-            if (playerState.GetPlayerWeponManager().GetWeaponCount() < 1)
+            if (playerState.GetPlayerWeponManager().GetWeaponCount() <= 1)
             {
                 // •Ší‚ğ“Š‚°‚é‚Ì¸”só‘Ô‚ÉˆÚs
                 playerState.ChangeState(PlayerThrowFailedState.Instance);
@@ -89,7 +89,7 @@ public class PlayerAttackState : StateClass<PlayerState>
         */
         if (childAnim != null && animClip != null)
         {
-            childAnim.CrossFade(animClip.name, 0.2f);
+            childAnim.CrossFade(animClip.name, 0.0f);
         }
 
 #if UNITY_EDITOR
@@ -109,7 +109,7 @@ public class PlayerAttackState : StateClass<PlayerState>
     // ó‘Ô’†‚Ìˆ—
     public override void Excute(PlayerState playerState)
     {
-        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+        playerState.HandleDamage();
 
         freams++;
 

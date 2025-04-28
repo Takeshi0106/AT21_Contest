@@ -20,7 +20,7 @@ using UnityEngine.SceneManagement;
 
 #endif
 
-public class PlayerState : BaseState<PlayerState>
+public class PlayerState : BaseCharacterState<PlayerState>
 {
     // インスペクタービューから変更できる
     [Header("カメラオブジェクト名")]
@@ -65,7 +65,8 @@ public class PlayerState : BaseState<PlayerState>
     [HideInInspector] private AttackController playerCounterAttackController;
     // Playerの状態マネージャー
     [HideInInspector] private StatusEffectManager playerStatusEffectManager;
-
+    // PlayerのHPマネージャー
+    private HPManager hpManager;
 
 
     // 現在のコンボ数
@@ -85,12 +86,6 @@ public class PlayerState : BaseState<PlayerState>
     // Start is called before the first frame update
     void Start()
     {
-        // 状態をセット
-        currentState = PlayerStandingState.Instance;
-
-        // 状態の開始処理
-        currentState.Enter(this);
-
         //　カメラオブジェクトを代入
         cameraTransform = GameObject.Find(cameraName).transform;
         // Playerリジッドボディー
@@ -115,6 +110,12 @@ public class PlayerState : BaseState<PlayerState>
         // playerCounterObject.SetActive(false);
         // HPマネージャーにDie関数を渡す
         hpManager.onDeath.AddListener(Die);
+
+
+        // 状態をセット
+        currentState = PlayerStandingState.Instance;
+        // 状態の開始処理
+        currentState.Enter(this);
 
 #if UNITY_EDITOR
 
@@ -183,75 +184,81 @@ public class PlayerState : BaseState<PlayerState>
 
 
     // ダメージ処理
-    public void HandleDamage(string getAttackTags)
+    public void HandleDamage()
     {
+        // 保存したコライダーのタグが元に戻る可のチェック
+        CleanupInvalidDamageColliders();
+
         // プレイヤーが無敵状態か調べる
-        if (!playerStatusEffectManager.Invincible(invincibleTime))
+        if (playerStatusEffectManager.Invincible(invincibleTime))
         {
 #if UNITY_EDITOR
-            // デバッグ用　無敵時間が終わると元に戻す
-            if (playerRenderer.material.color == Color.yellow)
-            {
-                playerRenderer.material.color = Color.white;
-            }
+            playerRenderer.material.color = Color.yellow;
 #endif
-            // 当たっているオブジェクトのタグを調べる
-            foreach (var info in collidedInfos)
-            {
-                // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
-                if (damagedColliders.Contains(info.collider) || info.multiTag == null) { continue; }
-
-                // 敵の攻撃タグがあるかの判定
-                if ( info.multiTag.HasTag(getAttackTags))
-                {
-#if UNITY_EDITOR
-                    Debug.Log("ダメージ対象ヒット: " + info.collider.gameObject.name);
-#endif
-
-                    // コライダーは記録
-                    damagedColliders.Add(info.collider);
-
-                    // 親オブジェクトから EnemyState を取得
-                    var enemyState = info.collider.GetComponentInParent<EnemyState>();
-
-                    if (enemyState != null)
-                    {
-                        // ダメージ処理
-                        hpManager.TakeDamage(enemyState.GetEnemyWeponManager().GetWeaponData(0).GetDamage(enemyState.GetEnemyConbo()));
-                    }
-
-                    // ダメージ処理などをここに追加
-                    Debug.Log("HP " + hpManager.GetCurrentHP());
-                }
-            }
+            // 無敵状態なら関数を終了する
+            return;
         }
 #if UNITY_EDITOR
         else
         {
-            // 無敵時Playerのカラーを変更する
-            playerRenderer.material.color = Color.yellow;
-
+            // 無敵終了後は色を元に戻す
+            if (playerRenderer.material.color == Color.yellow)
+            {
+                playerRenderer.material.color = Color.white;
+            }
         }
 #endif
 
-        // 保存したコライダーのタグが元に戻る可のチェック
-        CleanupInvalidDamageColliders(getAttackTags);
+
+        // 当たっているオブジェクトのタグを調べる
+        foreach (var info in collidedInfos)
+        {
+            // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
+            if (info.multiTag == null || damagedColliders.Contains(info.collider)) { continue; }
+
+            // 敵の攻撃タグがあるかの判定
+            if (info.multiTag.HasTag(enemyAttackTag))
+            {
+#if UNITY_EDITOR
+                Debug.Log("ダメージ対象ヒット: " + info.collider.gameObject.name);
+#endif
+
+                // コライダーは記録
+                damagedColliders.Add(info.collider);
+
+                // 親オブジェクトから EnemyState を取得
+                var enemyState = info.collider.GetComponentInParent<EnemyState>();
+
+                if (enemyState != null)
+                {
+                    // ダメージ処理
+                    hpManager.TakeDamage(enemyState.GetEnemyWeponManager().GetWeaponData(0).GetDamage(enemyState.GetEnemyConbo()));
+                }
+
+#if UNITY_EDITOR
+                // ダメージ処理などをここに追加
+                Debug.Log("HP " + hpManager.GetCurrentHP());
+#endif
+            }
+        }
     }
 
 
 
     // 攻撃タグが元に戻るまで
-    public void CleanupInvalidDamageColliders(string getAttackTags)
+    public void CleanupInvalidDamageColliders()
     {
         // タグが攻撃タグ以外の物かを調べる
         damagedColliders.RemoveWhere(collider =>
         {
             var tag = collidedInfos.FirstOrDefault(info => info.collider == collider).multiTag;
-            return tag == null || !tag.HasTag(getAttackTags);
+            return tag == null || !tag.HasTag(enemyAttackTag);
         });
+
         // コライダーが非アクティブ化を調べる
         damagedColliders.RemoveWhere(collider =>
         collider == null || !collider.gameObject.activeInHierarchy || !collider.enabled);
+
         // 当たっているオブジェクトが非アクティブかを調べる
         collidedInfos.RemoveAll(info =>
         info.collider == null ||

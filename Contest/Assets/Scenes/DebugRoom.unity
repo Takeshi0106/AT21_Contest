@@ -558,6 +558,7 @@ GameObject:
   - component: {fileID: 599421255}
   - component: {fileID: 599421254}
   - component: {fileID: 599421253}
+  - component: {fileID: 599421257}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -652,6 +653,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &599421257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599421252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb31dc09891190449ea8b272ee5ea41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Stage
 --- !u!1 &679826545
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,6 +1302,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 93728141141830463, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: weaponDataList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 93728141141830463, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: weaponDataList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 155ba5082b28bf545a889af5e6ed2c26, type: 2}
+    - target: {fileID: 93728141141830463, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: weaponDataList.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: d46360db657b7e74fa14216f5499f351, type: 2}
+    - target: {fileID: 93728141141830463, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: weaponDataList.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7bd74f80cd643b54fba22753e7d6bbf3, type: 2}
     - target: {fileID: 1765868918453974247, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1343,21 +1374,29 @@ PrefabInstance:
       propertyPath: playerCounterObject
       value: 
       objectReference: {fileID: 1499232408}
+    - target: {fileID: 3586333692824838623, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: counterStartupFrames.Array.data[0]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586333692824838623, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: counterStartupFrames.Array.data[1]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586333692824838623, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: counterStartupFrames.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586333692824838623, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: counterStartupFrames.Array.data[3]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586333692824838623, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: counterStartupFrames.Array.data[4]
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4541902489494020682, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
       propertyPath: tags.Array.size
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8561869833915859036, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
-      propertyPath: onDamaged.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8561869833915859036, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
-      propertyPath: onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1339704433}
-    - target: {fileID: 8561869833915859036, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
-      propertyPath: onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1372,6 +1411,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1671935960581072439, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1671935960581072439, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6657423488065977040, guid: fc50de38f5d2c454882e598be7cedeea, type: 3}
       propertyPath: player
       value: 

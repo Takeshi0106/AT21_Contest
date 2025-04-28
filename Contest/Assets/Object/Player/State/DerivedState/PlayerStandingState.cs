@@ -58,7 +58,7 @@ public class PlayerStandingState : StateClass<PlayerState>
         // •Ší‚ğ“Š‚°‚éó‘Ô‚ÉˆÚs
         if (Input.GetButtonDown("Throw"))
         {
-            if (playerState.GetPlayerWeponManager().GetWeaponCount() < 1)
+            if (playerState.GetPlayerWeponManager().GetWeaponCount() <= 1)
             {
                 // •Ší‚ğ“Š‚°‚é‚Ì¸”só‘Ô‚ÉˆÚs
                 playerState.ChangeState(PlayerThrowFailedState.Instance);
@@ -88,7 +88,7 @@ public class PlayerStandingState : StateClass<PlayerState>
     // ó‘Ô’†‚Ìˆ—
     public override void Excute(PlayerState playerState)
     {
-        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+        playerState.HandleDamage();
     }
 
 

@@ -371,6 +371,7 @@ GameObject:
   - component: {fileID: 6657423488065977040}
   - component: {fileID: 7865408868508022245}
   - component: {fileID: 3988906008379263456}
+  - component: {fileID: 5440411965467946184}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: ParryableAttack
@@ -546,6 +547,20 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   currentHP: 0
+--- !u!114 &5440411965467946184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7519806533523942088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb31dc09891190449ea8b272ee5ea41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Enemy
 --- !u!1 &8999794205535582999
 GameObject:
   m_ObjectHideFlags: 0
