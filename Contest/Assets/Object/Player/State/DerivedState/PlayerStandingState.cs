@@ -88,7 +88,7 @@ public class PlayerStandingState : StateClass<PlayerState>
     // ó‘Ô’†‚Ìˆ—
     public override void Excute(PlayerState playerState)
     {
-        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+        playerState.HandleDamage();
     }
 
 

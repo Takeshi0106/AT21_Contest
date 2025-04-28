@@ -184,10 +184,10 @@ public class PlayerState : BaseCharacterState<PlayerState>
 
 
     // ダメージ処理
-    public void HandleDamage(string getAttackTags)
+    public void HandleDamage()
     {
         // 保存したコライダーのタグが元に戻る可のチェック
-        CleanupInvalidDamageColliders(getAttackTags);
+        CleanupInvalidDamageColliders();
 
         // プレイヤーが無敵状態か調べる
         if (playerStatusEffectManager.Invincible(invincibleTime))
@@ -217,7 +217,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
             if (info.multiTag == null || damagedColliders.Contains(info.collider)) { continue; }
 
             // 敵の攻撃タグがあるかの判定
-            if (info.multiTag.HasTag(getAttackTags))
+            if (info.multiTag.HasTag(enemyAttackTag))
             {
 #if UNITY_EDITOR
                 Debug.Log("ダメージ対象ヒット: " + info.collider.gameObject.name);
@@ -246,13 +246,13 @@ public class PlayerState : BaseCharacterState<PlayerState>
 
 
     // 攻撃タグが元に戻るまで
-    public void CleanupInvalidDamageColliders(string getAttackTags)
+    public void CleanupInvalidDamageColliders()
     {
         // タグが攻撃タグ以外の物かを調べる
         damagedColliders.RemoveWhere(collider =>
         {
             var tag = collidedInfos.FirstOrDefault(info => info.collider == collider).multiTag;
-            return tag == null || !tag.HasTag(getAttackTags);
+            return tag == null || !tag.HasTag(enemyAttackTag);
         });
 
         // コライダーが非アクティブ化を調べる

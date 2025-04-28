@@ -74,7 +74,7 @@ public class PlayerThrowFailedState : StateClass<PlayerState>
     public override void Excute(PlayerState playerState)
     {
         // ダメージ処理を有効にする
-        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+        playerState.HandleDamage();
 
         freams++;
     }

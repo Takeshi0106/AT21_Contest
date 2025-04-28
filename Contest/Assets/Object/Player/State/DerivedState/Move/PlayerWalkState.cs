@@ -87,7 +87,7 @@ public class PlayerWalkState : StateClass<PlayerState>
     // 状態中の処理
     public override void Excute(PlayerState playerState)
     {
-        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+        playerState.HandleDamage();
 
         //移動度をリセットする
         moveForward = Vector3.zero;

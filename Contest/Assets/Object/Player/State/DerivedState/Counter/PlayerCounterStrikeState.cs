@@ -69,7 +69,7 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
     public override void Excute(PlayerState playerState)
     {
         // ダメージ処理
-        playerState.CleanupInvalidDamageColliders(playerState.GetPlayerEnemyAttackTag());
+        playerState.CleanupInvalidDamageColliders();
 
         // カウンター中の Sphere 拡大処理
         var sphere = playerState.GetPlayerCounterObject();

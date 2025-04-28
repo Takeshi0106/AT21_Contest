@@ -84,7 +84,7 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
         if (counterActive)
         {
             // 攻撃タグが戻っているかをチェック
-            playerState.CleanupInvalidDamageColliders(playerState.GetPlayerEnemyAttackTag());
+            playerState.CleanupInvalidDamageColliders();
 
             // 当たっているオブジェクトを調べる
             foreach (var collidedInfo in playerState.GetPlayerCollidedInfos())
@@ -131,7 +131,7 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
         else
         {
             // ダメージ処理を有効にする
-            playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+            playerState.HandleDamage();
         }
 
         // フレーム数を計る

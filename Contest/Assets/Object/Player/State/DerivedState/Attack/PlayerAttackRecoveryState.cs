@@ -127,7 +127,7 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     // ó‘Ô’†‚Ìˆ—
     public override void Excute(PlayerState playerState)
     {
-        playerState.HandleDamage(playerState.GetPlayerEnemyAttackTag());
+        playerState.HandleDamage();
 
         freams++;
     }
