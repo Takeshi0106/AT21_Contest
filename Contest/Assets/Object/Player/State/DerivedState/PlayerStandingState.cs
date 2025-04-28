@@ -70,7 +70,13 @@ public class PlayerStandingState : StateClass<PlayerState>
             }
             return;
         }
-
+        //‹ó’†‚É•‚‚¢‚Ä‚¢‚½‚ç
+        if ((Input.GetButtonDown("Jump") && !playerState.GetPlayerAirFlag()) ||
+            playerState.GetPlayerAirFlag())
+        {
+            playerState.ChangeState(PlayerJumpState.Instance);
+            return;
+        }
     }
 
 
