@@ -1367,6 +1367,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3158316582460312123, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: jumpPower
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3158316582460312123, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
       propertyPath: invincibleTime
       value: 120
       objectReference: {fileID: 0}

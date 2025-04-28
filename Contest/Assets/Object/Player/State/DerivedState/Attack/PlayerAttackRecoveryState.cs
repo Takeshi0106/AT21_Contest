@@ -82,6 +82,16 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
 
             return;
         }
+        //‹ó’†‚É•‚‚¢‚Ä‚¢‚½‚ç
+        if ((Input.GetButtonDown("Jump") && !playerState.GetPlayerAirFlag()) ||
+            playerState.GetPlayerAirFlag())
+        {
+            // ƒRƒ“ƒ{‚ğ‰Šú‰»‚·‚é
+            playerState.SetPlayerCombo(0);
+
+            playerState.ChangeState(PlayerJumpState.Instance);
+            return;
+        }
     }
 
 
