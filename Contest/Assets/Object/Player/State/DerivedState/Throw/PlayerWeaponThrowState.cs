@@ -120,6 +120,9 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
                 // オブジェクトを生成する
                 GameObject thrownObj = GameObject.Instantiate(prefab, worldThrowPos, Quaternion.identity);
 
+                // オブジェクトに回転を適用
+                thrownObj.transform.rotation = Quaternion.LookRotation(playerState.GetPlayerTransform().forward);
+
                 // プレイヤーのトランスフォームをセットする
                 thrownObj.GetComponent<ThrowObjectState>().SetCameraTransfoem(playerState.GetCameraTransform());
             }
