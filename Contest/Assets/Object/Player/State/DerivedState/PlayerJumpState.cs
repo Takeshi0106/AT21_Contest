@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // =============================
@@ -43,7 +41,9 @@ public class PlayerJumpState : StateClass<PlayerState>
     {
         if (!currentState.GetPlayerAirFlag())
         {
+#if UNITY_EDITOR
             Debug.Log("ジャンプ");
+#endif
 
             // ジャンプ処理
             currentState.GetPlayerRigidbody().AddForce(new Vector3(0.0f, currentState.GetPlayerJumpPower(), 0.0f), ForceMode.Impulse);
