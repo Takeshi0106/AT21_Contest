@@ -92,6 +92,15 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
             playerState.ChangeState(PlayerJumpState.Instance);
             return;
         }
+        // ‰ñ”ğó‘Ô‚ÉˆÚs
+        if (Input.GetButtonDown("Avoidance"))
+        {
+            // ƒRƒ“ƒ{‚ğ‰Šú‰»‚·‚é
+            playerState.SetPlayerCombo(0);
+
+            playerState.ChangeState(PlayerAvoidanceState.Instance);
+            return;
+        }
     }
 
 

@@ -103,7 +103,7 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         }
 
         // –³“G‚ð—LŒø‚É‚·‚é
-        playerState.GetPlayerStatusEffectManager().StartInvicible();
+        playerState.GetPlayerStatusEffectManager().StartInvicible(playerState.GetPlayerCounterManager().GetCounterInvincibleFreams());
 
 #if UNITY_EDITOR
         playerState.GetPlayerRenderer().material.color = Color.white;

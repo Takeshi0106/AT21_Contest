@@ -11,9 +11,6 @@ public class ThrowObjectDeleteState : StateClass<ThrowObjectState>
     // インスタンスを入れる変数
     private static ThrowObjectDeleteState instance;
 
-    // フレーム
-    int freams = 0;
-
 
     // インスタンスを取得する関数
     public static ThrowObjectDeleteState Instance

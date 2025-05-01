@@ -23,6 +23,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [Header("敵を管理するマネージャーの名前")]
     [SerializeField] private GameObject enemyManagerObject;
 
+    [Header("敵の速度(0.01～1.00)")]
+    [SerializeField] private float enemySpeed = 1.0f;
+
+
     // 衝突したオブジェクトを保存するリスト
     [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
     // Enemyのウェポンマネージャー
@@ -47,7 +51,9 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [HideInInspector] public Renderer enemyRenderer;
 #endif
 
-    // Start is called before the first frame update
+
+
+    // 初期化処理
     void Start()
     {
         // 状態をセット
@@ -64,6 +70,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
         playerState = player.GetComponent<PlayerState>();
         // エネミーマネージャー
         enemyManager = enemyManagerObject.GetComponent<EnemyManager>();
+
 
         // HPマネージャーにDie関数を渡す
         hpManager.onDeath.AddListener(Die);
@@ -84,7 +91,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
     }
 
 
-
+    // 更新処理
     void Update()
     {
         StateUpdate();
@@ -215,8 +222,18 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
 
 
+    // スピードをセットする処理
+    public void SetEnemySpead(float speed)
+    {
+        // フレームの進む処理を更新
+        enemySpeed = speed;
+        // アニメーションの速度を変更
+        
+    }
+
+
     // セッター
-    public void SetEnemyCombo(int value) { enemyConbo = value; }
+    public void SetEnemyCombo(int combo) { enemyConbo = combo; }
 
     // ゲッター
     public  List<Collider>  GetEnemyCollidedObjects()  { return collidedObjects; }
@@ -226,6 +243,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public BaseAttackData GetDropWeapon() { return dropWeapon; }
     public string GetEnemyPlayerAttackTag() { return playerAttackTag; }
     public string GetEnemyPlayerCounterAttackTag() { return playerCounterTag; }
+    public float GetEnemySpeed() { return enemySpeed; }
+
 #if UNITY_EDITOR
     // エディタ実行時に実行される
     public  Renderer        GetEnemyRenderer()         { return enemyRenderer; }
