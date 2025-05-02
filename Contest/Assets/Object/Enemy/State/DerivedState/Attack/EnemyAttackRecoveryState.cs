@@ -18,6 +18,8 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
     Color originalColor;
 #endif
 
+
+
     // インスタンスを取得する関数
     public static EnemyAttackRecoveryState Instance
     {

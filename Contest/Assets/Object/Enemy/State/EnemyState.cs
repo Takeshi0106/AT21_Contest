@@ -37,6 +37,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [HideInInspector] private EnemyManager enemyManager;
     // EnemyのHPマネージャー 
     private HPManager hpManager;
+    // Enemyのリジッドボディー
+    private Rigidbody rb;
 
     // 現在のコンボ数
     private int enemyConbo = 0;
@@ -70,12 +72,17 @@ public class EnemyState : BaseCharacterState<EnemyState>
         playerState = player.GetComponent<PlayerState>();
         // エネミーマネージャー
         enemyManager = enemyManagerObject.GetComponent<EnemyManager>();
+        // リジッドボディーを取得
+        rb = this.gameObject.GetComponent<Rigidbody>();
 
 
         // HPマネージャーにDie関数を渡す
         hpManager.onDeath.AddListener(Die);
         // エネミーオブジェクトに自分を渡す
         enemyManager.RegisterEnemy(this);
+        // エネミーマネジャーにイベントをセット
+        enemyManager.AddOnEnemySlow(SetEnemySpead);
+
 
 
 #if UNITY_EDITOR
@@ -97,6 +104,13 @@ public class EnemyState : BaseCharacterState<EnemyState>
         StateUpdate();
     }
 
+
+
+    // 落下処理
+    void FixedUpdate()
+    {
+        rb.AddForce(Vector3.down * 0.3f, ForceMode.Acceleration);
+    }
 
 
     // ダメージ処理（通常攻撃＋カウンター攻撃対応）
@@ -225,11 +239,19 @@ public class EnemyState : BaseCharacterState<EnemyState>
     // スピードをセットする処理
     public void SetEnemySpead(float speed)
     {
-        // フレームの進む処理を更新
-        enemySpeed = speed;
-        // アニメーションの速度を変更
-        
+        if (speed >= 0.01f && speed <= 1.0f)
+        {
+            // フレームの進む処理を更新
+            enemySpeed = speed;
+            // アニメーションの速度を変更
+            enemyWeponManager.GetCurrentWeaponAnimator().speed = speed;
+        }
+        else
+        {
+            Debug.Log("スピードがセットできませんでした。");
+        }
     }
+
 
 
     // セッター

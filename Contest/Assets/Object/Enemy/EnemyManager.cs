@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class EnemyManager : MonoBehaviour
 {
     private List<EnemyState> enemies = new List<EnemyState>();
+    public UnityEvent<float> onEnemySlow;
+
 
     public void RegisterEnemy(EnemyState enemy)
     {
         enemies.Add(enemy);
     }
+
+
 
     public void UnregisterEnemy(EnemyState enemy)
     {
@@ -23,6 +28,8 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+
+
     private void LoadResultScene()
     {
         Cursor.visible = true;
@@ -30,4 +37,14 @@ public class EnemyManager : MonoBehaviour
 
         SceneManager.LoadScene("ResultScene");
     }
+
+
+
+    public void AddOnEnemySlow(UnityAction<float> action)
+    {
+        onEnemySlow.AddListener(action);
+    }
+
+
+
 }

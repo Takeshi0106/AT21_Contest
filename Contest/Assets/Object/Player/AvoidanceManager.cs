@@ -12,6 +12,9 @@ public class AvoidanceManager : MonoBehaviour
     [SerializeField] private int avoidanceAfterFreams = 20;
     [Header("回避成功時の無敵フレーム")]
     [SerializeField] private int avoidanceInvincibleFreams = 20;
+    [Header("回避成功時の敵のスピード低下")]
+    [SerializeField] private float avoidanceSlow = 0.8f;
+
 
 
     // ゲッター
@@ -19,4 +22,5 @@ public class AvoidanceManager : MonoBehaviour
     public int GetAvoidanceFreams() { return avoidanceFreams; }
     public int GetAvoidanceAfterFreams() { return avoidanceAfterFreams; }
     public int GetAvoidanceInvincibleFreams() { return avoidanceInvincibleFreams; }
+    public float GetAvoidanceSlow() {  return avoidanceSlow; }
 }
