@@ -14,6 +14,60 @@ public class AvoidanceManager : MonoBehaviour
     [SerializeField] private int avoidanceInvincibleFreams = 20;
     [Header("回避成功時の敵のスピード低下")]
     [SerializeField] private float avoidanceSlow = 0.8f;
+    [Header("回避が成功して敵が遅くなっているフレーム")]
+    [SerializeField] private int EnemySlowFreams = 20;
+    [Header("敵のマネージャーを入れる")]
+    [SerializeField] private GameObject enemyManagerObj = null;
+
+    private EnemyManager enemyManager;
+    private bool slowFlag = false;
+    private int freams = 0;
+
+
+    void Start()
+    {
+        // 敵のマネジャーを取得する
+        enemyManager= enemyManagerObj.GetComponent<EnemyManager>();
+    }
+
+
+
+    public void AvoidUpdate()
+    {
+        // 回避が成功していなければ実行しない
+        if(!slowFlag) { return; }
+
+        if (EnemySlowFreams < freams)
+        {
+            // 回避の終わり処理
+            AvoidanceEnd();
+        }
+
+        // フレーム更新
+        freams++;
+    }
+
+
+
+    public void AvoidanceStart()
+    {
+        // 敵を遅くする
+        enemyManager.EnemySlow(avoidanceSlow);
+        // フラグをONにする
+        slowFlag = true;
+    }
+
+
+
+    private void AvoidanceEnd()
+    {
+        // 敵を元に戻す
+        enemyManager.EnemySlow(1.0f);
+        // フラグをOFFにする
+        slowFlag= false;
+        // フレームを初期化する
+        freams = 0;
+    }
 
 
 
@@ -22,5 +76,5 @@ public class AvoidanceManager : MonoBehaviour
     public int GetAvoidanceFreams() { return avoidanceFreams; }
     public int GetAvoidanceAfterFreams() { return avoidanceAfterFreams; }
     public int GetAvoidanceInvincibleFreams() { return avoidanceInvincibleFreams; }
-    public float GetAvoidanceSlow() {  return avoidanceSlow; }
+    public EnemyManager GetEnemyManager() { return enemyManager;}
 }

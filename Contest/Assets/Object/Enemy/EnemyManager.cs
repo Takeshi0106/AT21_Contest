@@ -39,6 +39,13 @@ public class EnemyManager : MonoBehaviour
     }
 
 
+    // セットされているエネミーを
+    public void EnemySlow(float slowSpead)
+    {
+        onEnemySlow.Invoke(slowSpead);
+    }
+
+
 
     public void AddOnEnemySlow(UnityAction<float> action)
     {

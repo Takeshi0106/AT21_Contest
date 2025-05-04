@@ -46,7 +46,6 @@ public class PlayerState : BaseCharacterState<PlayerState>
     [Header("プレイヤーが投げるのを失敗したときのアニメーション")]
     [SerializeField] private AnimationClip throwFailedAnimations = null;
 
-
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
     [HideInInspector] private Transform cameraTransform;
     // Playerのリジッドボディ
@@ -188,6 +187,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
         AirDetermine();
         // 状態を更新する
         StateUpdate();
+        // 回避状態更新
+        playerAvoidanceManager.AvoidUpdate();
         // カウンターランクが落ちる処理
         playerCounterManager.GaugeDecay();
     }

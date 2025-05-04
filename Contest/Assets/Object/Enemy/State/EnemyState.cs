@@ -23,8 +23,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [Header("敵を管理するマネージャーの名前")]
     [SerializeField] private GameObject enemyManagerObject;
 
-    [Header("敵の速度(0.01～1.00)")]
+    [Header("デバッグ用　敵の速度(0.01～1.00)")]
     [SerializeField] private float enemySpeed = 1.0f;
+    [Header("敵のスロー時の落下抗力")]
+    [SerializeField] private float enemySlowDrag = 3.0f;
 
 
     // 衝突したオブジェクトを保存するリスト
@@ -38,7 +40,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
     // EnemyのHPマネージャー 
     private HPManager hpManager;
     // Enemyのリジッドボディー
-    private Rigidbody rb;
+    private Rigidbody enemyRigidbody;
 
     // 現在のコンボ数
     private int enemyConbo = 0;
@@ -73,14 +75,14 @@ public class EnemyState : BaseCharacterState<EnemyState>
         // エネミーマネージャー
         enemyManager = enemyManagerObject.GetComponent<EnemyManager>();
         // リジッドボディーを取得
-        rb = this.gameObject.GetComponent<Rigidbody>();
+        enemyRigidbody = this.gameObject.GetComponent<Rigidbody>();
 
 
         // HPマネージャーにDie関数を渡す
         hpManager.onDeath.AddListener(Die);
         // エネミーオブジェクトに自分を渡す
         enemyManager.RegisterEnemy(this);
-        // エネミーマネジャーにイベントをセット
+        // エネミーマネジャーにスローイベントをセット
         enemyManager.AddOnEnemySlow(SetEnemySpead);
 
 
@@ -109,7 +111,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
     // 落下処理
     void FixedUpdate()
     {
-        rb.AddForce(Vector3.down * 0.3f, ForceMode.Acceleration);
+
     }
 
 
@@ -245,6 +247,18 @@ public class EnemyState : BaseCharacterState<EnemyState>
             enemySpeed = speed;
             // アニメーションの速度を変更
             enemyWeponManager.GetCurrentWeaponAnimator().speed = speed;
+
+            // スピードを元に戻す
+            if (speed == 1.0f)
+            {
+                // 抵抗を元に戻す
+                enemyRigidbody.drag = 0;
+            }
+            else
+            {
+                // 抵抗を変更する
+                enemyRigidbody.drag = enemySlowDrag;
+            }
         }
         else
         {
@@ -266,6 +280,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public string GetEnemyPlayerAttackTag() { return playerAttackTag; }
     public string GetEnemyPlayerCounterAttackTag() { return playerCounterTag; }
     public float GetEnemySpeed() { return enemySpeed; }
+    public float GetEnemySlowDrag() { return enemySlowDrag; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

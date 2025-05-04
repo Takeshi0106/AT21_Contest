@@ -57,6 +57,10 @@ public class PlayerAvoidanceState : StateClass<PlayerState>
         startUpFreams = currentState.GetPlayerAvoidanceManager().GetAvoidanceStartUpFreams();
         avoidanceFreams = currentState.GetPlayerAvoidanceManager().GetAvoidanceFreams();
         affterFreams = currentState.GetPlayerAvoidanceManager().GetAvoidanceAfterFreams();
+
+#if UNITY_EDITOR
+        Debug.Log("PlayerAvoidanceState 開始");
+#endif
     }
 
 
@@ -100,6 +104,8 @@ public class PlayerAvoidanceState : StateClass<PlayerState>
                         // コライダーを保存する
                         currentState.AddDamagedCollider(collidedInfo.collider);
 
+                        // 回避成功処理を呼び出す
+                        currentState.GetPlayerAvoidanceManager().AvoidanceStart();
 
 #if UNITY_EDITOR
                         // 親オブジェクトの名前を取得する
