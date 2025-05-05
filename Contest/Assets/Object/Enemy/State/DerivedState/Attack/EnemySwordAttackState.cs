@@ -7,7 +7,9 @@ public class EnemySwordAttackState : StateClass<EnemyState>
     // インスタンスを入れる変数
     private static EnemySwordAttackState instance;
 
+    Animator animator;
 
+    private Transform childTransform;
 
     // インスタンスを取得する関数
     public static EnemySwordAttackState Instance
@@ -38,6 +40,13 @@ public class EnemySwordAttackState : StateClass<EnemyState>
 #if UNITY_EDITOR
         Debug.LogError("EnemySwordAttackState : 開始");
 #endif
+        childTransform = enemyState.GetChildTransform(); // 子オブジェクト"Sword"を探す
+
+        if(childTransform != null)
+        {
+            Debug.Log(childTransform.gameObject.name + "を取得");
+        }
+
     }
 
 

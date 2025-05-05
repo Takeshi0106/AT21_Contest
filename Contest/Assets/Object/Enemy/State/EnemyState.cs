@@ -13,6 +13,8 @@ public class EnemyState : BaseState<EnemyState>
     // 子供オブジェクトを取得る
     [HideInInspector] private Transform childTransform;
 
+    //子オブジェクトのコライダーを取得
+    private Transform childCollider;
 
     // Start is called before the first frame update
     void Start()
@@ -25,10 +27,13 @@ public class EnemyState : BaseState<EnemyState>
 
         childTransform = transform.Find("Sword"); // 子オブジェクト"Sword"を探す
 
+        //childCollider = transform.Find("SearchArea");
+
 #if UNITY_EDITOR
         if (childTransform != null)
         {
             Debug.Log("子オブジェクトの名前: " + childTransform.gameObject.name);
+            //Debug.Log("子オブジェクトのコライダー名: " + childCollider.gameObject.name);
         }
 #endif
     }
@@ -77,4 +82,6 @@ public class EnemyState : BaseState<EnemyState>
     // ゲッター
     public List<Collider> GetEnemyCollidedObjects() => collidedObjects;
     public Transform GetChildTransform() => childTransform;
+
+    //public Transform GetChildCollider() => childCollider;
 }
