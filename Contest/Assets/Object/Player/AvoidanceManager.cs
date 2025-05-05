@@ -14,10 +14,13 @@ public class AvoidanceManager : MonoBehaviour
     [SerializeField] private int avoidanceInvincibleFreams = 20;
     [Header("回避成功時の敵のスピード低下")]
     [SerializeField] private float avoidanceSlow = 0.8f;
-    [Header("回避が成功して敵が遅くなっているフレーム")]
+    [Header("回避が成功して遅くなるフレーム")]
     [SerializeField] private int EnemySlowFreams = 20;
     [Header("敵のマネージャーを入れる")]
     [SerializeField] private GameObject enemyManagerObj = null;
+
+    [Header("回避成功時の自分のスピード低下")]
+    [SerializeField] private float avoidanceSlowPlayer = 0.8f;
 
     private EnemyManager enemyManager;
     private bool slowFlag = false;
@@ -77,4 +80,5 @@ public class AvoidanceManager : MonoBehaviour
     public int GetAvoidanceAfterFreams() { return avoidanceAfterFreams; }
     public int GetAvoidanceInvincibleFreams() { return avoidanceInvincibleFreams; }
     public EnemyManager GetEnemyManager() { return enemyManager;}
+    public float GetAvoidanceSlowPlayer() { return avoidanceSlowPlayer; }
 }
