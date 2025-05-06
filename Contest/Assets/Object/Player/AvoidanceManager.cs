@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class AvoidanceManager : MonoBehaviour
 {
@@ -22,9 +23,13 @@ public class AvoidanceManager : MonoBehaviour
     [Header("回避成功時の全体のスピード低下")]
     [SerializeField] private float avoidanceSlow = 0.8f;
 
+    [Header("Color Gradingのフィルターの色")]
+    [SerializeField] private Color avoidanceColorFilter = Color.red;
 
     private EnemyManager enemyManager;
     private PlayerState playerState;
+    private PostProcessVolume playerVolume;
+    private ColorGrading colorGrading;
     private bool slowFlag = false;
     private int freams = 0;
 
@@ -35,6 +40,15 @@ public class AvoidanceManager : MonoBehaviour
         enemyManager = enemyManagerObj.GetComponent<EnemyManager>();
         // プレイヤーの状態を取得する
         playerState = this.gameObject.GetComponent<PlayerState>();
+        // エフェクトを追加
+        playerVolume = this.gameObject.GetComponent<PostProcessVolume>();
+
+        // Color Grading エフェクトを取得
+        if (playerVolume.profile.TryGetSettings(out colorGrading))
+        {
+            // 初期色を設定
+            colorGrading.colorFilter.value = Color.white;
+        }
     }
 
 
@@ -61,6 +75,8 @@ public class AvoidanceManager : MonoBehaviour
 #if UNITY_EDITOR
         Debug.Log("回避成功 開始処理");
 #endif
+        // エフェクトを実行
+        colorGrading.colorFilter.value = avoidanceColorFilter;
         // 全ての速度を遅くする
         Time.timeScale = avoidanceSlow;
         // プレイヤーのフレーム処理を遅くする
@@ -78,7 +94,8 @@ public class AvoidanceManager : MonoBehaviour
 #if UNITY_EDITOR
         Debug.Log("回避終了 終了処理");
 #endif
-
+        // エフェクトを元に戻す
+        colorGrading.colorFilter.value = Color.white;
         // 全ての速度を元に戻す
         Time.timeScale = 1.0f;
         // プレイヤーのフレーム処理を元に戻す
