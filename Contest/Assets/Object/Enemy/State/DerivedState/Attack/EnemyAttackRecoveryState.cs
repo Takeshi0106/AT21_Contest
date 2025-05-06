@@ -10,13 +10,15 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
     // weponData
     private static BaseAttackData weponData;
     // フレームを計る
-    int freams = 0;
+    float freams = 0.0f;
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
     // 元の色を保存
     Color originalColor;
 #endif
+
+
 
     // インスタンスを取得する関数
     public static EnemyAttackRecoveryState Instance
@@ -45,6 +47,7 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
             enemyState.ChangeState(EnemyStandingState.Instance);
             return;
         }
+
         // 攻撃状態に変更
         if (freams >= weponData.GetAttackStaggerFrames(enemyState.GetEnemyConbo()) - 1 &&
             enemyState.GetEnemyConbo() < weponData.GetMaxCombo() - 1)
@@ -62,23 +65,17 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
     // 状態の開始処理
     public override void Enter(EnemyState enemyState)
     {
+        // 武器データ取得
         weponData = enemyState.GetEnemyWeponManager().GetWeaponData(enemyState.GetEnemyWeponNumber());
 
-        // アニメーション再生
-        // Animator を取得
-        //var anim = enemyState.GetEnemyAnimator();
-        // AnimationClip を取得
+        // アニメーション取得
         var animClip = weponData.GetAttackStaggerAnimation(enemyState.GetEnemyConbo());
         var childAnim = enemyState.GetEnemyWeponManager().GetCurrentWeaponAnimator();
-        /*
-        if (anim != null && animClip != null)
-        {
-            // anim.CrossFade(animClip.name, 0.2f);
-        }
-        */
+
+        // アニメーション再生
         if (childAnim != null && animClip != null)
         {
-            childAnim.CrossFade(animClip.name, 0.2f);
+            childAnim.CrossFade(animClip.name, 0.0f);
         }
 
 #if UNITY_EDITOR
@@ -102,9 +99,11 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
     // 状態中の処理
     public override void Excute(EnemyState enemyState)
     {
+        // ダメージ処理
         enemyState.HandleDamage();
 
-        freams++;
+        // フレーム更新
+        freams += enemyState.GetEnemySpeed();
     }
 
 
@@ -114,7 +113,9 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
     {
         // 初期化
         freams = 0;
+
 #if UNITY_EDITOR
+
         // エディタ実行時に色を元に戻す
         if (enemyState.enemyRenderer != null)
         {

@@ -11,7 +11,7 @@ public class BaseFlinchState<T> : StateClass<T> where T : BaseState<T>
     // インスタンスを取得する
     protected static BaseFlinchState<T> instance;
     // フレームを計測する
-    protected int freams = 0;
+    protected float freams = 0.0f;
 
 
 

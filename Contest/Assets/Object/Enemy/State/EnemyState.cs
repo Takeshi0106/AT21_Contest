@@ -23,6 +23,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [Header("敵を管理するマネージャーの名前")]
     [SerializeField] private GameObject enemyManagerObject;
 
+    [Header("デバッグ用　敵の速度(0.01～1.00)")]
+    [SerializeField] private float enemySpeed = 1.0f;
+
+
     // 衝突したオブジェクトを保存するリスト
     [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
     // Enemyのウェポンマネージャー
@@ -33,6 +37,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [HideInInspector] private EnemyManager enemyManager;
     // EnemyのHPマネージャー 
     private HPManager hpManager;
+    // Enemyのリジッドボディー
+    private Rigidbody enemyRigidbody;
 
     // 現在のコンボ数
     private int enemyConbo = 0;
@@ -47,7 +53,9 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [HideInInspector] public Renderer enemyRenderer;
 #endif
 
-    // Start is called before the first frame update
+
+
+    // 初期化処理
     void Start()
     {
         // 状態をセット
@@ -64,11 +72,17 @@ public class EnemyState : BaseCharacterState<EnemyState>
         playerState = player.GetComponent<PlayerState>();
         // エネミーマネージャー
         enemyManager = enemyManagerObject.GetComponent<EnemyManager>();
+        // リジッドボディーを取得
+        enemyRigidbody = this.gameObject.GetComponent<Rigidbody>();
+
 
         // HPマネージャーにDie関数を渡す
         hpManager.onDeath.AddListener(Die);
         // エネミーオブジェクトに自分を渡す
         enemyManager.RegisterEnemy(this);
+        // エネミーマネジャーにスローイベントをセット
+        enemyManager.AddOnEnemySlow(SetEnemySpead);
+
 
 
 #if UNITY_EDITOR
@@ -84,12 +98,19 @@ public class EnemyState : BaseCharacterState<EnemyState>
     }
 
 
-
+    // 更新処理
     void Update()
     {
         StateUpdate();
     }
 
+
+
+    // 落下処理
+    void FixedUpdate()
+    {
+
+    }
 
 
     // ダメージ処理（通常攻撃＋カウンター攻撃対応）
@@ -215,8 +236,26 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
 
 
+    // スピードをセットする処理
+    public void SetEnemySpead(float speed)
+    {
+        if (speed >= 0.01f && speed <= 1.0f)
+        {
+            // フレームの進む処理を更新
+            enemySpeed = speed;
+            // アニメーションの速度を変更
+            enemyWeponManager.GetCurrentWeaponAnimator().speed = speed;
+        }
+        else
+        {
+            Debug.Log("スピードがセットできませんでした。");
+        }
+    }
+
+
+
     // セッター
-    public void SetEnemyCombo(int value) { enemyConbo = value; }
+    public void SetEnemyCombo(int combo) { enemyConbo = combo; }
 
     // ゲッター
     public  List<Collider>  GetEnemyCollidedObjects()  { return collidedObjects; }
@@ -226,6 +265,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public BaseAttackData GetDropWeapon() { return dropWeapon; }
     public string GetEnemyPlayerAttackTag() { return playerAttackTag; }
     public string GetEnemyPlayerCounterAttackTag() { return playerCounterTag; }
+    public float GetEnemySpeed() { return enemySpeed; }
+
 #if UNITY_EDITOR
     // エディタ実行時に実行される
     public  Renderer        GetEnemyRenderer()         { return enemyRenderer; }

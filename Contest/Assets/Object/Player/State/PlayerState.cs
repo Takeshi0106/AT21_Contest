@@ -39,14 +39,14 @@ public class PlayerState : BaseCharacterState<PlayerState>
     [SerializeField] private float counterRange = 5.0f;
     [Header("敵の攻撃タグ名")]
     [SerializeField] private string enemyAttackTag = "EnemyAttack";
-    [Header("プレイヤーのカウンター成功後の無敵時間（カウンター成功中の無敵時間とは別）")]
-    [SerializeField] private int invincibleTime = 0;
     [Header("プレイヤーがひるんだ時のフレーム数")]
     [SerializeField] private int FlinchFreams = 0;
     [Header("プレイヤーが投げるのを失敗したときのフレーム数")]
     [SerializeField] private int ThrowFailedFreams = 0;
     [Header("プレイヤーが投げるのを失敗したときのアニメーション")]
     [SerializeField] private AnimationClip throwFailedAnimations = null;
+    [Header("プレイヤーのスピード(デバッグ用)")]
+    [SerializeField] private float playerSpeed = 1.0f;
 
 
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
@@ -69,6 +69,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     [HideInInspector] private StatusEffectManager playerStatusEffectManager;
     // PlayerのHPマネージャー
     private HPManager hpManager;
+    // PlayerのHPマネージャー
+    private AvoidanceManager playerAvoidanceManager;
 
 
     // 現在のコンボ数
@@ -86,6 +88,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     // Playerのレンダラー
     [HideInInspector] public Renderer playerRenderer;
 #endif
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -110,6 +114,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
         hpManager = this.gameObject.GetComponent<HPManager>(); 
         // 状態管理
         playerStatusEffectManager = this.gameObject.GetComponent<StatusEffectManager>();
+        // 回避管理
+        playerAvoidanceManager = this.gameObject.GetComponent<AvoidanceManager>();
 
         // playerCounterObject.SetActive(false);
         // HPマネージャーにDie関数を渡す
@@ -171,7 +177,10 @@ public class PlayerState : BaseCharacterState<PlayerState>
         {
             Debug.Log("PlayerState : playerStatusEffectManagerが見つかりません");
         }
-
+        if(playerAvoidanceManager == null)
+        {
+            Debug.Log("PlayerState : playerAvoidanceManagerが見つかりません");
+        }
 #endif
     }
 
@@ -183,6 +192,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
         AirDetermine();
         // 状態を更新する
         StateUpdate();
+        // 回避状態更新
+        playerAvoidanceManager.AvoidUpdate();
         // カウンターランクが落ちる処理
         playerCounterManager.GaugeDecay();
     }
@@ -229,7 +240,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
         CleanupInvalidDamageColliders();
 
         // プレイヤーが無敵状態か調べる
-        if (playerStatusEffectManager.Invincible(invincibleTime))
+        if (playerStatusEffectManager.Invincible())
         {
 #if UNITY_EDITOR
             playerRenderer.material.color = Color.yellow;
@@ -331,6 +342,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     // セッター
     public void SetPlayerCombo(int value) { playerConbo = value; }
     public void SetPlayerNextReseved(RESEVEDSTATE next) { nextReserved = next; }
+    public void SetPlayerSpeed(float speed) { playerSpeed = speed; }
 
 
 
@@ -361,6 +373,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public int GetThrowFailedFreams() { return ThrowFailedFreams; }
     public AnimationClip GetThrowFailedAnimation() { return throwFailedAnimations; }
     public bool GetPlayerAirFlag() { return isInAir; }
+    public AvoidanceManager GetPlayerAvoidanceManager() { return playerAvoidanceManager; }
+    public float GetPlayerSpeed() { return playerSpeed; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

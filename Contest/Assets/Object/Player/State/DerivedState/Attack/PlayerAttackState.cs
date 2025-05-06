@@ -12,7 +12,7 @@ public class PlayerAttackState : StateClass<PlayerState>
     // weponData
     private static BaseAttackData weponData;
     // フレームを計る
-    int freams = 0;
+    float freams = 0.0f;
 
     // インスタンスを取得する関数
     public static PlayerAttackState Instance
@@ -111,8 +111,6 @@ public class PlayerAttackState : StateClass<PlayerState>
     {
         playerState.HandleDamage();
 
-        freams++;
-
         // 攻撃判定をONにする
         if (freams >= weponData.GetAttackStartupFrames(playerState.GetPlayerConbo()))
         {
@@ -120,7 +118,7 @@ public class PlayerAttackState : StateClass<PlayerState>
         }
 
         // 状態変更したときのInputを無効にする　攻撃ボタンを押していたら、次の攻撃を予約
-        if (freams > 1)
+        if (freams > 0.1)
         {
             if (Input.GetButtonDown("Attack"))
             {
@@ -128,6 +126,8 @@ public class PlayerAttackState : StateClass<PlayerState>
             }
             
         }
+
+        freams += playerState.GetPlayerSpeed();
     }
 
 
@@ -138,7 +138,7 @@ public class PlayerAttackState : StateClass<PlayerState>
         // 攻撃判定をOFF
         playerState.GetPlayerWeponManager().DisableAllWeaponAttacks();
         // 初期化
-        freams = 0;
+        freams = 0.0f;
     }
 
 

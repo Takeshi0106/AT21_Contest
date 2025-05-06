@@ -17,10 +17,10 @@ public class StatusEffectManager : MonoBehaviour
     private int invincibleFreams = 0;
     private int stunFreams = 0;
 
-
+    private int invincibleTime = 0;
 
     // 無敵中の処理
-    public bool Invincible(int invincibleTime)
+    public bool Invincible()
     {
         if(invincibleFlag)
         {
@@ -28,11 +28,11 @@ public class StatusEffectManager : MonoBehaviour
 
             if(invincibleFreams > invincibleTime)
             {
-                invincibleFreams = 0;
                 invincibleFlag = false;
             }
         }
-        
+
+
         return invincibleFlag;
     }
 
@@ -58,9 +58,16 @@ public class StatusEffectManager : MonoBehaviour
 
 
     // 無敵の開始処理
-    public void StartInvicible()
+    public void StartInvicible(int _InviTIme)
     {
         invincibleFlag = true;
+
+        // 新しい無敵状態を更新する
+        if ((invincibleTime - invincibleFreams) < _InviTIme)
+        {
+            invincibleTime = _InviTIme;
+            invincibleFreams = 0;
+        }
     }
 
 

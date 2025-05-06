@@ -75,6 +75,12 @@ public class PlayerDashState : StateClass<PlayerState>
             playerState.ChangeState(PlayerJumpState.Instance);
             return;
         }
+        // ‰ñ”ğó‘Ô‚ÉˆÚs
+        if (Input.GetButtonDown("Avoidance"))
+        {
+            playerState.ChangeState(PlayerAvoidanceState.Instance);
+            return;
+        }
     }
 
 

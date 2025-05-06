@@ -13,7 +13,7 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     // weponData
     private static BaseAttackData weponData;
     // フレームを計る
-    int freams = 0;
+    float freams = 0.0f;
 
 
 
@@ -92,6 +92,15 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
             playerState.ChangeState(PlayerJumpState.Instance);
             return;
         }
+        // 回避状態に移行
+        if (Input.GetButtonDown("Avoidance"))
+        {
+            // コンボを初期化する
+            playerState.SetPlayerCombo(0);
+
+            playerState.ChangeState(PlayerAvoidanceState.Instance);
+            return;
+        }
     }
 
 
@@ -139,7 +148,7 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     {
         playerState.HandleDamage();
 
-        freams++;
+        freams += playerState.GetPlayerSpeed();
     }
 
 
@@ -148,7 +157,7 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     public override void Exit(PlayerState playerState)
     {
         // 初期化
-        freams = 0;
+        freams = 0.0f;
         // ストックの初期化
         playerState.SetPlayerNextReseved(RESEVEDSTATE.NOTHING);
 
