@@ -1436,8 +1436,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8104745275857776129, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: slowFreams
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104745275857776129, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
       propertyPath: avoidanceSlow
-      value: 0.5
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104745275857776129, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: slowPlayerDrag
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8104745275857776129, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
       propertyPath: EnemySlowFreams
@@ -1451,6 +1459,10 @@ PrefabInstance:
       propertyPath: enemyManagerObj
       value: 
       objectReference: {fileID: 265542616}
+    - target: {fileID: 8104745275857776129, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: avoidanceSlowEnemy
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8104745275857776129, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
       propertyPath: avoidanceStartUpFreams
       value: 0
@@ -1480,6 +1492,18 @@ PrefabInstance:
       propertyPath: enemyManagerObject
       value: 
       objectReference: {fileID: 265542616}
+    - target: {fileID: 2480194498994624521, guid: bf439947787b15a47b1072e7d3eb2d4b, type: 3}
+      propertyPath: m_Height
+      value: 1.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480194498994624521, guid: bf439947787b15a47b1072e7d3eb2d4b, type: 3}
+      propertyPath: m_Radius
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480194498994624521, guid: bf439947787b15a47b1072e7d3eb2d4b, type: 3}
+      propertyPath: m_Center.y
+      value: -0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 4855484781393812568, guid: bf439947787b15a47b1072e7d3eb2d4b, type: 3}
       propertyPath: m_Name
       value: enemy
@@ -1490,7 +1514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5199956635828307682, guid: bf439947787b15a47b1072e7d3eb2d4b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.18
+      value: -0.176
       objectReference: {fileID: 0}
     - target: {fileID: 5199956635828307682, guid: bf439947787b15a47b1072e7d3eb2d4b, type: 3}
       propertyPath: m_LocalPosition.z

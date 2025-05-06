@@ -10,7 +10,7 @@ public class PlayerCounterStaggerState : StateClass<PlayerState>
     // インスタンスを入れる変数
     private static PlayerCounterStaggerState instance;
     // フレームを計る
-    int freams = 0;
+    float freams = 0.0f;
 
 
 
@@ -60,7 +60,7 @@ public class PlayerCounterStaggerState : StateClass<PlayerState>
 
         playerState.HandleDamage();
 
-        freams++;
+        freams += playerState.GetPlayerSpeed();
     }
 
 
@@ -69,7 +69,7 @@ public class PlayerCounterStaggerState : StateClass<PlayerState>
     public override void Exit(PlayerState playerState)
     {
         // 初期化
-        freams = 0;
+        freams = 0.0f;
 
 
 #if UNITY_EDITOR

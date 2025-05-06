@@ -12,17 +12,19 @@ public class AvoidanceManager : MonoBehaviour
     [SerializeField] private int avoidanceAfterFreams = 20;
     [Header("回避成功時の無敵フレーム")]
     [SerializeField] private int avoidanceInvincibleFreams = 20;
-    [Header("回避成功時の敵のスピード低下")]
-    [SerializeField] private float avoidanceSlow = 0.8f;
+    [Header("回避成功時の敵のスピード低下(全体のスピード低下と重複)")]
+    [SerializeField] private float avoidanceSlowEnemy = 0.8f;
     [Header("回避が成功して遅くなるフレーム")]
-    [SerializeField] private int EnemySlowFreams = 20;
+    [SerializeField] private int slowFreams = 20;
     [Header("敵のマネージャーを入れる")]
     [SerializeField] private GameObject enemyManagerObj = null;
 
-    [Header("回避成功時の自分のスピード低下")]
-    [SerializeField] private float avoidanceSlowPlayer = 0.8f;
+    [Header("回避成功時の全体のスピード低下")]
+    [SerializeField] private float avoidanceSlow = 0.8f;
+
 
     private EnemyManager enemyManager;
+    private PlayerState playerState;
     private bool slowFlag = false;
     private int freams = 0;
 
@@ -30,7 +32,9 @@ public class AvoidanceManager : MonoBehaviour
     void Start()
     {
         // 敵のマネジャーを取得する
-        enemyManager= enemyManagerObj.GetComponent<EnemyManager>();
+        enemyManager = enemyManagerObj.GetComponent<EnemyManager>();
+        // プレイヤーの状態を取得する
+        playerState = this.gameObject.GetComponent<PlayerState>();
     }
 
 
@@ -40,7 +44,7 @@ public class AvoidanceManager : MonoBehaviour
         // 回避が成功していなければ実行しない
         if(!slowFlag) { return; }
 
-        if (EnemySlowFreams < freams)
+        if (slowFreams < freams)
         {
             // 回避の終わり処理
             AvoidanceEnd();
@@ -54,8 +58,15 @@ public class AvoidanceManager : MonoBehaviour
 
     public void AvoidanceStart()
     {
+#if UNITY_EDITOR
+        Debug.Log("回避成功 開始処理");
+#endif
+        // 全ての速度を遅くする
+        Time.timeScale = avoidanceSlow;
+        // プレイヤーのフレーム処理を遅くする
+        playerState.SetPlayerSpeed(avoidanceSlow);
         // 敵を遅くする
-        enemyManager.EnemySlow(avoidanceSlow);
+        enemyManager.EnemySlow(avoidanceSlowEnemy);
         // フラグをONにする
         slowFlag = true;
     }
@@ -64,6 +75,14 @@ public class AvoidanceManager : MonoBehaviour
 
     private void AvoidanceEnd()
     {
+#if UNITY_EDITOR
+        Debug.Log("回避終了 終了処理");
+#endif
+
+        // 全ての速度を元に戻す
+        Time.timeScale = 1.0f;
+        // プレイヤーのフレーム処理を元に戻す
+        playerState.SetPlayerSpeed(1.0f);
         // 敵を元に戻す
         enemyManager.EnemySlow(1.0f);
         // フラグをOFFにする
@@ -80,5 +99,4 @@ public class AvoidanceManager : MonoBehaviour
     public int GetAvoidanceAfterFreams() { return avoidanceAfterFreams; }
     public int GetAvoidanceInvincibleFreams() { return avoidanceInvincibleFreams; }
     public EnemyManager GetEnemyManager() { return enemyManager;}
-    public float GetAvoidanceSlowPlayer() { return avoidanceSlowPlayer; }
 }

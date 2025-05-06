@@ -22,7 +22,7 @@ public class PlayerFlinchState : BaseFlinchState<PlayerState>
     // 状態中の処理
     public override void Excute(PlayerState playerState)
     {
-        freams++;
+        freams += playerState.GetPlayerSpeed();
 
 #if UNITY_EDITOR
         // デバッグ時色を青色に変更する

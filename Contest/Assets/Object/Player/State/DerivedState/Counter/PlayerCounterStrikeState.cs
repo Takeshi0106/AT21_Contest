@@ -10,7 +10,7 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
     // インスタンスを入れる変数
     private static PlayerCounterStrikeState instance;
     // フレームを計る
-    int freams = 0;
+    float freams = 0.0f;
 
 
 
@@ -81,7 +81,7 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         }
 
         // フレーム更新
-        freams++;
+        freams += playerState.GetPlayerSpeed();
     }
 
 
@@ -90,7 +90,7 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
     public override void Exit(PlayerState playerState)
     {
         // 初期化
-        freams = 0;
+        freams = 0.0f;
 
         // 攻撃タグを戻す
         playerState.GetPlayerCounterAttackController().DisableAttack();

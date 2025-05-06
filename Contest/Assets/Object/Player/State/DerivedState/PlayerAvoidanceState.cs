@@ -20,7 +20,7 @@ public class PlayerAvoidanceState : StateClass<PlayerState>
     // 回避後のフレーム
     private int affterFreams = 0;
 
-    private int freams = 0;
+    private float freams = 0.0f;
     private bool avoidanceFlag = false;
 
     // インスタンスを取得する関数
@@ -137,7 +137,7 @@ public class PlayerAvoidanceState : StateClass<PlayerState>
         }
 
         // フレーム更新
-        freams++;
+        freams += currentState.GetPlayerSpeed();
     }
 
 
@@ -145,7 +145,7 @@ public class PlayerAvoidanceState : StateClass<PlayerState>
     // 状態中の終了処理
     public override void Exit(PlayerState currentState)
     {
-        freams = 0;
+        freams = 0.0f;
     }
 
 

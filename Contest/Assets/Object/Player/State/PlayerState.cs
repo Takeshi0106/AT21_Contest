@@ -45,6 +45,9 @@ public class PlayerState : BaseCharacterState<PlayerState>
     [SerializeField] private int ThrowFailedFreams = 0;
     [Header("プレイヤーが投げるのを失敗したときのアニメーション")]
     [SerializeField] private AnimationClip throwFailedAnimations = null;
+    [Header("プレイヤーのスピード(デバッグ用)")]
+    [SerializeField] private float playerSpeed = 1.0f;
+
 
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
     [HideInInspector] private Transform cameraTransform;
@@ -85,6 +88,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     // Playerのレンダラー
     [HideInInspector] public Renderer playerRenderer;
 #endif
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -337,6 +342,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     // セッター
     public void SetPlayerCombo(int value) { playerConbo = value; }
     public void SetPlayerNextReseved(RESEVEDSTATE next) { nextReserved = next; }
+    public void SetPlayerSpeed(float speed) { playerSpeed = speed; }
 
 
 
@@ -368,6 +374,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public AnimationClip GetThrowFailedAnimation() { return throwFailedAnimations; }
     public bool GetPlayerAirFlag() { return isInAir; }
     public AvoidanceManager GetPlayerAvoidanceManager() { return playerAvoidanceManager; }
+    public float GetPlayerSpeed() { return playerSpeed; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

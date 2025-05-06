@@ -13,7 +13,7 @@ public class PlayerThrowFailedState : StateClass<PlayerState>
     // 武器の情報
     private static BaseAttackData weponData;
 
-    int freams = 0;
+    float freams = 0.0f;
 
 
 
@@ -76,7 +76,7 @@ public class PlayerThrowFailedState : StateClass<PlayerState>
         // ダメージ処理を有効にする
         playerState.HandleDamage();
 
-        freams++;
+        freams += playerState.GetPlayerSpeed();
     }
 
 
@@ -84,7 +84,7 @@ public class PlayerThrowFailedState : StateClass<PlayerState>
     // 状態中の終了処理
     public override void Exit(PlayerState playerState)
     {
-        freams = 0;
+        freams = 0.0f;
 
 #if UNITY_EDITOR
         // エディタ実行時に色を元に戻す

@@ -13,7 +13,7 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     // weponData
     private static BaseAttackData weponData;
     // フレームを計る
-    int freams = 0;
+    float freams = 0.0f;
 
 
 
@@ -148,7 +148,7 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     {
         playerState.HandleDamage();
 
-        freams++;
+        freams += playerState.GetPlayerSpeed();
     }
 
 
@@ -157,7 +157,7 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     public override void Exit(PlayerState playerState)
     {
         // 初期化
-        freams = 0;
+        freams = 0.0f;
         // ストックの初期化
         playerState.SetPlayerNextReseved(RESEVEDSTATE.NOTHING);
 
