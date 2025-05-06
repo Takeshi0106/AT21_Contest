@@ -1542,6 +1542,22 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8104745275857776129, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: avoidanceColorFilter.a
+      value: 0.3137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104745275857776129, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: avoidanceColorFilter.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104745275857776129, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: avoidanceColorFilter.g
+      value: 0.9328695
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104745275857776129, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
+      propertyPath: avoidanceColorFilter.r
+      value: 0.50377357
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104745275857776129, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
       propertyPath: avoidanceStartUpFreams
       value: 0
       objectReference: {fileID: 0}
