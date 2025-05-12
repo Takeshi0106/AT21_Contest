@@ -81,11 +81,14 @@ crashlytics-build.properties
 *.fbx
 *.png
 
-Asset/base.mate
-Asset/base/images/
-Asset/Scenes/player/
-Asset/Scenes/enemy/
-Asset/Scenes/buki/
-Asset/Scenes/boss/
-
+Assets/base.meta
+Assets/base/
+Assets/Scenes/player/
+Assets/Scenes/player.meta
+Assets/Scenes/enemy/
+Assets/Scenes/enemy.meta
+Assets/Scenes/buki/
+Assets/Scenes/buki.meta
+Assets/Scenes/boss/
+Assets/Scenes/boss.meta
 
