@@ -77,7 +77,6 @@ crashlytics-build.properties
 *.spp
 
 # Ignore Unity-related files
-*.asset
 *.unitypackage
 *.fbx
 *.png
