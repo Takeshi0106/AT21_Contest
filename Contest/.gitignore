@@ -75,3 +75,10 @@ crashlytics-build.properties
 
 # Ignore Substance Painter project files
 *.spp
+
+# Ignore Unity-related files
+*.asset
+*.unitypackage
+*.fbx
+*.mat
+*.png
