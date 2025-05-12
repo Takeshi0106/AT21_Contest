@@ -75,22 +75,3 @@ crashlytics-build.properties
 
 # Ignore Substance Painter project files
 *.spp
-
-# Ignore Unity-related files
-*.unitypackage
-*.fbx
-*.png
-
-Assets/base.meta
-Assets/base/
-Assets/Scenes/player/
-Assets/Scenes/player.meta
-Assets/Scenes/enemy/
-Assets/Scenes/enemy.meta
-Assets/Scenes/buki/
-Assets/Scenes/buki.meta
-Assets/Scenes/boss/
-Assets/Scenes/boss.meta
-
-Assets/TextMesh Pro/
-Assets/TextMesh Pro.meta
