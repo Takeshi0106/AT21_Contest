@@ -80,5 +80,4 @@ crashlytics-build.properties
 *.asset
 *.unitypackage
 *.fbx
-*.mat
 *.png
