@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b87207878e16c44b7eb0cb3842e389, type: 3}
+  m_Name: EnemyFistAttackData
+  m_EditorClassIdentifier: 
+  weponName: EnemyFist
+  maxCombo: 5
+  attackStartupFruem: 0000000000000000000000000000000000000000
+  attackFruem: 0a000000080000000a0000000800000014000000
+  attackStaggerFruem: 0f0000001400000019000000190000001e000000
+  attackDamage:
+  - 10
+  - 10
+  - 10
+  - 10
+  - 10
+  attackAnimations:
+  - {fileID: 7400000, guid: da6214d387b71ca4abbeb66e9cbdf5ed, type: 2}
+  - {fileID: 7400000, guid: 1cb3dfc74f3ce9e4cbb14d331060692b, type: 2}
+  - {fileID: 7400000, guid: 67520f090f6f28547873b088870fd42e, type: 2}
+  - {fileID: 7400000, guid: d95c8ae3ad5d2944abde9a20ec5109fe, type: 2}
+  - {fileID: 7400000, guid: 6f2070a0eac604843be4fa5eb182d1e4, type: 2}
+  attackStaggerAnimations:
+  - {fileID: 7400000, guid: 76cac5e3852dce344a25d490ee45caa4, type: 2}
+  - {fileID: 7400000, guid: 14a1f31a5d3be1048a7772013c6b0fce, type: 2}
+  - {fileID: 7400000, guid: f5d27a58e8a73ba48abd3fd4e37f3487, type: 2}
+  - {fileID: 7400000, guid: 6abf0196257ff8a45b941d17ba4a1bd2, type: 2}
+  - {fileID: 7400000, guid: b7d6a6a9bcafe154787520a4f365670f, type: 2}

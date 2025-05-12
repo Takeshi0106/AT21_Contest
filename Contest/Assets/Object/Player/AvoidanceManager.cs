@@ -26,7 +26,7 @@ public class AvoidanceManager : MonoBehaviour
     [Header("Color Gradingのフィルターの色")]
     [SerializeField] private Color avoidanceColorFilter = Color.red;
 
-    private EnemyManager enemyManager;
+    private EnemySystem enemySystem;
     private PlayerState playerState;
     private PostProcessVolume playerVolume;
     private ColorGrading colorGrading;
@@ -37,7 +37,7 @@ public class AvoidanceManager : MonoBehaviour
     void Start()
     {
         // 敵のマネジャーを取得する
-        enemyManager = enemyManagerObj.GetComponent<EnemyManager>();
+        enemySystem = enemyManagerObj.GetComponent<EnemySystem>();
         // プレイヤーの状態を取得する
         playerState = this.gameObject.GetComponent<PlayerState>();
         // エフェクトを追加
@@ -82,7 +82,7 @@ public class AvoidanceManager : MonoBehaviour
         // プレイヤーのフレーム処理を遅くする
         playerState.SetPlayerSpeed(avoidanceSlow);
         // 敵を遅くする
-        enemyManager.EnemySlow(avoidanceSlowEnemy);
+        enemySystem.EnemySlow(avoidanceSlowEnemy);
         // フラグをONにする
         slowFlag = true;
     }
@@ -101,7 +101,7 @@ public class AvoidanceManager : MonoBehaviour
         // プレイヤーのフレーム処理を元に戻す
         playerState.SetPlayerSpeed(1.0f);
         // 敵を元に戻す
-        enemyManager.EnemySlow(1.0f);
+        enemySystem.EnemySlow(1.0f);
         // フラグをOFFにする
         slowFlag= false;
         // フレームを初期化する
@@ -115,5 +115,5 @@ public class AvoidanceManager : MonoBehaviour
     public int GetAvoidanceFreams() { return avoidanceFreams; }
     public int GetAvoidanceAfterFreams() { return avoidanceAfterFreams; }
     public int GetAvoidanceInvincibleFreams() { return avoidanceInvincibleFreams; }
-    public EnemyManager GetEnemyManager() { return enemyManager;}
+    public EnemySystem GetEnemyManager() { return enemySystem;}
 }
