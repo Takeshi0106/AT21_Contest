@@ -80,3 +80,11 @@ crashlytics-build.properties
 *.unitypackage
 *.fbx
 *.png
+
+Contest/Asset/base.mate
+Contest/Asset/base/images/
+Contest/Asset/Scenes/player/
+Contest/Asset/Scenes/enemy/
+Contest/Asset/Scenes/buki/
+Contest/Asset/Scenes/boss/
+
