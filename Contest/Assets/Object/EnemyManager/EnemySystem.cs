@@ -11,7 +11,6 @@ using UnityEngine.SceneManagement;
 public class EnemySystem : MonoBehaviour
 {
     private List<EnemyManager> enemyMan = new List<EnemyManager>();
-    public UnityEvent<float> onEnemySlow;
 
 
     // EnemyManager‚Ì”‚ğæ“¾

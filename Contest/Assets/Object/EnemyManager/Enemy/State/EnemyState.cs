@@ -77,7 +77,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
 
         // HPマネージャーにDie関数を渡す
-        hpManager.onDeath.AddListener(Die);
+        hpManager.SetOnDeathEvent(Die);
         
         // エネミーマネジャーにスローイベントをセット
         enemyManager.AddOnEnemySlow(SetEnemySpead);
@@ -220,13 +220,12 @@ public class EnemyState : BaseCharacterState<EnemyState>
             playerState.GetPlayerWeponManager().AddWeapon(dropWeapon);
         }
 
-        // 自分を非アクティブにする
-        gameObject.SetActive(false);
-
 #if UNITY_EDITOR
         Debug.Log($"{gameObject.name} が死亡しました");
 #endif
 
+        // 自分を非アクティブにする
+        gameObject.SetActive(false);
     }
 
 
@@ -234,7 +233,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
     // スピードをセットする処理
     public void SetEnemySpead(float speed)
     {
-        if (speed > 0.01f && speed < 1.0f)
+        if (speed >= 0.01f && speed <= 1.0f)
         {
             // フレームの進む処理を更新
             enemySpeed = speed;

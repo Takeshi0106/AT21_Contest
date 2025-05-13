@@ -9,10 +9,9 @@ public class HPManager : MonoBehaviour
     [SerializeField] private float maxHP = 100;
     [Header("現在のHP（デバッグ用）")]
     [SerializeField] private float firstHP;
-    [Header("死亡時に呼ばれるイベント")]
-    public UnityEvent onDeath;
-    [Header("ダメージを受けたときに呼ばれるイベント")]
-    public UnityEvent onDamaged;
+
+    private UnityEvent onDeath = new UnityEvent();
+    private UnityEvent onDamaged = new UnityEvent();
 
     // 現在のHP
     public float currentHP;
@@ -43,6 +42,7 @@ public class HPManager : MonoBehaviour
         // 死亡イベントを呼ぶ
         if (currentHP <= 0)
         {
+            // 死亡関数を呼び出す
             onDeath.Invoke();
         }
     }
@@ -57,14 +57,6 @@ public class HPManager : MonoBehaviour
     }
 
 
-
-    /// 死亡時処理
-    private void Die()
-    {
-        Debug.Log($"{gameObject.name} が死亡しました");
-        onDeath.Invoke();
-    }
-
     // ==========================
     // ゲッター
     // ==========================
@@ -78,5 +70,16 @@ public class HPManager : MonoBehaviour
     {
         maxHP = value;
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+    }
+    public void SetOnDeathEvent(UnityAction action)
+    {
+        Debug.Log("ダメージ処理をセット");
+        onDeath.AddListener(action);
+    }
+
+    public void SetOnDamagedEvent(UnityAction action)
+    {
+        Debug.Log("死亡処理をセット");
+        onDamaged.AddListener(action);
     }
 }

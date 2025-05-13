@@ -12,23 +12,23 @@ using UnityEngine.SceneManagement;
 public class EnemyManager : MonoBehaviour
 {
     private List<EnemyState> enemies = new List<EnemyState>();
-    public UnityEvent<float> onEnemySlow;
+    private UnityEvent<float> onEnemySlow = new UnityEvent<float>() { };
     EnemySystem enemyManager = null;
     int cnt = 0;
 
     [Header("プレイヤーのタグ名")]
-    private string playerTag = "Player";
+    [SerializeField] private string playerTag = "Player";
     [Header("敵のsystem")]
-    private EnemySystem system = null;
+    [SerializeField] private EnemySystem system = null;
 
 
     // Enemyを数を取得
     public void RegisterEnemy(EnemyState enemy)
     {
+        // Enemyを追加する
         enemies.Add(enemy);
-        // enemy.gameObject.SetActive(false);
-
-        
+        // 非アクティブにする
+        enemy.gameObject.SetActive(false);
 
         if (cnt == 0)
         {
@@ -57,7 +57,6 @@ public class EnemyManager : MonoBehaviour
     // セットされているエネミーを遅くする
     public void EnemySlow(float slowSpead)
     {
-        Debug.Log("呼び出された");
         onEnemySlow.Invoke(slowSpead);
     }
 
@@ -79,23 +78,6 @@ public class EnemyManager : MonoBehaviour
             foreach (EnemyState enemy in enemies)
             {
                 enemy.gameObject.SetActive(true);  // 登録された敵を有効化
-            }
-        }
-    }
-
-
-
-    // プレイヤーが敵と離れた時の処理
-    void OnTriggerExit(Collider other)
-    {
-        MultiTag tag = other.GetComponent<MultiTag>();
-
-        // 配列の中に同じものがあるかのチェック
-        if (tag.HasTag(playerTag))
-        {
-            foreach (EnemyState enemy in enemies)
-            {
-                enemy.gameObject.SetActive(false);  // 登録された敵を有効化
             }
         }
     }
