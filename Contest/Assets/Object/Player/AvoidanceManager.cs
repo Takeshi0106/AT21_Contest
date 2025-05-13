@@ -17,8 +17,8 @@ public class AvoidanceManager : MonoBehaviour
     [SerializeField] private float avoidanceSlowEnemy = 0.8f;
     [Header("回避が成功して遅くなるフレーム")]
     [SerializeField] private int slowFreams = 20;
-    [Header("敵のマネージャーを入れる")]
-    [SerializeField] private GameObject enemyManagerObj = null;
+    [Header("敵のsystemを入れる")]
+    [SerializeField] private GameObject enemySystemObj = null;
 
     [Header("回避成功時の全体のスピード低下")]
     [SerializeField] private float avoidanceSlow = 0.8f;
@@ -37,7 +37,7 @@ public class AvoidanceManager : MonoBehaviour
     void Start()
     {
         // 敵のマネジャーを取得する
-        enemySystem = enemyManagerObj.GetComponent<EnemySystem>();
+        enemySystem = enemySystemObj.GetComponent<EnemySystem>();
         // プレイヤーの状態を取得する
         playerState = this.gameObject.GetComponent<PlayerState>();
         // エフェクトを追加
@@ -48,7 +48,28 @@ public class AvoidanceManager : MonoBehaviour
         {
             // 初期色を設定
             colorGrading.colorFilter.value = Color.white;
+        }   
+
+#if UNITY_EDITOR
+        Debug.Log("AvoidanceManager の初期化が実行されました。");
+
+        if (enemySystem == null)
+        {
+            Debug.LogError("AvoidanceManager : enemySystemが null です");
         }
+        if (playerState == null)
+        {
+            Debug.LogError("AvoidanceManager : playerStateが null です");
+        }
+        if (playerVolume == null)
+        {
+            Debug.LogError("AvoidanceManager : playerVolumeが null です");
+        }
+        if(colorGrading == null)
+        {
+            Debug.LogError("AvoidanceManager : colorGradingが null です");
+        }
+#endif
     }
 
 

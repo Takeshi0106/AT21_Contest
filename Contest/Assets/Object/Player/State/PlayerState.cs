@@ -119,7 +119,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
 
         // playerCounterObject.SetActive(false);
         // HPマネージャーにDie関数を渡す
-        hpManager.onDeath.AddListener(Die);
+        hpManager.SetOnDeathEvent(Die);
 
 
         // 状態をセット

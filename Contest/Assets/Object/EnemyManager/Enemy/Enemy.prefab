@@ -37,7 +37,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6080998705352016744}
+  - {fileID: 460493576646878760}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6889581307623557603
@@ -120,7 +120,7 @@ Rigidbody:
   m_GameObject: {fileID: 7519806533523942088}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 3
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -157,7 +157,6 @@ MonoBehaviour:
   player: {fileID: 0}
   enemyManagerObject: {fileID: 0}
   enemySpeed: 1
-  enemySlowDrag: 3
   enemyRenderer: {fileID: 0}
 --- !u!114 &7865408868508022245
 MonoBehaviour:
@@ -188,12 +187,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 50
   firstHP: 50
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  onDamaged:
-    m_PersistentCalls:
-      m_Calls: []
   currentHP: 0
 --- !u!114 &5440411965467946184
 MonoBehaviour:
@@ -209,7 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tags:
   - Enemy
---- !u!1001 &7156419070808937159
+--- !u!1001 &3553543893504571271
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -271,7 +264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3978007918560399791, guid: d3758f0021a02d7409eff9c79845dd4a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3978007918560399791, guid: d3758f0021a02d7409eff9c79845dd4a, type: 3}
       propertyPath: m_LocalRotation.y
@@ -279,7 +272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3978007918560399791, guid: d3758f0021a02d7409eff9c79845dd4a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3978007918560399791, guid: d3758f0021a02d7409eff9c79845dd4a, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -287,7 +280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3978007918560399791, guid: d3758f0021a02d7409eff9c79845dd4a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.49
+      value: 1.48999
       objectReference: {fileID: 0}
     - target: {fileID: 3978007918560399791, guid: d3758f0021a02d7409eff9c79845dd4a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -303,7 +296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7483121009334922104, guid: d3758f0021a02d7409eff9c79845dd4a, type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: EnemyHpCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 8386650144976090352, guid: d3758f0021a02d7409eff9c79845dd4a, type: 3}
       propertyPath: m_AnchorMax.x
@@ -318,8 +311,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3758f0021a02d7409eff9c79845dd4a, type: 3}
---- !u!224 &6080998705352016744 stripped
+--- !u!224 &460493576646878760 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3978007918560399791, guid: d3758f0021a02d7409eff9c79845dd4a, type: 3}
-  m_PrefabInstance: {fileID: 7156419070808937159}
+  m_PrefabInstance: {fileID: 3553543893504571271}
   m_PrefabAsset: {fileID: 0}

@@ -24,7 +24,7 @@ public class HPGaugeManager : MonoBehaviour
         hpGaugeSlider = this.GetComponent<Slider>();
 
         // ダメージイベントを設定して呼び出されるようにする
-        hpDisplayManager.onDamaged.AddListener(HpUpdate);
+        hpDisplayManager.SetOnDamagedEvent(HpUpdate);
         // HPゲージ更新
         HpUpdate();
 
