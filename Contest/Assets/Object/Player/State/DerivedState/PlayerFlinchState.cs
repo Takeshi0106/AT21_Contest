@@ -1,13 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // =======================================
 // プレイヤーの怯み状態
 // =======================================
 
-public class PlayerFlinchState : BaseFlinchState<PlayerState>
+public class PlayerFlinchState : StateClass<PlayerState>
 {
+    // インスタンスを取得する
+    protected static PlayerFlinchState instance;
+    // フレームを計測する
+    protected float freams = 0.0f;
+
+
+    // インスタンスを取得する関数
+    public static PlayerFlinchState Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new PlayerFlinchState();
+            }
+            return instance;
+        }
+    }
+
+
     // 状態を変更する
     public override void Change(PlayerState playerState)
     {
@@ -17,6 +35,12 @@ public class PlayerFlinchState : BaseFlinchState<PlayerState>
         }
     }
 
+
+    // 状態の開始処理
+    public override void Enter(PlayerState currentState)
+    {
+
+    }
 
 
     // 状態中の処理

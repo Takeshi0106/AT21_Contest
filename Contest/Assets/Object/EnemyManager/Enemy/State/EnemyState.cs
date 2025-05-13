@@ -25,6 +25,9 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
     [Header("デバッグ用　敵の速度(0.01～1.00)")]
     [SerializeField] private float enemySpeed = 1.0f;
+    [Header("怯み時間")]
+    [SerializeField] private int flinchFreams = 10;
+
 
 
     // 衝突したオブジェクトを保存するリスト
@@ -260,6 +263,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public string GetEnemyPlayerAttackTag() { return playerAttackTag; }
     public string GetEnemyPlayerCounterAttackTag() { return playerCounterTag; }
     public float GetEnemySpeed() { return enemySpeed; }
+    public int GetEnemyFlinchFreams() { return flinchFreams; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

@@ -40,7 +40,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     [Header("敵の攻撃タグ名")]
     [SerializeField] private string enemyAttackTag = "EnemyAttack";
     [Header("プレイヤーがひるんだ時のフレーム数")]
-    [SerializeField] private int FlinchFreams = 0;
+    [SerializeField] private int flinchFreams = 0;
     [Header("プレイヤーが投げるのを失敗したときのフレーム数")]
     [SerializeField] private int ThrowFailedFreams = 0;
     [Header("プレイヤーが投げるのを失敗したときのアニメーション")]
@@ -324,7 +324,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
         Cursor.lockState = CursorLockMode.None;
 
         gameObject.SetActive(false);
-        SceneManager.LoadScene("ResultScene");
+        SceneManager.LoadScene("PlayerLoseScene");      
     }
 
 
@@ -369,7 +369,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public string GetPlayerEnemyAttackTag() { return enemyAttackTag; }
     public StatusEffectManager GetPlayerStatusEffectManager() {  return playerStatusEffectManager; }
     public HashSet<Collider> GetPlayerDamagedColliders() { return damagedColliders; }
-    public int GetPlayerFlinchFreams() { return FlinchFreams; }
+    public int GetPlayerFlinchFreams() { return flinchFreams; }
     public int GetThrowFailedFreams() { return ThrowFailedFreams; }
     public AnimationClip GetThrowFailedAnimation() { return throwFailedAnimations; }
     public bool GetPlayerAirFlag() { return isInAir; }

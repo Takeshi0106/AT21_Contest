@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fe481a59e6a361142b072cc603acdc3a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -375,9 +375,9 @@ MonoBehaviour:
   avoidanceFreams: 90
   avoidanceAfterFreams: 20
   avoidanceInvincibleFreams: 1200
-  avoidanceSlowEnemy: 0.5
+  avoidanceSlowEnemy: 0.02
   slowFreams: 1200
-  enemyManagerObj: {fileID: 0}
+  enemySystemObj: {fileID: 0}
   avoidanceSlow: 0.8
   avoidanceColorFilter: {r: 0.50377357, g: 0.9328695, b: 1, a: 0.3137255}
 --- !u!114 &8561869833915859036
@@ -394,12 +394,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 200
   firstHP: 100
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  onDamaged:
-    m_PersistentCalls:
-      m_Calls: []
   currentHP: 0
 --- !u!114 &2700273107075973261
 MonoBehaviour:
@@ -439,7 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 6ae2583cad529814f92534f246854796, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 0ed8c6c716dc57b4db763319a9e59513, type: 2}
   isGlobal: 1
   blendDistance: 0
   weight: 1

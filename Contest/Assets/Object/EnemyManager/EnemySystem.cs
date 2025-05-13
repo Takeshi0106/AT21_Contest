@@ -26,7 +26,7 @@ public class EnemySystem : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
-        SceneManager.LoadScene("ResultScene");
+        SceneManager.LoadScene("PlayerWinScene");
     }
 
 
