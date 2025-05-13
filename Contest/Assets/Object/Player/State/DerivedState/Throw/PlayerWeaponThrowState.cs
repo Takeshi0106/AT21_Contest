@@ -24,7 +24,9 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     int throwStaggerFreams = 0;
 
     // 状態変更までの時間
-    int freams = 0;
+    float freams = 0.0f;
+    // 投げたかどうかのフラグ
+    bool throwFlag = false;
 
 
 
@@ -105,8 +107,9 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
         playerState.HandleDamage();
 
         // 投げる
-        if (freams == throwStartUpFreams)
+        if (freams > throwStartUpFreams && !throwFlag)
         {
+            throwFlag = true;
 
             // 投げる武器のオブジェクトを取得する
             if (prefab != null)
@@ -135,7 +138,7 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
 #endif
         }
 
-        freams++;
+        freams += playerState.GetPlayerSpeed();
     }
 
 
@@ -143,7 +146,8 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
     // 状態中の終了処理
     public override void Exit(PlayerState playerState)
     {
-        freams = 0;
+        freams = 0.0f;
+        throwFlag = false;
 
 #if UNITY_EDITOR
         // エディタ実行時に色を元に戻す

@@ -25,7 +25,8 @@ public class CounterManager : MonoBehaviour
     [SerializeField] private int[] decayGraceFrames = { 120, 120, 120, 120, 120 };
     [Header("カウンター成功時の攻撃力 ( 攻撃力 ＊ ダメージアップ倍率 )")]
     [SerializeField] private float counterDamages = 20;
-
+    [Header("プレイヤーのカウンター成功後の無敵時間（カウンター成功中の無敵時間とは別）")]
+    [SerializeField] private int[] invincibleTime = { 0, 0, 0, 0, 0 };
 
 
     // 最新のゲージを入れる
@@ -165,6 +166,7 @@ public class CounterManager : MonoBehaviour
     public  int    GetCounterStaggerFrames() { return counterStaggerFrames[(int)currentRank]; }
     public  int    GetCounterSuccessFrames() { return counterSuccessFrames[(int)currentRank]; }
     public  int    GetCounterStartupFrames() { return counterStartupFrames[(int)currentRank]; }
+    public int GetCounterInvincibleFreams() { return invincibleTime[(int)currentRank]; }
     public  float  GetCurrentGauge()         { return currentGauge; }
     public float GetCounterDamage() { return counterDamages; }
     public int GetCurrentRank() { return currentRank; }

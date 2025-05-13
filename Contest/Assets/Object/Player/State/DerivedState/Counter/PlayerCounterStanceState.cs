@@ -11,7 +11,7 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
     // インスタンスを入れる変数
     private static PlayerCounterStanceState instance;
     // フレームを計る
-    int freams = 0;
+    float freams = 0.0f;
     // カウンターの成否
     bool counterOutcome = false;
     // カウンターが有効かどうか
@@ -135,7 +135,7 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
         }
 
         // フレーム数を計る
-        freams++;
+        freams += playerState.GetPlayerSpeed();
     }
 
 
@@ -144,7 +144,7 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
     public override void Exit(PlayerState playerState)
     {
         // 初期化
-        freams = 0;
+        freams = 0.0f;
         counterOutcome = false;
         counterActive = false;
 

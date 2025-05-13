@@ -9,7 +9,7 @@ public class EnemyAttackState : StateClass<EnemyState>
     // weponData
     private static BaseAttackData weponData;
     // フレームを計る
-    int freams = 0;
+    float freams = 0.0f;
 
     // インスタンスを取得する関数
     public static EnemyAttackState Instance
@@ -43,20 +43,14 @@ public class EnemyAttackState : StateClass<EnemyState>
     // 状態の開始処理
     public override void Enter(EnemyState enemyState)
     {
+        // 武器データ取得
         weponData = enemyState.GetEnemyWeponManager().GetWeaponData(enemyState.GetEnemyWeponNumber());
 
-        // アニメーション再生
-        // Animator を取得
-        //var anim = enemyState.GetEnemyAnimator();
-        // AnimationClip を取得
+        // アニメーション取得
         var animClip = weponData.GetAttackAnimation(enemyState.GetEnemyConbo());
         var childAnim = enemyState.GetEnemyWeponManager().GetCurrentWeaponAnimator();
-        /*
-        if (anim != null && animClip != null)
-        {
-            // anim.CrossFade(animClip.name, 0.2f);
-        }
-        */
+        
+        // アニメーション再生
         if (childAnim != null && animClip != null)
         {
             childAnim.CrossFade(animClip.name, 0.2f);
@@ -77,9 +71,11 @@ public class EnemyAttackState : StateClass<EnemyState>
     // 状態中の処理
     public override void Excute(EnemyState enemyState)
     {
+        // ダメージ処理
         enemyState.HandleDamage();
 
-        freams++;
+        // フレーム更新
+        freams += enemyState.GetEnemySpeed();
 
         // 攻撃判定をONにする
         if (freams >= weponData.GetAttackStartupFrames(enemyState.GetEnemyConbo()))
@@ -96,7 +92,7 @@ public class EnemyAttackState : StateClass<EnemyState>
         // 攻撃判定をOFF
         enemyState.GetEnemyWeponManager().DisableAllWeaponAttacks();
         // 初期化
-        freams = 0;
+        freams = 0.0f;
     }
 
 
