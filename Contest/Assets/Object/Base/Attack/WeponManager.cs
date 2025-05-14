@@ -63,6 +63,20 @@ public class WeponManager : MonoBehaviour
     }
 
 
+    // 全ての武器を削除
+    public void RemoveAllWeapon()
+    {
+        foreach (var oldWeapon in instantiatedWeapons)
+        {
+            // 武器オブジェクトを削除
+            if (oldWeapon != null)
+                Destroy(oldWeapon);
+        }
+        instantiatedWeapons.Clear(); // オブジェクトリストを削除
+        weaponDataList.Clear(); // データリストを削除
+    }
+
+
 
     private void AttachWeapon(BaseAttackData weaponData)
     {

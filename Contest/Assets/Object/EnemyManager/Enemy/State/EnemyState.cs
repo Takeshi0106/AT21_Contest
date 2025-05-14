@@ -28,7 +28,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [Header("怯み時間")]
     [SerializeField] private int flinchFreams = 10;
 
-
+    [Header("死亡アニメーション")]
+    [SerializeField] private AnimationClip enemyDeadAnimation = null;
 
     // 衝突したオブジェクトを保存するリスト
     [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
@@ -42,6 +43,9 @@ public class EnemyState : BaseCharacterState<EnemyState>
     private HPManager hpManager;
     // Enemyのリジッドボディー
     private Rigidbody enemyRigidbody;
+    // Enemyのアニメーションを取得する
+    private Animator enemyAnimator;
+
 
     // 現在のコンボ数
     private int enemyConbo = 0;
@@ -77,6 +81,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
         enemyManager = enemyManagerObject.GetComponent<EnemyManager>();
         // リジッドボディーを取得
         enemyRigidbody = this.gameObject.GetComponent<Rigidbody>();
+        // アニメーターを取得
+        enemyAnimator = this.gameObject.GetComponent<Animator>();
 
 
         // HPマネージャーにDie関数を渡す
@@ -228,7 +234,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
 #endif
 
         // 自分を非アクティブにする
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
+
+        // Dead状態に変更
+        ChangeState(EnemyDeadState.Instance);
     }
 
 
@@ -264,6 +273,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public string GetEnemyPlayerCounterAttackTag() { return playerCounterTag; }
     public float GetEnemySpeed() { return enemySpeed; }
     public int GetEnemyFlinchFreams() { return flinchFreams; }
+    public Animator GetEnemyAnimator() { return enemyAnimator; }
+    public AnimationClip GetEnemyDeadAnimation() { return enemyDeadAnimation; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

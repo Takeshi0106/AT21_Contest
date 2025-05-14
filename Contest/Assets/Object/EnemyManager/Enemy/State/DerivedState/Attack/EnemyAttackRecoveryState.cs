@@ -75,7 +75,7 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
         // アニメーション再生
         if (childAnim != null && animClip != null)
         {
-            childAnim.CrossFade(animClip.name, 0.0f);
+            childAnim.CrossFade(animClip.name, 0.1f);
         }
 
 #if UNITY_EDITOR

@@ -13,9 +13,6 @@ using UnityEngine.SceneManagement;
 // Rigidbodyコンポーネントが必須
 [RequireComponent(typeof(Rigidbody))]
 
-// エディタ実行時に実行される
-[RequireComponent(typeof(Renderer))]
-
 #if UNITY_EDITOR
 
 #endif
