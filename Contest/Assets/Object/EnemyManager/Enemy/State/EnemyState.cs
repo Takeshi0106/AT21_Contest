@@ -28,8 +28,11 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [Header("怯み時間")]
     [SerializeField] private int flinchFreams = 10;
 
+    [Header("立ち状態アニメーション")]
+    [SerializeField] private AnimationClip enemyStandingAnimation = null;
     [Header("死亡アニメーション")]
     [SerializeField] private AnimationClip enemyDeadAnimation = null;
+
 
     // 衝突したオブジェクトを保存するリスト
     [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
@@ -106,6 +109,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
         // エネミーオブジェクトに自分を渡す
         enemyManager.RegisterEnemy(this);
+
+        this.gameObject.SetActive(false);
     }
 
 
@@ -220,8 +225,6 @@ public class EnemyState : BaseCharacterState<EnemyState>
     {
         // EnemyManagerに自分が倒れたことを知らせる
         enemyManager.UnregisterEnemy(this);
-        // 攻撃タグを元に戻す
-        enemyWeponManager.DisableAllWeaponAttacks();
 
         if (playerState != null && dropWeapon != null && hitCounter)
         {
@@ -233,11 +236,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
         Debug.Log($"{gameObject.name} が死亡しました");
 #endif
 
-        // 自分を非アクティブにする
-        // gameObject.SetActive(false);
-
-        // Dead状態に変更
-        ChangeState(EnemyDeadState.Instance);
+        enemyRigidbody.useGravity = false; // 重力をOFFにする
+        this.GetComponent<Collider>().enabled = false; // コライダーを無効にする
+        
+        ChangeState(EnemyDeadState.Instance); // Dead状態に変更
     }
 
 
@@ -274,6 +276,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public float GetEnemySpeed() { return enemySpeed; }
     public int GetEnemyFlinchFreams() { return flinchFreams; }
     public Animator GetEnemyAnimator() { return enemyAnimator; }
+    public AnimationClip GetEnemyStandingAnimation() { return enemyStandingAnimation; }
     public AnimationClip GetEnemyDeadAnimation() { return enemyDeadAnimation; }
 
 #if UNITY_EDITOR

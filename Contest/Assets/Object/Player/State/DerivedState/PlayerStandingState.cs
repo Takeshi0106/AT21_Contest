@@ -90,6 +90,12 @@ public class PlayerStandingState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
+        // 立ち状態アニメーション開始
+        if (playerState.GetPlayerAnimator() != null && playerState.GetPlayerStandingAnimation() != null)
+        {
+            playerState.GetPlayerAnimator().CrossFade(playerState.GetPlayerStandingAnimation().name, 0.1f);
+        }
+
 #if UNITY_EDITOR
         Debug.LogError("PlayerStandingState : 開始");
 #endif

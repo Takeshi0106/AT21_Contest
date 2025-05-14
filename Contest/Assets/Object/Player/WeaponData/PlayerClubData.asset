@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b87207878e16c44b7eb0cb3842e389, type: 3}
   m_Name: PlayerClubData
   m_EditorClassIdentifier: 
-  weponName: PlayerClub
+  weponName: PlayerNaginata
   maxCombo: 5
   attackStartupFruem: 00000000050000000f0000000000000000000000
   attackFruem: 0a0000000a0000000a0000000f00000014000000

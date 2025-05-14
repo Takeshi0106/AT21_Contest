@@ -88,7 +88,10 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
         Debug.LogError("PlayerWeaponThrowState : 開始");
 
         // エディタ実行時に取得して色を変更する
-        playerState.GetPlayerRenderer().material.color = Color.green;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.green;
+        }
 
         if (prefab == null)
         {
@@ -134,7 +137,10 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
             playerState.GetPlayerWeponManager().RemoveWeapon(playerState.GetPlayerWeponNumber());
 
 #if UNITY_EDITOR
-            playerState.GetPlayerRenderer().material.color = Color.blue;
+            if (playerState.GetPlayerRenderer() != null)
+            {
+                playerState.GetPlayerRenderer().material.color = Color.blue;
+            }
 #endif
         }
 
@@ -151,7 +157,10 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
 
 #if UNITY_EDITOR
         // エディタ実行時に色を元に戻す
-        playerState.GetPlayerRenderer().material.color = Color.white;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.white;
+        }
 #endif
     }
 

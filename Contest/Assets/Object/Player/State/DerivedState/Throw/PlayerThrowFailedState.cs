@@ -64,7 +64,10 @@ public class PlayerThrowFailedState : StateClass<PlayerState>
         Debug.LogError("PlayerWeaponThrowFailedState : 開始");
 
         // エディタ実行時に取得して色を変更する
-        playerState.GetPlayerRenderer().material.color = Color.blue;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.blue;
+        }
 #endif
     }
 
@@ -88,7 +91,10 @@ public class PlayerThrowFailedState : StateClass<PlayerState>
 
 #if UNITY_EDITOR
         // エディタ実行時に色を元に戻す
-        playerState.GetPlayerRenderer().material.color = Color.white;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.white;
+        }
 #endif
     }
 

@@ -13,10 +13,6 @@ using UnityEngine.SceneManagement;
 // Rigidbodyコンポーネントが必須
 [RequireComponent(typeof(Rigidbody))]
 
-#if UNITY_EDITOR
-
-#endif
-
 public class PlayerState : BaseCharacterState<PlayerState>
 {
     // インスペクタービューから変更できる
@@ -44,6 +40,15 @@ public class PlayerState : BaseCharacterState<PlayerState>
     [SerializeField] private AnimationClip throwFailedAnimations = null;
     [Header("プレイヤーのスピード(デバッグ用)")]
     [SerializeField] private float playerSpeed = 1.0f;
+
+    [Header("プレイヤーの立ち状態アニメーション")]
+    [SerializeField] private AnimationClip playerStandingAnimation = null;
+    [Header("プレイヤーの歩き状態アニメーション")]
+    [SerializeField] private AnimationClip playerWalkAnimation = null;
+    [Header("プレイヤーの走り状態アニメーション")]
+    [SerializeField] private AnimationClip playerDashAnimation = null;
+    [Header("プレイヤーのジャンプ開始状態アニメーション")]
+    [SerializeField] private AnimationClip playerJumpAnimation = null;
 
 
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
@@ -76,6 +81,9 @@ public class PlayerState : BaseCharacterState<PlayerState>
     private int weponNumber = 0;
     // 空中に浮いているかのフラグ
     private bool isInAir = false;
+    // ジャンプが押されたかどうかのフラグ
+    private bool jumpFlag = false;
+    private int jumpCnt = 0;
 
     // 入力をスタックする
     RESEVEDSTATE nextReserved = RESEVEDSTATE.NOTHING;
@@ -83,7 +91,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
 #if UNITY_EDITOR
     // エディタ実行時に実行される
     // Playerのレンダラー
-    [HideInInspector] public Renderer playerRenderer;
+    [HideInInspector] public Renderer playerRenderer;   
 #endif
 
 
@@ -200,6 +208,19 @@ public class PlayerState : BaseCharacterState<PlayerState>
     // 空中に浮いているかの判定
     public void AirDetermine()
     {
+        if(jumpFlag) 
+        {
+            isInAir = true;
+
+            jumpCnt++;
+            if (jumpCnt > 60)
+            {
+                jumpFlag = false;
+                jumpCnt = 0;
+            }
+
+            return; 
+        }
 
         Ray ray = new Ray(this.transform.position + new Vector3(0.0f, 0.05f, 0.0f), new Vector3(0.0f, -1.0f, 0.0f));
         Debug.DrawRay(this.transform.position + new Vector3(0.0f, 0.05f, 0.0f), new Vector3(0.0f, -1.0f, 0.0f), Color.red);
@@ -340,6 +361,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public void SetPlayerCombo(int value) { playerConbo = value; }
     public void SetPlayerNextReseved(RESEVEDSTATE next) { nextReserved = next; }
     public void SetPlayerSpeed(float speed) { playerSpeed = speed; }
+    public void SetJumpFlag(bool flag) { jumpFlag = flag; }
 
 
 
@@ -372,6 +394,10 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public bool GetPlayerAirFlag() { return isInAir; }
     public AvoidanceManager GetPlayerAvoidanceManager() { return playerAvoidanceManager; }
     public float GetPlayerSpeed() { return playerSpeed; }
+    public AnimationClip GetPlayerStandingAnimation() { return playerStandingAnimation; }
+    public AnimationClip GetPlayerWalkAnimation() { return playerWalkAnimation; }
+    public AnimationClip GetPlayerDashAnimation() { return playerDashAnimation; }
+    public AnimationClip GetPlayerJumpAnimation() { return playerJumpAnimation; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

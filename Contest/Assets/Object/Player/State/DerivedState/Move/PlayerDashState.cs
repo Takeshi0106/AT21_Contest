@@ -88,7 +88,11 @@ public class PlayerDashState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
-        Debug.LogError("DashState : 開始");
+        // 走り状態アニメーション開始
+        if (playerState.GetPlayerAnimator() != null && playerState.GetPlayerDashAnimation() != null)
+        {
+            playerState.GetPlayerAnimator().CrossFade(playerState.GetPlayerDashAnimation().name, 0.1f);
+        }
 
 #if UNITY_EDITOR
         // ダッシュ時に色を紫にする
@@ -132,7 +136,10 @@ public class PlayerDashState : StateClass<PlayerState>
     {
 #if UNITY_EDITOR
         // 色を元に戻す
-        playerState.GetPlayerRenderer().material.color = Color.white;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.white;
+        }
 #endif
     }
 

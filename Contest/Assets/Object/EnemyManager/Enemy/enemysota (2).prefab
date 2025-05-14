@@ -183,7 +183,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5763264191246368348}
+      addedObject: {fileID: 567104062536411927}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5341891314059667066}
@@ -205,8 +205,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
   m_PrefabInstance: {fileID: 8980460584713803994}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &5763264191246368348
-CapsuleCollider:
+--- !u!65 &567104062536411927
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -223,11 +223,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.3
-  m_Height: 1.8
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
+  serializedVersion: 3
+  m_Size: {x: 0.75, y: 1.8, z: 0.64}
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!54 &5341891314059667066
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -275,7 +273,8 @@ MonoBehaviour:
   enemyManagerObject: {fileID: 0}
   enemySpeed: 1
   flinchFreams: 10
-  enemyDeadAnimation: {fileID: 3094330708855449807, guid: e7b67a10cefcbf64c917a57c42f0785f, type: 3}
+  enemyStandingAnimation: {fileID: 3094330708855449807, guid: 000cfc588d3bc224e91ba6eb9d12ad48, type: 3}
+  enemyDeadAnimation: {fileID: 3094330708855449807, guid: ec105fe467c688d4c90350131c3874ee, type: 3}
   enemyRenderer: {fileID: 0}
 --- !u!114 &4045888681683395993
 MonoBehaviour:

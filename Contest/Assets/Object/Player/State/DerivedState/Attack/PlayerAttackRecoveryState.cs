@@ -135,8 +135,10 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
             Debug.LogError("PlayerAttackState : WeponData‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
             return;
         }
-
-        playerState.GetPlayerRenderer().material.color = Color.blue;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.blue;
+        }
 
 #endif
     }
@@ -162,7 +164,10 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
         playerState.SetPlayerNextReseved(RESEVEDSTATE.NOTHING);
 
 #if UNITY_EDITOR
-        playerState.GetPlayerRenderer().material.color = Color.white;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.white;
+        }
 #endif
     }
 

@@ -42,6 +42,12 @@ public class EnemyStandingState : StateClass<EnemyState>
     // 状態の開始処理
     public override void Enter(EnemyState enemyState)
     {
+        // 立ち状態アニメーション開始
+        if (enemyState.GetEnemyAnimator() != null && enemyState.GetEnemyStandingAnimation() != null)
+        {
+            enemyState.GetEnemyAnimator().CrossFade(enemyState.GetEnemyStandingAnimation().name, 0.1f);
+        }
+
         // デバッグ用に攻撃状態に移行するフレームを決める
         waitTime = Random.Range(30, 120);
 

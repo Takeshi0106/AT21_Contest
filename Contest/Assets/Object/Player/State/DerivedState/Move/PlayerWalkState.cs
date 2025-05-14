@@ -90,6 +90,12 @@ public class PlayerWalkState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
+        // 歩き状態アニメーション開始
+        if (playerState.GetPlayerAnimator() != null && playerState.GetPlayerWalkAnimation() != null)
+        {
+            playerState.GetPlayerAnimator().CrossFade(playerState.GetPlayerWalkAnimation().name, 0.1f);
+        }
+
 #if UNITY_EDITOR
         Debug.LogError("WalkState : 開始");
 #endif

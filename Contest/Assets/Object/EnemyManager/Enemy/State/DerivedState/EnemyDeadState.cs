@@ -31,6 +31,7 @@ public class EnemyDeadState : StateClass<EnemyState>
     // 状態の開始処理
     public override void Enter(EnemyState enemyState)
     {
+        enemyState.GetEnemyWeponManager().DisableAllWeaponAttacks(); // 攻撃タグを元に戻す
         enemyState.GetEnemyWeponManager().RemoveAllWeapon(); // 武器データをすべて削除
 
         // 死亡アニメーション開始

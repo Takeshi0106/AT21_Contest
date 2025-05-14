@@ -50,7 +50,10 @@ public class PlayerFlinchState : StateClass<PlayerState>
 
 #if UNITY_EDITOR
         // デバッグ時色を青色に変更する
-        playerState.GetPlayerRenderer().material.color = Color.blue;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.blue;
+        }
 #endif
 
         /*
@@ -85,7 +88,10 @@ public class PlayerFlinchState : StateClass<PlayerState>
 
 #if UNITY_EDITOR
         // デバッグ時色を白にする
-        playerState.GetPlayerRenderer().material.color = Color.white;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.white;
+        }
 #endif
     }
 

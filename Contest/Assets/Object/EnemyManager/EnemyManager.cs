@@ -27,8 +27,6 @@ public class EnemyManager : MonoBehaviour
     {
         // Enemyを追加する
         enemies.Add(enemy);
-        // 非アクティブにする
-        enemy.gameObject.SetActive(false);
 
         if (cnt == 0)
         {

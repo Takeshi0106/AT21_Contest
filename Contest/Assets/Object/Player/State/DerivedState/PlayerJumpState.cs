@@ -51,6 +51,13 @@ public class PlayerJumpState : StateClass<PlayerState>
 
             // ƒWƒƒƒ“ƒvˆ—
             currentState.GetPlayerRigidbody().AddForce(new Vector3(0.0f, currentState.GetPlayerJumpPower(), 0.0f), ForceMode.Impulse);
+
+            if (currentState.GetPlayerAnimator() != null && currentState.GetPlayerJumpAnimation() != null)
+            {
+                currentState.GetPlayerAnimator().CrossFade(currentState.GetPlayerJumpAnimation().name, 0.1f);
+            }
+
+            currentState.SetJumpFlag(true);
         }
     }
 
