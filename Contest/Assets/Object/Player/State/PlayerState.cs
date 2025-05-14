@@ -48,7 +48,9 @@ public class PlayerState : BaseCharacterState<PlayerState>
     [Header("プレイヤーの走り状態アニメーション")]
     [SerializeField] private AnimationClip playerDashAnimation = null;
     [Header("プレイヤーのジャンプ開始状態アニメーション")]
-    [SerializeField] private AnimationClip playerJumpAnimation = null;
+    [SerializeField] private AnimationClip playerJumpStartAnimation = null;
+    [Header("プレイヤーのジャンプ終了状態アニメーション")]
+    [SerializeField] private AnimationClip playerJumpEndAnimation = null;
 
 
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
@@ -397,7 +399,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public AnimationClip GetPlayerStandingAnimation() { return playerStandingAnimation; }
     public AnimationClip GetPlayerWalkAnimation() { return playerWalkAnimation; }
     public AnimationClip GetPlayerDashAnimation() { return playerDashAnimation; }
-    public AnimationClip GetPlayerJumpAnimation() { return playerJumpAnimation; }
+    public AnimationClip GetPlayerJumpStartAnimation() { return playerJumpStartAnimation; }
+    public AnimationClip GetPlayerJumpEndAnimation() { return playerJumpEndAnimation; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
