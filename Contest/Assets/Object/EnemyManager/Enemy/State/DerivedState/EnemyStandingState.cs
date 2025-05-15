@@ -35,6 +35,11 @@ public class EnemyStandingState : StateClass<EnemyState>
         {
             enemyState.ChangeState(EnemyAttackState.Instance);
         }
+        // 怯み状態に移行
+        if (enemyState.GetEnemyDamageFlag() && enemyState.GetEnemyFlinchCnt() < 1)
+        {
+            enemyState.ChangeState(EnemyFlinchState.Instance);
+        }
     }
 
 
@@ -52,7 +57,7 @@ public class EnemyStandingState : StateClass<EnemyState>
         waitTime = Random.Range(30, 120);
 
 #if UNITY_EDITOR
-        // Debug.LogError("EnemyStandingState : 開始");
+        Debug.LogError("EnemyStandingState : 開始");
 #endif
     }
 

@@ -124,15 +124,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.035731
+      value: 3.13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.5168548
+      value: -2.52
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.2700667
+      value: 3.84
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -273,13 +273,14 @@ MonoBehaviour:
   playerAttackTag: PlayerAttack
   playerCounterTag: CounterAttack
   playerThrowTag: ThrowAttack
-  dropWeapon: {fileID: 11400000, guid: 155ba5082b28bf545a889af5e6ed2c26, type: 2}
+  dropWeapon: {fileID: 11400000, guid: dc4be1975f2a2c94a8e73037ebd57faa, type: 2}
   player: {fileID: 0}
   enemyManagerObject: {fileID: 0}
   enemySpeed: 1
-  flinchFreams: 10
+  flinchFreams: 30
   enemyStandingAnimation: {fileID: 3094330708855449807, guid: 000cfc588d3bc224e91ba6eb9d12ad48, type: 3}
   enemyDeadAnimation: {fileID: 3094330708855449807, guid: ec105fe467c688d4c90350131c3874ee, type: 3}
+  enemyFlinchAnimation: {fileID: 3094330708855449807, guid: eed216188b27f1140b011295637ece48, type: 3}
   enemyRenderer: {fileID: 0}
 --- !u!114 &4045888681683395993
 MonoBehaviour:
@@ -295,7 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weponNumber: 1
   weaponDataList:
-  - {fileID: 11400000, guid: eb405332d60f01147aad68874f0652a0, type: 2}
+  - {fileID: 11400000, guid: 0bbd2f48fd18b6b49ae7145cffe77d6b, type: 2}
   pearentWeponAttack: {fileID: 2351968896349266825}
 --- !u!114 &5283891759001760544
 MonoBehaviour:

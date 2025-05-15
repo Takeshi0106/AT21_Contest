@@ -32,6 +32,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [SerializeField] private AnimationClip enemyStandingAnimation = null;
     [Header("死亡アニメーション")]
     [SerializeField] private AnimationClip enemyDeadAnimation = null;
+    [Header("怯みアニメーション")]
+    [SerializeField] private AnimationClip enemyFlinchAnimation = null;
 
 
     // 衝突したオブジェクトを保存するリスト
@@ -56,6 +58,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
     private int weponNumber = 0;
     // カウンター攻撃で倒れたかのチェック
     private bool hitCounter = false;
+    //
+    private bool damagerFlag = false;
+    //
+    private int flinchCnt = 0;
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
@@ -119,6 +125,17 @@ public class EnemyState : BaseCharacterState<EnemyState>
     // 更新処理
     void Update()
     {
+        Vector3 direction = player.transform.position - transform.position;
+
+        // Y方向の回転だけにしたい場合（上下は無視）
+        direction.y = 0;
+
+        // 向きたい方向が0ベクトルでないことを確認
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        }
 
         StateUpdate();
     }
@@ -127,6 +144,9 @@ public class EnemyState : BaseCharacterState<EnemyState>
     // ダメージ処理（通常攻撃＋カウンター攻撃対応）
     public void HandleDamage()
     {
+        damagerFlag = false;
+        hitCounter = false;
+
         // 保存したコライダーのタグが元に戻る可のチェック
         CleanupInvalidDamageColliders();
 
@@ -138,6 +158,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
             // プレイヤーの攻撃タグがあるかを調べる
             if (info.multiTag.HasTag(playerAttackTag))
             {
+                damagerFlag = true;
+
                 // プレイヤーの基本ダメージを入れる変数
                 float baseDamage = 0.0f;
                 // プレイヤーの攻撃アップ倍率を入れる変数
@@ -274,6 +296,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
     // セッター
     public void SetEnemyCombo(int combo) { enemyConbo = combo; }
+    public void SetEnemyFlinchCnt(int cnt) { flinchCnt = cnt; }
 
     // ゲッター
     public  List<Collider>  GetEnemyCollidedObjects()  { return collidedObjects; }
@@ -288,6 +311,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public Animator GetEnemyAnimator() { return enemyAnimator; }
     public AnimationClip GetEnemyStandingAnimation() { return enemyStandingAnimation; }
     public AnimationClip GetEnemyDeadAnimation() { return enemyDeadAnimation; }
+    public AnimationClip GetEnemyFlinchAnimation() { return enemyFlinchAnimation; }
+    public bool GetEnemyDamageFlag() { return damagerFlag; }
+    public bool GetEnemyHitCounterFlag() { return hitCounter; }
+    public int GetEnemyFlinchCnt() { return flinchCnt; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

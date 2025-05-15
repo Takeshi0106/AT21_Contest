@@ -40,6 +40,12 @@ public class EnemyAttackState : StateClass<EnemyState>
             enemyState.ChangeState(EnemyAttackRecoveryState.Instance);
             return;
         }
+        // ‹¯‚İó‘Ô‚ÉˆÚs
+        if(enemyState.GetEnemyHitCounterFlag())
+        {
+            enemyState.ChangeState(EnemyFlinchState.Instance);
+            return;
+        }
     }
 
 

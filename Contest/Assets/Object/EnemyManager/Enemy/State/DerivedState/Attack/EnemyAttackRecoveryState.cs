@@ -42,24 +42,28 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
     // 状態の変更処理
     public override void Change(EnemyState enemyState)
     {
-        // 攻撃硬直フレームが終わると立ち状態に戻る
-        if (freams >= weponData.GetAttackStaggerFrames(enemyState.GetEnemyConbo()))
+        // 硬直フレームが終わったら処理
+        if (freams >= weponData.GetAttackStaggerFrames(enemyState.GetEnemyConbo()) - 1)
         {
-            //　コンボを初期化する
-            enemyState.SetEnemyCombo(0);
-            // 後から硬直状態に移行する
-            enemyState.ChangeState(EnemyStandingState.Instance);
+            if (enemyState.GetEnemyConbo() < weponData.GetMaxCombo() - 1)
+            {
+                // コンボを進める
+                enemyState.SetEnemyCombo(enemyState.GetEnemyConbo() + 1);
+                enemyState.ChangeState(EnemyAttackState.Instance);
+            }
+            else
+            {
+                // コンボ終了 → 立ち状態へ戻る
+                enemyState.SetEnemyCombo(0);
+                enemyState.ChangeState(EnemyStandingState.Instance);
+            }
             return;
         }
 
-        // 攻撃状態に変更
-        if (freams >= weponData.GetAttackStaggerFrames(enemyState.GetEnemyConbo()) - 1 &&
-            enemyState.GetEnemyConbo() < weponData.GetMaxCombo() - 1)
+        // 怯み状態に移行
+        if (enemyState.GetEnemyDamageFlag())
         {
-            // コンボを増やす
-            enemyState.SetEnemyCombo(enemyState.GetEnemyConbo() + 1);
-            // 攻撃状態に移行
-            enemyState.ChangeState(EnemyAttackState.Instance);
+            enemyState.ChangeState(EnemyFlinchState.Instance);
             return;
         }
     }
@@ -119,6 +123,8 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
     {
         // 初期化
         freams = 0;
+        //
+        enemyState.SetEnemyFlinchCnt(0);
 
 #if UNITY_EDITOR
 

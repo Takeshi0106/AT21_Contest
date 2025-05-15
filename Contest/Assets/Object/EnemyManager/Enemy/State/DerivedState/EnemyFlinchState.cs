@@ -1,4 +1,4 @@
-
+using UnityEngine;
 
 public class EnemyFlinchState : StateClass<EnemyState>
 {
@@ -34,7 +34,17 @@ public class EnemyFlinchState : StateClass<EnemyState>
     // 状態の開始処理
     public override void Enter(EnemyState enemyState)
     {
+        // アニメーション再生
+        // Animator を取得
+        var anim = enemyState.GetEnemyAnimator();
+        var animClip = enemyState.GetEnemyFlinchAnimation();
 
+        if (anim != null && animClip != null)
+        {
+            anim.CrossFade(animClip.name, 0.1f);
+        }
+
+        enemyState.SetEnemyFlinchCnt(enemyState.GetEnemyFlinchCnt() + 1);
     }
 
 
@@ -49,6 +59,6 @@ public class EnemyFlinchState : StateClass<EnemyState>
     // 状態中の終了処理
     public override void Exit(EnemyState enemyState)
     {
-
+        freams = 0;
     }
 }

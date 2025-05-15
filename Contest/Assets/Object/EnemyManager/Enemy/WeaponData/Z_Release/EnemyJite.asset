@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b87207878e16c44b7eb0cb3842e389, type: 3}
-  m_Name: EnemyKatanaAttackData
+  m_Name: EnemyJite
   m_EditorClassIdentifier: 
-  weponName: Enemykatana
+  weponName: Enemyjitte
   maxCombo: 1
-  attackStartupFruem: 1e000000
+  attackStartupFruem: 14000000
   attackFruem: 14000000
-  attackStaggerFruem: 1e000000
+  attackStaggerFruem: 14000000
   attackDamage:
   - 10
   attackAnimations:
-  - {fileID: 7400000, guid: 7364e2646a7d3f7409265a5665f62e95, type: 2}
+  - {fileID: 7400000, guid: 523aebe7506fea54499ac830a0355f9d, type: 2}
   attackStaggerAnimations: []
   attackThrowDamage: 0
   ThrowStartupFruem: 0
