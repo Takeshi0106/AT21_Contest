@@ -77,19 +77,12 @@ public class PlayerAttackState : StateClass<PlayerState>
 
         // アニメーション再生
         // Animator を取得
-        // var anim = playerState.GetPlayerAnimator();
-        // AnimationClip を取得
+        var anim = playerState.GetPlayerAnimator();
         var animClip = weponData.GetAttackAnimation(playerState.GetPlayerConbo());
-        var childAnim = playerState.GetPlayerWeponManager().GetCurrentWeaponAnimator();
-        /*
+
         if (anim != null && animClip != null)
         {
-            // anim.CrossFade(animClip.name, 0.2f);
-        }
-        */
-        if (childAnim != null && animClip != null)
-        {
-            childAnim.CrossFade(animClip.name, 0.0f);
+            anim.CrossFade(animClip.name, 0.1f);
         }
 
 #if UNITY_EDITOR

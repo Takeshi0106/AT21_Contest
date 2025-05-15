@@ -43,6 +43,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
 
     [Header("プレイヤーの立ち状態アニメーション")]
     [SerializeField] private AnimationClip playerStandingAnimation = null;
+    [Header("プレイヤーの歩き走り状態アニメーション")]
+    [SerializeField] private AnimationClip playerWeaponTakeAnimation = null;
     [Header("プレイヤーの歩き状態アニメーション")]
     [SerializeField] private AnimationClip playerWalkAnimation = null;
     [Header("プレイヤーの走り状態アニメーション")]
@@ -88,6 +90,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     // ジャンプが押されたかどうかのフラグ
     private bool jumpFlag = false;
     private int jumpCnt = 0;
+    // ダメージを受けた時のフラグ
+    private bool damageFlag = false;
 
     // 入力をスタックする
     RESEVEDSTATE nextReserved = RESEVEDSTATE.NOTHING;
@@ -258,6 +262,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     // ダメージ処理
     public void HandleDamage()
     {
+        // フラグ更新
+        damageFlag = false;
         // 保存したコライダーのタグが元に戻る可のチェック
         CleanupInvalidDamageColliders();
 
@@ -305,6 +311,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
                 {
                     // ダメージ処理
                     hpManager.TakeDamage(enemyState.GetEnemyWeponManager().GetWeaponData(0).GetDamage(enemyState.GetEnemyConbo()));
+                    damageFlag = true;
                 }
 
 #if UNITY_EDITOR
@@ -404,6 +411,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public AnimationClip GetPlayerJumpStartAnimation() { return playerJumpStartAnimation; }
     public AnimationClip GetPlayerJumpEndAnimation() { return playerJumpEndAnimation; }
     public AnimationClip GetPlayerFlinchAnimation() { return playerFlinchAnimation; }
+    public AnimationClip GetPlayerWeaponTakeAnimation() { return playerWeaponTakeAnimation; }
+    public bool GetPlayerDamagerFlag() { return damageFlag; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

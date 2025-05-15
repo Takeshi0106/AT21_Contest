@@ -10,31 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b87207878e16c44b7eb0cb3842e389, type: 3}
-  m_Name: PlayerNaginataWeaponData
+  m_Name: Player2AttackData
   m_EditorClassIdentifier: 
-  weponName: PlayerNaginata
-  maxCombo: 1
+  weponName: player02
+  maxCombo: 5
   attackStartupFruem: 1400000014000000140000001400000014000000
   attackFruem: 1400000014000000140000001400000014000000
-  attackStaggerFruem: 2800000028000000280000002800000028000000
+  attackStaggerFruem: 1400000014000000140000001400000014000000
   attackDamage:
   - 10
   - 10
   - 10
   - 10
   - 10
-  attackAnimations:
-  - {fileID: 3094330708855449807, guid: 06fcae5408be27142981079a1e9f9403, type: 3}
-  - {fileID: 3094330708855449807, guid: 06fcae5408be27142981079a1e9f9403, type: 3}
-  - {fileID: 3094330708855449807, guid: 06fcae5408be27142981079a1e9f9403, type: 3}
-  - {fileID: 3094330708855449807, guid: 06fcae5408be27142981079a1e9f9403, type: 3}
-  - {fileID: 3094330708855449807, guid: 06fcae5408be27142981079a1e9f9403, type: 3}
+  attackAnimations: []
   attackStaggerAnimations: []
-  attackThrowDamage: 10
+  attackThrowDamage: 0
   ThrowStartupFruem: 0
   ThrowStaggerFruem: 0
   attackThrowAnimations: {fileID: 0}
   ThrowStartPosison: {x: 0, y: 0, z: 0}
   throwWeaponName: ThrowSword
-  weaponStandingAnimations: {fileID: 3094330708855449807, guid: 935d48b1fb071ee4ba959351eeea7101, type: 3}
+  weaponStandingAnimations: {fileID: 0}
   weaponDashAnimations: {fileID: 0}

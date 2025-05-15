@@ -1,7 +1,5 @@
 fileFormatVersion: 2
-guid: d2af50f4202d28a499ab141a683a1b1a
-labels:
-- Animation
+guid: 8e1a2d70ea6e94b40bc97f085bed7b96
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -21,7 +19,12 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Untitled' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'B-ringFinger01.R' has scale animation that
+      will be discarded.\n\t'B-thigh.R' has scale animation that will be discarded.\n\t'B-shin.R'
+      has scale animation that will be discarded.\n\t'B-foot.R' has scale animation
+      that will be discarded.\n\t'B-toe.R' has scale animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -35,11 +38,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: HumanF@Sprint01_Forward
+      name: HumanF@Run01_Forward
       takeName: Untitled
       internalID: 3094330708855449807
       firstFrame: 0
-      lastFrame: 16
+      lastFrame: 18
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -62,15 +65,11 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
-      - path: HumanM_BodyMesh
-        weight: 1
+      - path: HumanF_BodyMesh
+        weight: 0
       - path: Rig
         weight: 1
       - path: Rig/B-root
-        weight: 1
-      - path: Rig/B-root/B-handProp.L
-        weight: 1
-      - path: Rig/B-root/B-handProp.R
         weight: 1
       - path: Rig/B-root/B-hips
         weight: 1
@@ -91,6 +90,8 @@ ModelImporter:
       - path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L
         weight: 1
       - path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L
+        weight: 1
+      - path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-handProp.L
         weight: 1
       - path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.L/B-upperArm.L/B-forearm.L/B-hand.L/B-indexFinger01.L
         weight: 1
@@ -129,6 +130,8 @@ ModelImporter:
       - path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R
         weight: 1
       - path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R
+        weight: 1
+      - path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-handProp.R
         weight: 1
       - path: Rig/B-root/B-hips/B-spine/B-chest/B-shoulder.R/B-upperArm.R/B-forearm.R/B-hand.R/B-indexFinger01.R
         weight: 1
@@ -175,6 +178,8 @@ ModelImporter:
       - path: Rig/B-root/B-hips/B-thigh.R/B-shin.R/B-foot.R
         weight: 1
       - path: Rig/B-root/B-hips/B-thigh.R/B-shin.R/B-foot.R/B-toe.R
+        weight: 1
+      - path: Rig/B-root/B-spineProxy
         weight: 1
       maskType: 1
       maskSource: {fileID: 31900000, guid: 89527f5525238ee44b3182458d85143a, type: 2}
@@ -666,16 +671,11 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: B-handProp.L
+    - name: B-spineProxy
       parentName: B-root
-      position: {x: -0.68792295, y: 1.38349, z: -0.003847}
-      rotation: {x: -8.7157646e-33, y: 0.7071068, z: 0.7071068, w: 8.659561e-17}
-      scale: {x: 1, y: 1, z: 1}
-    - name: B-handProp.R
-      parentName: B-root
-      position: {x: 0.68792295, y: 1.38349, z: -0.003847}
-      rotation: {x: -8.7157646e-33, y: 0.7071068, z: 0.7071068, w: 8.659561e-17}
-      scale: {x: 1, y: 1, z: 1}
+      position: {x: -0, y: 1.092844, z: 0.029147}
+      rotation: {x: -0.012905054, y: 0, z: -0, w: 0.99991673}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
     - name: B-hips
       parentName: B-root
       position: {x: -0, y: 0.967712, z: 0.016772}
@@ -711,6 +711,11 @@ ModelImporter:
       position: {x: -0.000000328232, y: 0.19596381, z: -0.0000008355853}
       rotation: {x: 0.013529134, y: 0.7054088, z: 0.032969795, w: 0.70790416}
       scale: {x: 0.9999999, y: 1.0000002, z: 1.0000005}
+    - name: B-handProp.R
+      parentName: B-hand.R
+      position: {x: 0.0029605331, y: 0.10533051, z: 0.022608897}
+      rotation: {x: -0.67608327, y: 0.73659164, z: -0.013668106, w: -0.012545319}
+      scale: {x: 0.99999964, y: 1.0000005, z: 0.9999996}
     - name: B-indexFinger01.R
       parentName: B-hand.R
       position: {x: -0.036052607, y: 0.13202412, z: -0.0022375023}
@@ -821,6 +826,11 @@ ModelImporter:
       position: {x: 0.00000052406216, y: 0.1959644, z: -0.0000011816531}
       rotation: {x: 0.013386631, y: -0.70541465, z: -0.032826252, w: 0.7079078}
       scale: {x: 0.99999994, y: 0.9999992, z: 0.9999996}
+    - name: B-handProp.L
+      parentName: B-hand.L
+      position: {x: -0.0029615294, y: 0.10533054, z: 0.02260892}
+      rotation: {x: 0.67608327, y: 0.73659164, z: -0.013668119, w: 0.012545332}
+      scale: {x: 1.0000006, y: 0.99999946, z: 1.0000006}
     - name: B-indexFinger01.L
       parentName: B-hand.L
       position: {x: 0.03605161, y: 0.13202417, z: -0.0022375062}

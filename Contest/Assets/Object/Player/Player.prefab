@@ -188,6 +188,13 @@ MonoBehaviour:
   ThrowFailedFreams: 0
   throwFailedAnimations: {fileID: 0}
   playerSpeed: 1
+  playerStandingAnimation: {fileID: 0}
+  playerWeaponTakeAnimation: {fileID: 0}
+  playerWalkAnimation: {fileID: 0}
+  playerDashAnimation: {fileID: 0}
+  playerJumpStartAnimation: {fileID: 0}
+  playerJumpEndAnimation: {fileID: 0}
+  playerFlinchAnimation: {fileID: 0}
   playerRenderer: {fileID: 0}
 --- !u!114 &3586333692824838623
 MonoBehaviour:
@@ -237,9 +244,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weponNumber: 3
   weaponDataList:
-  - {fileID: 11400000, guid: 155ba5082b28bf545a889af5e6ed2c26, type: 2}
+  - {fileID: 11400000, guid: d46360db657b7e74fa14216f5499f351, type: 2}
   - {fileID: 11400000, guid: d46360db657b7e74fa14216f5499f351, type: 2}
   - {fileID: 11400000, guid: 7bd74f80cd643b54fba22753e7d6bbf3, type: 2}
+  pearentWeponAttack: {fileID: 0}
 --- !u!114 &8104745275857776129
 MonoBehaviour:
   m_ObjectHideFlags: 0

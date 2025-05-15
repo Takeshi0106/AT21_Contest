@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Playables;
 
 // =======================================
 // プレイヤーの怯み状態
@@ -39,13 +40,31 @@ public class PlayerFlinchState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState currentState)
     {
+        // アニメーション再生
+        // Animator を取得
+        var anim = currentState.GetPlayerAnimator();
+        var animClip = currentState.GetPlayerFlinchAnimation();
 
+        if (anim != null && animClip != null)
+        {
+            anim.CrossFade(animClip.name, 0.1f);
+        }
+#if UNITY_EDITOR
+        else
+        {
+            Debug.Log("アニメーションが開始されません");
+        }
+        Debug.Log("怯み状態");
+#endif
     }
 
 
     // 状態中の処理
     public override void Excute(PlayerState playerState)
     {
+        // ダメージ処理
+        playerState.CleanupInvalidDamageColliders();
+
         freams += playerState.GetPlayerSpeed();
 
 #if UNITY_EDITOR
@@ -85,6 +104,8 @@ public class PlayerFlinchState : StateClass<PlayerState>
         // ストックの初期化
         playerState.SetPlayerNextReseved(RESEVEDSTATE.NOTHING);
         */
+
+        freams = 0;
 
 #if UNITY_EDITOR
         // デバッグ時色を白にする

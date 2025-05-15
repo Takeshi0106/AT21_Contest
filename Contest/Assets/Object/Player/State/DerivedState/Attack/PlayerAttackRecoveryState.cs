@@ -109,24 +109,17 @@ public class PlayerAttackRecoveryState : StateClass<PlayerState>
     public override void Enter(PlayerState playerState)
     {
         weponData = playerState.GetPlayerWeponManager().GetWeaponData(playerState.GetPlayerWeponNumber());
-
+        /*
         // アニメーション再生
         // Animator を取得
-        //var anim = playerState.GetPlayerAnimator();
-        // AnimationClip を取得
+        var anim = playerState.GetPlayerAnimator();
         var animClip = weponData.GetAttackStaggerAnimation(playerState.GetPlayerConbo());
-        var childAnim = playerState.GetPlayerWeponManager().GetCurrentWeaponAnimator();
-        /*
+
         if (anim != null && animClip != null)
         {
-            // anim.CrossFade(animClip.name, 0.2f);
+            anim.CrossFade(animClip.name, 0.1f);
         }
         */
-        if (childAnim != null && animClip != null)
-        {
-            childAnim.CrossFade(animClip.name, 0.2f);
-        }
-
 #if UNITY_EDITOR
         Debug.LogError("PlayerAttackRecoveryState : 開始");
 
