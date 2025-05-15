@@ -65,6 +65,12 @@ public class EnemyManager : MonoBehaviour
         onEnemySlow.AddListener(action);
     }
 
+
+    public void RemoveOnEnemySlow(UnityAction<float> action)
+    {
+        onEnemySlow.RemoveListener(action);
+    }
+
     // ƒvƒŒƒCƒ„[‚ª“G‚É‚Ô‚Â‚©‚Á‚½‚Ìˆ—
     void OnTriggerEnter(Collider other)
     {

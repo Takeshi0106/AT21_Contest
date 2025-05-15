@@ -15,7 +15,7 @@ MonoBehaviour:
   weponName: player02
   maxCombo: 5
   attackStartupFruem: 1400000014000000140000001400000014000000
-  attackFruem: 1400000014000000140000001400000014000000
+  attackFruem: 1400000028000000140000001e00000014000000
   attackStaggerFruem: 1400000014000000140000001400000014000000
   attackDamage:
   - 10
@@ -23,11 +23,16 @@ MonoBehaviour:
   - 10
   - 10
   - 10
-  attackAnimations: []
+  attackAnimations:
+  - {fileID: 7400000, guid: e585a9831cc540f4b9bd1d7580ddc856, type: 2}
+  - {fileID: 7400000, guid: ac96dd25d3b43b845901efd2a64ec50d, type: 2}
+  - {fileID: 7400000, guid: 7ca41bafa539dda409159af85c095c03, type: 2}
+  - {fileID: 7400000, guid: 1915694ce53e23e4db2966bdbf1471a2, type: 2}
+  - {fileID: 7400000, guid: 14c607dd832c76c4bb8f215ea4d3667b, type: 2}
   attackStaggerAnimations: []
-  attackThrowDamage: 0
-  ThrowStartupFruem: 0
-  ThrowStaggerFruem: 0
+  attackThrowDamage: 10
+  ThrowStartupFruem: 20
+  ThrowStaggerFruem: 30
   attackThrowAnimations: {fileID: 0}
   ThrowStartPosison: {x: 0, y: 0, z: 0}
   throwWeaponName: ThrowSword

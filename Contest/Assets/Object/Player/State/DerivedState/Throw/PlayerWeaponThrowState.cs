@@ -51,7 +51,7 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
         // 立ち状態に戻す
         if (freams > throwStartUpFreams + throwStaggerFreams)
         {
-            playerState.ChangeState(PlayerCounterStaggerState.Instance);
+            playerState.ChangeState(PlayerStandingState.Instance);
             return;
         }
     }
@@ -112,6 +112,7 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
         // 投げる
         if (freams > throwStartUpFreams && !throwFlag)
         {
+
             throwFlag = true;
 
             // 投げる武器のオブジェクトを取得する
@@ -126,11 +127,17 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
                 // オブジェクトを生成する
                 GameObject thrownObj = GameObject.Instantiate(prefab, worldThrowPos, Quaternion.identity);
 
-                // オブジェクトに回転を適用
-                thrownObj.transform.rotation = Quaternion.LookRotation(playerState.GetPlayerTransform().forward);
+                // プレハブの元の回転を取得
+                Quaternion originalRotation = prefab.transform.rotation;
+
+                // プレイヤーの forward を向く回転
+                Quaternion lookRotation = Quaternion.LookRotation(playerState.GetPlayerTransform().forward);
+
+                // 回転を合成する（lookRotation を基準にして originalRotation を追加）
+                thrownObj.transform.rotation = lookRotation * originalRotation;
 
                 // プレイヤーのトランスフォームをセットする
-                thrownObj.GetComponent<ThrowObjectState>().SetCameraTransfoem(playerState.GetCameraTransform());
+                thrownObj.GetComponent<ThrowObjectState>().SetPlayerTransfoem(playerState.GetPlayerTransform());
             }
 
             // 装備から削除

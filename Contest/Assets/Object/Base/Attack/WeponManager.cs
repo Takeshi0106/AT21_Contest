@@ -56,6 +56,8 @@ public class WeponManager : MonoBehaviour
             return;
         }
 
+        Debug.Log("オブジェクト削除");
+
         Destroy(instantiatedWeapons[index]);
         instantiatedWeapons.RemoveAt(index);
         weaponDataList.RemoveAt(index);

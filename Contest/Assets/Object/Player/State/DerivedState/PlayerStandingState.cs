@@ -60,11 +60,14 @@ public class PlayerStandingState : StateClass<PlayerState>
         {
             if (playerState.GetPlayerWeponManager().GetWeaponCount() <= 1)
             {
+                Debug.Log("“Š‚°‚é‚ÌŽ¸”s");
+
                 // •Ší‚ð“Š‚°‚é‚ÌŽ¸”só‘Ô‚ÉˆÚs
                 playerState.ChangeState(PlayerThrowFailedState.Instance);
             }
             else
             {
+                Debug.Log("“Š‚°‚é‚Ì¬Œ÷");
                 // •Ší‚ð“Š‚°‚éó‘Ô‚ÉˆÚs
                 playerState.ChangeState(PlayerWeaponThrowState.Instance);
             }

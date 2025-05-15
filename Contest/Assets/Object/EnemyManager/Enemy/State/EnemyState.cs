@@ -111,6 +111,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
         enemyManager.RegisterEnemy(this);
 
         this.gameObject.SetActive(false);
+
+        SetEnemySpead(0.8f);
     }
 
 
@@ -223,6 +225,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
     private void Die()
     {
+        enemyManager.RemoveOnEnemySlow(SetEnemySpead);
         // EnemyManagerに自分が倒れたことを知らせる
         enemyManager.UnregisterEnemy(this);
 
@@ -252,7 +255,14 @@ public class EnemyState : BaseCharacterState<EnemyState>
             // フレームの進む処理を更新
             enemySpeed = speed;
             // アニメーションの速度を変更
-            enemyWeponManager.GetCurrentWeaponAnimator().speed = speed;
+            if (enemyAnimator != null)
+            {
+                enemyAnimator.speed = speed;
+            }
+            else
+            {
+                enemyWeponManager.GetCurrentWeaponAnimator().speed = speed;
+            }
         }
         else
         {

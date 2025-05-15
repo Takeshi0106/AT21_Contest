@@ -122,7 +122,7 @@ public class AvoidanceManager : MonoBehaviour
         // プレイヤーのフレーム処理を元に戻す
         playerState.SetPlayerSpeed(1.0f);
         // 敵を元に戻す
-        enemySystem.EnemySlow(1.0f);
+        enemySystem.EnemySlow(0.8f);
         // フラグをOFFにする
         slowFlag= false;
         // フレームを初期化する
