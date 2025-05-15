@@ -86,4 +86,27 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+
+
+    // プレイヤーの位置を渡して、最も近い Enemy の位置を返す
+    public Vector3 GetNearestEnemyPosition(Vector3 playerPosition)
+    {
+        EnemyState nearest = null;
+        float shortestDistance = float.MaxValue;
+
+        foreach (EnemyState enemy in enemies)
+        {
+            if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+
+            float distance = Vector3.Distance(playerPosition, enemy.transform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearest = enemy;
+            }
+        }
+
+        // 見つかった場合はその位置を返す。なければ Vector3.zero を返す（要調整可能）
+        return nearest != null ? nearest.transform.position : Vector3.zero;
+    }
 }

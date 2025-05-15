@@ -136,5 +136,5 @@ public class AvoidanceManager : MonoBehaviour
     public int GetAvoidanceFreams() { return avoidanceFreams; }
     public int GetAvoidanceAfterFreams() { return avoidanceAfterFreams; }
     public int GetAvoidanceInvincibleFreams() { return avoidanceInvincibleFreams; }
-    public EnemySystem GetEnemyManager() { return enemySystem;}
+    public EnemySystem GetEnemySystem() { return enemySystem;}
 }

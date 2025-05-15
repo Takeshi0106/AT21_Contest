@@ -85,6 +85,18 @@ public class PlayerAttackState : StateClass<PlayerState>
             anim.CrossFade(animClip.name, 0.1f);
         }
 
+        Vector3 nearestEnemyPos = playerState.GetNearEnemyPos();
+
+        // 敵の方向ベクトル（Y軸は無視して水平方向のみ）
+        Vector3 direction = nearestEnemyPos - playerState.GetPlayerTransform().position;
+        direction.y = 0f; // プレイヤーの向きは水平に限定（上下を向かないように）
+
+        if (direction.magnitude <= 5.0f)
+        {
+            // 一瞬で向きを変更
+            playerState.GetPlayerTransform().forward = direction.normalized;
+        }
+
 #if UNITY_EDITOR
         Debug.LogError($"PlayerAttackState : 開始（Combo数：{playerState.GetPlayerConbo() + 1}）");
 

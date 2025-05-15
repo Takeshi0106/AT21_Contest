@@ -15,7 +15,7 @@ MonoBehaviour:
   weponName: EnemyNaginata
   maxCombo: 1
   attackStartupFruem: 28000000
-  attackFruem: 14000000
+  attackFruem: 0f000000
   attackStaggerFruem: 14000000
   attackDamage:
   - 10

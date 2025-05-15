@@ -413,6 +413,11 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public AnimationClip GetPlayerFlinchAnimation() { return playerFlinchAnimation; }
     public AnimationClip GetPlayerWeaponTakeAnimation() { return playerWeaponTakeAnimation; }
     public bool GetPlayerDamagerFlag() { return damageFlag; }
+    
+    public Vector3 GetNearEnemyPos()
+    {
+        return playerAvoidanceManager.GetEnemySystem().GetNearestEnemyPositionFromAll(this.transform.position);
+    }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

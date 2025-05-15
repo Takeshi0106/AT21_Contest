@@ -51,4 +51,28 @@ public class EnemySystem : MonoBehaviour
             enemy.EnemySlow(slowSpead);
         }
     }
+
+
+    // プレイヤーの位置を渡して、最も近い EnemyState の位置を返す
+    public Vector3 GetNearestEnemyPositionFromAll(Vector3 playerPosition)
+    {
+        EnemyManager nearest = null;
+        float shortestDistance = float.MaxValue;
+
+        foreach (EnemyManager enemy in enemyMan)
+        {
+            if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+
+            float distance = Vector3.Distance(playerPosition, enemy.transform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearest = enemy;
+            }
+        }
+
+        Vector3 nearestPosition = nearest.GetNearestEnemyPosition(playerPosition);
+
+        return nearestPosition;
+    }
 }
