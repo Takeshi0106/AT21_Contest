@@ -26,7 +26,7 @@ Git LFS initialized.
 
 
 メモーーー
-ステージのモデルにNavMeshSurfaceの追加と
-敵のprefab内にNavMeshAgentとChaseScriptが無い場合はこれらを追加しておいてください。
+ステージのモデルにNavMeshSurfaceの追加とbakeの実行をお願いします。
+それと敵のprefab内にNavMeshAgentとChaseScriptが無い場合はこれらを追加しておいてください。
 各種値の設定はEnemyStateで行っています。
 ー西嶋奨真
