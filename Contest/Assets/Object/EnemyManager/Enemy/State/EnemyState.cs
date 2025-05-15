@@ -40,6 +40,9 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [Header("敵の走る移動速度")]
     [SerializeField] private float dashSpeed = 4.0f; //移動速度
 
+    [Header("攻撃する距離")]
+    [SerializeField] private float attackDistance = 1.0f; //移動速度
+
 
     // 衝突したオブジェクトを保存するリスト
     [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
@@ -333,6 +336,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public bool GetEnemyAttackFlag() { return attackFlag; }
     public Transform GetPlayerTransform() { return playerTransform; }
     public AnimationClip GetEnemyDashAnimation() { return enemyDashAnimation; }
+    public float GetDistanceAttack() { return attackDistance; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

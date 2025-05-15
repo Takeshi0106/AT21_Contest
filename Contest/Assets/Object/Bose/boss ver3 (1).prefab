@@ -264,6 +264,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 1e74d1cd1c7634c478ff0e9d7b253440, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 27c9c3997d512464aaa931b2e4d2e68b, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -321,6 +325,8 @@ MonoBehaviour:
   enemyStandingAnimation: {fileID: 3094330708855449807, guid: 4a76b59085c494645b9859aeae7aff8c, type: 3}
   enemyDeadAnimation: {fileID: 3094330708855449807, guid: be58c7fe8e77fdf4baf2b59bfa439674, type: 3}
   enemyFlinchAnimation: {fileID: 3094330708855449807, guid: 417bf2986de813e41baa7ceb88b15ebc, type: 3}
+  enemyDashAnimation: {fileID: 0}
+  dashSpeed: 4
   enemyRenderer: {fileID: 0}
 --- !u!54 &7486263584721190395
 Rigidbody:

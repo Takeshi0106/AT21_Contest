@@ -30,7 +30,7 @@ public class EnemyMoveState : StateClass<EnemyState>
         Vector3 vec = enemyState.GetPlayerState().transform.position - enemyState.transform.position;
 
         // UŒ‚ó‘Ô
-        if (vec.magnitude < 1.0f && enemyState.GetEnemyAttackFlag())
+        if (vec.magnitude < enemyState.GetDistanceAttack() && enemyState.GetEnemyAttackFlag())
         {
             enemyState.ChangeState(EnemyAttackState.Instance);
             return;
