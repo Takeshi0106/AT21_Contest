@@ -33,7 +33,7 @@ public class EnemyManager : MonoBehaviour
             // EnemySystemに自分を渡す
             enemyManager = system.GetComponent<EnemySystem>();
             enemyManager.RegisterEnemyManager(this);
-            
+
             cnt = 1;
         }
     }
@@ -108,5 +108,43 @@ public class EnemyManager : MonoBehaviour
 
         // 見つかった場合はその位置を返す。なければ Vector3.zero を返す（要調整可能）
         return nearest != null ? nearest.transform.position : Vector3.zero;
+    }
+
+
+    public void NearEnemyFlag(Vector3 playerPosition)
+    {
+        EnemyState nearest = null;
+        float shortestDistance = float.MaxValue;
+
+        foreach (EnemyState enemy in enemies)
+        {
+            if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+
+            enemy.SetEnemyAttackFlag(false);
+
+            float distance = Vector3.Distance(playerPosition, enemy.transform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearest = enemy;
+            }
+        }
+        // Nullチェックを追加
+        if (nearest != null)
+        {
+            nearest.SetEnemyAttackFlag(true);
+        }
+
+    }
+
+
+    public void EnemyFlagFalse()
+    {
+        foreach (EnemyState enemy in enemies)
+        {
+            if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+
+            enemy.SetEnemyAttackFlag(false);
+        }
     }
 }

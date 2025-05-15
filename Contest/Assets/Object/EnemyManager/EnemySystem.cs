@@ -10,7 +10,34 @@ using UnityEngine.SceneManagement;
 
 public class EnemySystem : MonoBehaviour
 {
+    [Header("Playerのオブジェクト")]
+    [SerializeField] private GameObject player = null;
+
     private List<EnemyManager> enemyMan = new List<EnemyManager>();
+
+
+    void Update()
+    {
+        EnemyManager nearest = null;
+        float shortestDistance = float.MaxValue;
+
+        foreach (EnemyManager enemy in enemyMan)
+        {
+            if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+
+            enemy.EnemyFlagFalse();
+
+            float distance = Vector3.Distance(player.transform.position, enemy.transform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearest = enemy;
+            }
+        }
+
+        nearest.NearEnemyFlag(player.transform.position);
+    }
+
 
 
     // EnemyManagerの数を取得
@@ -75,4 +102,7 @@ public class EnemySystem : MonoBehaviour
 
         return nearestPosition;
     }
+
+
+
 }

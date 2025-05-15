@@ -34,6 +34,11 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [SerializeField] private AnimationClip enemyDeadAnimation = null;
     [Header("怯みアニメーション")]
     [SerializeField] private AnimationClip enemyFlinchAnimation = null;
+    [Header("走るアニメーション")]
+    [SerializeField] private AnimationClip enemyDashAnimation = null;
+
+    [Header("敵の走る移動速度")]
+    [SerializeField] private float dashSpeed = 4.0f; //移動速度
 
 
     // 衝突したオブジェクトを保存するリスト
@@ -51,6 +56,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
     // Enemyのアニメーションを取得する
     private Animator enemyAnimator;
 
+    private Transform playerTransform;
+
 
     // 現在のコンボ数
     private int enemyConbo = 0;
@@ -63,6 +70,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
     //
     private int flinchCnt = 0;
 
+    private bool attackFlag = false;
+
 #if UNITY_EDITOR
     // エディタ実行時に実行される
     // Enemyのレンダラー
@@ -74,12 +83,6 @@ public class EnemyState : BaseCharacterState<EnemyState>
     // 初期化処理
     void Start()
     {
-        // 状態をセット
-        currentState = EnemyStandingState.Instance;
-
-        // 状態の開始処理
-        currentState.Enter(this);
-
         // ウェポンマネージャー
         enemyWeponManager = this.gameObject.GetComponent<WeponManager>();
         // hpManager
@@ -93,6 +96,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
         // アニメーターを取得
         enemyAnimator = this.gameObject.GetComponent<Animator>();
 
+        playerTransform = player.transform;
 
         // HPマネージャーにDie関数を渡す
         hpManager.SetOnDeathEvent(Die);
@@ -100,6 +104,11 @@ public class EnemyState : BaseCharacterState<EnemyState>
         // エネミーマネジャーにスローイベントをセット
         enemyManager.AddOnEnemySlow(SetEnemySpead);
 
+
+        // 状態をセット
+        currentState = EnemyStandingState.Instance;
+        // 状態の開始処理
+        currentState.Enter(this);
 
 
 #if UNITY_EDITOR
@@ -116,27 +125,15 @@ public class EnemyState : BaseCharacterState<EnemyState>
         // エネミーオブジェクトに自分を渡す
         enemyManager.RegisterEnemy(this);
 
-        this.gameObject.SetActive(false);
-
         SetEnemySpead(0.8f);
+
+        this.gameObject.SetActive(false);
     }
 
 
     // 更新処理
     void Update()
     {
-        Vector3 direction = player.transform.position - transform.position;
-
-        // Y方向の回転だけにしたい場合（上下は無視）
-        direction.y = 0;
-
-        // 向きたい方向が0ベクトルでないことを確認
-        if (direction != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
-        }
-
         StateUpdate();
     }
 
@@ -267,6 +264,20 @@ public class EnemyState : BaseCharacterState<EnemyState>
         ChangeState(EnemyDeadState.Instance); // Dead状態に変更
     }
 
+    public void Target()
+    {
+        Vector3 direction = player.transform.position - transform.position;
+
+        // Y方向の回転だけにしたい場合（上下は無視）
+        direction.y = 0;
+
+        // 向きたい方向が0ベクトルでないことを確認
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        }
+    }
 
 
     // スピードをセットする処理
@@ -297,6 +308,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
     // セッター
     public void SetEnemyCombo(int combo) { enemyConbo = combo; }
     public void SetEnemyFlinchCnt(int cnt) { flinchCnt = cnt; }
+    public void SetEnemyAttackFlag(bool flag) { attackFlag = flag; }
 
     // ゲッター
     public  List<Collider>  GetEnemyCollidedObjects()  { return collidedObjects; }
@@ -315,6 +327,12 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public bool GetEnemyDamageFlag() { return damagerFlag; }
     public bool GetEnemyHitCounterFlag() { return hitCounter; }
     public int GetEnemyFlinchCnt() { return flinchCnt; }
+    public PlayerState GetPlayerState() { return playerState; }
+    public float GetEnemyDashSpeed() { return dashSpeed; }
+    public Rigidbody GetEnemyRigidbody() { return enemyRigidbody; }
+    public bool GetEnemyAttackFlag() { return attackFlag; }
+    public Transform GetPlayerTransform() { return playerTransform; }
+    public AnimationClip GetEnemyDashAnimation() { return enemyDashAnimation; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

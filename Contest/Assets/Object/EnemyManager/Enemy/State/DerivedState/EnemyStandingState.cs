@@ -11,7 +11,6 @@ public class EnemyStandingState : StateClass<EnemyState>
     float freams = 0;
     int waitTime = 0;
 
-
     // インスタンスを取得する関数
     public static EnemyStandingState Instance
     {
@@ -30,10 +29,12 @@ public class EnemyStandingState : StateClass<EnemyState>
     // 状態の変更処理
     public override void Change(EnemyState enemyState)
     {
-        // 攻撃状態に移行する
-        if (freams > waitTime)
+        Vector3 vec = enemyState.GetPlayerState().transform.position - enemyState.transform.position;
+
+        // 移動状態に移行する
+        if (vec.magnitude > 8.0f || enemyState.GetEnemyAttackFlag())
         {
-            enemyState.ChangeState(EnemyAttackState.Instance);
+            enemyState.ChangeState(EnemyMoveState.Instance);
         }
         // 怯み状態に移行
         if (enemyState.GetEnemyDamageFlag() && enemyState.GetEnemyFlinchCnt() < 1)
@@ -54,7 +55,7 @@ public class EnemyStandingState : StateClass<EnemyState>
         }
 
         // デバッグ用に攻撃状態に移行するフレームを決める
-        waitTime = Random.Range(30, 120);
+        // waitTime = Random.Range(30, 120);
 
 #if UNITY_EDITOR
         Debug.LogError("EnemyStandingState : 開始");
@@ -68,6 +69,8 @@ public class EnemyStandingState : StateClass<EnemyState>
     {
         // ダメージ処理
         enemyState.HandleDamage();
+
+        enemyState.Target();
 
         // フレーム更新
         freams += enemyState.GetEnemySpeed();

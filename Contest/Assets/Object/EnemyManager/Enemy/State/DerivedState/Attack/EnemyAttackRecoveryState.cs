@@ -16,6 +16,8 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
     // フレームを計る
     float freams = 0.0f;
 
+    Vector3 vec;
+
 #if UNITY_EDITOR
     // エディタ実行時に実行される
     // 元の色を保存
@@ -43,7 +45,7 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
     public override void Change(EnemyState enemyState)
     {
         // 硬直フレームが終わったら処理
-        if (freams >= weponData.GetAttackStaggerFrames(enemyState.GetEnemyConbo()) - 1)
+        if (vec.magnitude < 3.0f && enemyState.GetEnemyAttackFlag())
         {
             if (enemyState.GetEnemyConbo() < weponData.GetMaxCombo() - 1)
             {
@@ -58,6 +60,12 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
                 enemyState.ChangeState(EnemyStandingState.Instance);
             }
             return;
+        }
+        else
+        {
+            // コンボ終了 → 立ち状態へ戻る
+            enemyState.SetEnemyCombo(0);
+            enemyState.ChangeState(EnemyStandingState.Instance);
         }
 
         // 怯み状態に移行
@@ -88,6 +96,8 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
         }
         */
 
+        vec = enemyState.GetPlayerState().transform.position - enemyState.transform.position;
+
 #if UNITY_EDITOR
 
         if (weponData == null)
@@ -111,6 +121,8 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
     {
         // ダメージ処理
         enemyState.HandleDamage();
+
+        vec = enemyState.GetPlayerState().transform.position - enemyState.transform.position;
 
         // フレーム更新
         freams += enemyState.GetEnemySpeed();
