@@ -157,6 +157,9 @@ MonoBehaviour:
   player: {fileID: 0}
   enemyManagerObject: {fileID: 0}
   enemySpeed: 1
+  flinchFreams: 10
+  enemyStandingAnimation: {fileID: 0}
+  enemyDeadAnimation: {fileID: 0}
   enemyRenderer: {fileID: 0}
 --- !u!114 &7865408868508022245
 MonoBehaviour:
@@ -173,6 +176,7 @@ MonoBehaviour:
   weponNumber: 1
   weaponDataList:
   - {fileID: 11400000, guid: 30c130a138ac5794ab9ab7b053b79c5c, type: 2}
+  pearentWeponAttack: {fileID: 0}
 --- !u!114 &3988906008379263456
 MonoBehaviour:
   m_ObjectHideFlags: 0

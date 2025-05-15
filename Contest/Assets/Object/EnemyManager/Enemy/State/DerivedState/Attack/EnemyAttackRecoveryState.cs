@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
+// ======================
+// 敵の攻撃後状態
+// ======================
+
 public class EnemyAttackRecoveryState : StateClass<EnemyState>
 {
     // インスタンスを入れる変数
@@ -68,6 +72,7 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
         // 武器データ取得
         weponData = enemyState.GetEnemyWeponManager().GetWeaponData(enemyState.GetEnemyWeponNumber());
 
+        /*
         // アニメーション取得
         var animClip = weponData.GetAttackStaggerAnimation(enemyState.GetEnemyConbo());
         var childAnim = enemyState.GetEnemyWeponManager().GetCurrentWeaponAnimator();
@@ -77,6 +82,7 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
         {
             childAnim.CrossFade(animClip.name, 0.1f);
         }
+        */
 
 #if UNITY_EDITOR
 

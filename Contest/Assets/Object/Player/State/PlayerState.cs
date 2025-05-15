@@ -130,7 +130,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
         // 回避管理
         playerAvoidanceManager = this.gameObject.GetComponent<AvoidanceManager>();
 
-        // playerCounterObject.SetActive(false);
+        playerCounterObject.SetActive(false);
         // HPマネージャーにDie関数を渡す
         hpManager.SetOnDeathEvent(Die);
 

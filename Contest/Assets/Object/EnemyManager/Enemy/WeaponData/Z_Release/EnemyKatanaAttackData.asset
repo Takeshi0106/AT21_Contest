@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b87207878e16c44b7eb0cb3842e389, type: 3}
-  m_Name: NaginataAttackData
+  m_Name: EnemyKatanaAttackData
   m_EditorClassIdentifier: 
-  weponName: Sword
+  weponName: Enemykatana
   maxCombo: 1
-  attackStartupFruem: 28000000
+  attackStartupFruem: 14000000
   attackFruem: 14000000
   attackStaggerFruem: 14000000
   attackDamage:
   - 10
   attackAnimations:
-  - {fileID: 0}
+  - {fileID: 7400000, guid: 7364e2646a7d3f7409265a5665f62e95, type: 2}
   attackStaggerAnimations: []
   attackThrowDamage: 0
   ThrowStartupFruem: 0

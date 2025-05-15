@@ -124,15 +124,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.2
+      value: 5.035731
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.32
+      value: -3.5168548
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.57
+      value: 2.2700667
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -140,15 +140,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -200,6 +200,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3011124497376341643}
   m_SourcePrefab: {fileID: 100100000, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
+--- !u!1 &2351968896349266825 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6630106164445657939, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
+  m_PrefabInstance: {fileID: 8980460584713803994}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8097587045541504395 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
@@ -290,7 +295,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weponNumber: 1
   weaponDataList:
-  - {fileID: 11400000, guid: 30c130a138ac5794ab9ab7b053b79c5c, type: 2}
+  - {fileID: 11400000, guid: eb405332d60f01147aad68874f0652a0, type: 2}
+  pearentWeponAttack: {fileID: 2351968896349266825}
 --- !u!114 &5283891759001760544
 MonoBehaviour:
   m_ObjectHideFlags: 0
