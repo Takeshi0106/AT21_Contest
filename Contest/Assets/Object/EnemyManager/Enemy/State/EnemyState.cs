@@ -26,6 +26,13 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [Header("デバッグ用　敵の速度(0.01～1.00)")]
     [SerializeField] private float enemySpeed = 1.0f;
 
+    [Header("視野角")]
+    [SerializeField] private float fov;
+    [Header("視野の長さ")]
+    [SerializeField] private float visionLength;
+    [Header("攻撃レンジ")]
+    [SerializeField] private float attackRange;
+
 
     // 衝突したオブジェクトを保存するリスト
     [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
@@ -260,6 +267,11 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public string GetEnemyPlayerAttackTag() { return playerAttackTag; }
     public string GetEnemyPlayerCounterAttackTag() { return playerCounterTag; }
     public float GetEnemySpeed() { return enemySpeed; }
+
+    public float GetEnemyFov() { return fov; }
+    public float GetEnemyVisionLength() { return visionLength; }
+    public float GetEnemyAttackRange() { return attackRange; }
+    public EnemyManager GetEnemyManager() { return enemyManager; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
