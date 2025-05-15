@@ -5,26 +5,27 @@ using UnityEngine.AI;
 
 public class ChaseScript : MonoBehaviour
 {
-    [Header("ターゲット")]
-    [SerializeField] private Transform target;
+    //[Header("ターゲット")]
+    //[SerializeField] 
+    private Transform target;
 
     private NavMeshAgent agent;
 
-    private void Start()
+    public void SetTarget(GameObject _gameObject)
     {
-        //ターゲットが取得されていたら
-        if (target != null)
+        //ターゲットとagentが定義されていないなら定義する
+        if (agent == null && target == null)
         {
-           // Debug.LogError("ターゲット取得:" + target.name);
-           //コンポーネント取得
+            target = _gameObject.transform;
+            Debug.Log("ターゲット取得:" + target.name);
             agent = GetComponent<NavMeshAgent>();
-            //Debug.Log("停止距離：" + agent.stoppingDistance);
-
         }
     }
 
+    
     public void SetStoppingDistance(float _stoppingDistance)
     {
+        //停止距離を外から持ってきた値に設定する
         agent.stoppingDistance = _stoppingDistance;
         //Debug.Log("停止距離：" + agent.stoppingDistance);
     }
@@ -36,11 +37,9 @@ public class ChaseScript : MonoBehaviour
         {
             //Debug.LogError(name+":が処理している");
             agent.destination = target.position;
+            //Debug.Log("変更後：" + agent.destination);
         }
 
     }
-
-
-
 
 }

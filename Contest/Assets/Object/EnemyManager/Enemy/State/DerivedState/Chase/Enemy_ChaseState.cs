@@ -10,7 +10,7 @@ public class Enemy_ChaseState : StateClass<EnemyState>
 
    //プレイヤーが当たっているかを確認する変数
     private RaycastHit hit;
-    private GameObject target;
+    //private GameObject target;
 
     //エネミーごとに持っているスクリプトを識別して格納する変数
     private Dictionary<string, ChaseScript> pair_enemyChase = new Dictionary<string, ChaseScript>();
@@ -35,10 +35,10 @@ public class Enemy_ChaseState : StateClass<EnemyState>
     {
         //確認用レイ
         Debug.DrawRay(enemyState.transform.position,
-                (target.transform.position - enemyState.transform.position), Color.green, 0.1f);
+                (enemyState.GetTargetObject().transform.position - enemyState.transform.position), Color.green, 0.1f);
         //一定の距離にプレイヤーが来たら
         if (Physics.Raycast(enemyState.transform.position, 
-            (target.transform.position - enemyState.transform.position), out hit, enemyState.GetEnemyAttackRange()))
+            (enemyState.GetTargetObject().transform.position - enemyState.transform.position), out hit, enemyState.GetEnemyAttackRange()))
         {
             if (hit.collider.gameObject.name == "Player")
             {
@@ -54,18 +54,15 @@ public class Enemy_ChaseState : StateClass<EnemyState>
         //dictionary内にキーが格納されていないなら追加
         if(!pair_enemyChase.ContainsKey(enemyState.name))
         {
-            pair_enemyChase.Add(enemyState.name,enemyState.GetComponent<ChaseScript>());
+            pair_enemyChase.Add(enemyState.name, enemyState.GetComponent<ChaseScript>());
+            //pair_enemyChase.Add(enemyState.name, enemyState.GetComponent<ChaseScript>());
             Debug.LogError(enemyState.name + "を追加");
         }
 
-        //プレイヤーを探して取得する
-        target = GameObject.Find("Player");
+        //ターゲットオブジェクトを渡す
+        pair_enemyChase[enemyState.name].SetTarget(enemyState.GetTargetObject());
 
-        if (target == null)
-        {
-            Debug.LogWarning("指定のオブジェクトが見つかりませんでした");
-        }
-        //Debug.LogError(enemyState.name+":chaseScriptに移行");
+        Debug.LogError(enemyState.name+":chaseScriptに移行");
 
         //停止する距離を渡す
         pair_enemyChase[enemyState.name].SetStoppingDistance(enemyState.GetEnemyAttackRange());
@@ -74,8 +71,10 @@ public class Enemy_ChaseState : StateClass<EnemyState>
     //状態中の処理
     public override void Excute(EnemyState enemyState)
     {
+        //現在のenemyStateが存在するなら
         if (pair_enemyChase.ContainsKey(enemyState.name))
         {
+            //追跡スクリプトの関数呼び出し
             pair_enemyChase[enemyState.name].TargetChase();
             //Debug.LogError(enemyState.name + "が動かしている");
         }

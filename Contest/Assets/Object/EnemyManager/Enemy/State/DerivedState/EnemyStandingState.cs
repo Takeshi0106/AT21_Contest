@@ -13,7 +13,7 @@ public class EnemyStandingState : StateClass<EnemyState>
 
     //視野角にプレイヤーがいるかを判断する変数
     private RaycastHit hit;
-    private GameObject target;
+    //private GameObject target;
 
     // インスタンスを取得する関数
     public static EnemyStandingState Instance
@@ -39,7 +39,7 @@ public class EnemyStandingState : StateClass<EnemyState>
 
         //目標（Player）に向けての方向ベクトルの単位ベクトル
         Vector3 targetDir =
-            (target.transform.position - enemyState.transform.position).normalized;
+            (enemyState.GetTargetObject().transform.position - enemyState.transform.position).normalized;
 
         //敵の正面ベクトルとプレイヤーに向けての単位ベクトルとの内積
         float angle = Vector3.Dot(enemyState.transform.forward, targetDir);
@@ -58,7 +58,7 @@ public class EnemyStandingState : StateClass<EnemyState>
 
         //プレイヤーに向かってレイを飛ばす
         Debug.DrawRay(enemyState.transform.position,
-            (target.transform.position - enemyState.transform.position) * 2, Color.blue, 0.1f);
+            (enemyState.GetTargetObject().transform.position - enemyState.transform.position) * 2, Color.blue, 0.1f);
 
         //視野角を視覚化
         Debug.DrawRay(enemyState.transform.position, rotation1 * enemyState.transform.forward * 30f, Color.red, 0.1f);
@@ -69,12 +69,13 @@ public class EnemyStandingState : StateClass<EnemyState>
         {
             //視認距離の内側にいるか
             if (Physics.Raycast(enemyState.transform.position,
-                (target.transform.position - enemyState.transform.position), out hit, enemyState.GetEnemyVisionLength()))
+                (enemyState.GetTargetObject().transform.position - enemyState.transform.position), out hit, enemyState.GetEnemyVisionLength()))
             {
                 //当たったゲームオブジェクトがプレイヤーかつ、一定の距離より遠いなら追跡ステートに切り替え
                 if (hit.collider.gameObject.name == "Player" && hit.distance > enemyState.GetEnemyAttackRange())
                 {
                     //Debug.LogError(hit.collider.gameObject.name + "に当たった");
+                    enemyState.SetFoundTargetFlg(true);
                     enemyState.ChangeState(Enemy_ChaseState.Instance);
                 }
                 //一定の距離以下なら攻撃ステートに
@@ -100,15 +101,6 @@ public class EnemyStandingState : StateClass<EnemyState>
         // デバッグ用に攻撃状態に移行するフレームを決める
         waitTime = Random.Range(30, 120);
 
-        //プレイヤーを探して取得する
-        target = GameObject.Find("Player");
-
-        if (target == null)
-        {
-            Debug.LogWarning("指定のオブジェクトが見つかりませんでした");
-        }
-
-
 #if UNITY_EDITOR
         // Debug.LogError("EnemyStandingState : 開始");
 #endif
@@ -124,6 +116,14 @@ public class EnemyStandingState : StateClass<EnemyState>
 
         // フレーム更新
         freams += enemyState.GetEnemySpeed();
+
+        //プレイヤーの方を向かせる
+        if(enemyState.GetFoundTargetFlg() == true)
+        {
+            enemyState.transform.LookAt(enemyState.GetTargetObject().transform.position);
+        }
+        
+
     }
 
 
