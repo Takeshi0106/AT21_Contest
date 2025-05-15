@@ -8,6 +8,8 @@ public class WeponManager : MonoBehaviour
     [SerializeField] private int weponNumber = 1;
     [Header("所持している武器データ（プレイヤー用は3つまで）")]
     [SerializeField] private List<BaseAttackData> weaponDataList = new List<BaseAttackData>();
+    [Header("武器を付ける親オブジェクトの設定")]
+    [SerializeField] private GameObject pearentWeponAttack = null;
 
     // 武器のオブジェクトを入れる
     private List<GameObject> instantiatedWeapons = new List<GameObject>();
@@ -97,7 +99,16 @@ public class WeponManager : MonoBehaviour
             instantiatedWeapons.Clear();
 
             // 新しい武器の生成と親子関係の設定
-            GameObject weaponInstance = Instantiate(weaponPrefab, transform);
+            GameObject weaponInstance = null;
+
+            if (pearentWeponAttack != null)
+            {
+                weaponInstance = Instantiate(weaponPrefab, pearentWeponAttack.transform);
+            }
+            else
+            {
+                weaponInstance = Instantiate(weaponPrefab, transform);
+            }
             weaponInstance.name = weaponPrefab.name;
             instantiatedWeapons.Clear(); // 前のリストもクリア
             instantiatedWeapons.Add(weaponInstance);

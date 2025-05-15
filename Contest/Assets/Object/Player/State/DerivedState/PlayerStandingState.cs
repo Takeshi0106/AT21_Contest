@@ -90,13 +90,20 @@ public class PlayerStandingState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
+        BaseAttackData weponData = playerState.GetPlayerWeponManager().GetWeaponData(playerState.GetPlayerWeponNumber());
+
         // 立ち状態アニメーション開始
-        if (playerState.GetPlayerAnimator() != null && playerState.GetPlayerStandingAnimation() != null)
+        if (playerState.GetPlayerAnimator() != null && weponData.GetWeaponStandingAnimation() != null)
+        {
+            playerState.GetPlayerAnimator().CrossFade(weponData.GetWeaponStandingAnimation().name, 0.1f);
+        }
+#if UNITY_EDITOR
+        // 立ち状態アニメーション開始
+        else if (playerState.GetPlayerAnimator() != null && playerState.GetPlayerStandingAnimation() != null)
         {
             playerState.GetPlayerAnimator().CrossFade(playerState.GetPlayerStandingAnimation().name, 0.1f);
         }
 
-#if UNITY_EDITOR
         Debug.LogError("PlayerStandingState : 開始");
 #endif
     }

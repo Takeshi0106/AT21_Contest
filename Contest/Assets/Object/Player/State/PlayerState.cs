@@ -51,6 +51,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     [SerializeField] private AnimationClip playerJumpStartAnimation = null;
     [Header("プレイヤーのジャンプ終了状態アニメーション")]
     [SerializeField] private AnimationClip playerJumpEndAnimation = null;
+    [Header("プレイヤーの怯み状態アニメーション")]
+    [SerializeField] private AnimationClip playerFlinchAnimation = null;
 
 
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
@@ -401,6 +403,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public AnimationClip GetPlayerDashAnimation() { return playerDashAnimation; }
     public AnimationClip GetPlayerJumpStartAnimation() { return playerJumpStartAnimation; }
     public AnimationClip GetPlayerJumpEndAnimation() { return playerJumpEndAnimation; }
+    public AnimationClip GetPlayerFlinchAnimation() { return playerFlinchAnimation; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
