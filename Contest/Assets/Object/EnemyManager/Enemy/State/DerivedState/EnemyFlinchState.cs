@@ -3,13 +3,13 @@ using UnityEngine;
 public class EnemyFlinchState : StateClass<EnemyState>
 {
     // インスタンスを取得する
-    protected static EnemyFlinchState instance;
+    protected EnemyFlinchState instance;
     // フレームを計測する
     protected float freams = 0.0f;
 
 
     // インスタンスを取得する関数
-    public static EnemyFlinchState Instance
+    public EnemyFlinchState Instance
     {
         get
         {
@@ -27,7 +27,7 @@ public class EnemyFlinchState : StateClass<EnemyState>
     {
         if (freams > enemyState.GetEnemyFlinchFreams())
         {
-            enemyState.ChangeState(EnemyStandingState.Instance);
+            enemyState.ChangeState(new EnemyStandingState());
         }
     }
 

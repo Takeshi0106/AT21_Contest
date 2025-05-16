@@ -7,12 +7,12 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 public class EnemyMoveState : StateClass<EnemyState>
 {
     // インスタンスを入れる変数
-    private static EnemyMoveState instance;
+    private EnemyMoveState instance;
 
     int i = 0;
 
     // インスタンスを取得する関数
-    public static EnemyMoveState Instance
+    public EnemyMoveState Instance
     {
         get
         {
@@ -32,19 +32,19 @@ public class EnemyMoveState : StateClass<EnemyState>
         // 攻撃状態
         if (vec.magnitude < enemyState.GetDistanceAttack() && enemyState.GetEnemyAttackFlag())
         {
-            enemyState.ChangeState(EnemyAttackState.Instance);
+            enemyState.ChangeState(new EnemyAttackState());
             return;
         }
         // 立ち状態
         if (vec.magnitude < 7.5f && !enemyState.GetEnemyAttackFlag())
         {
-            enemyState.ChangeState(EnemyStandingState.Instance);
+            enemyState.ChangeState(new EnemyStandingState());
             return;
         }
         // 怯み状態
         if (enemyState.GetEnemyDamageFlag() && enemyState.GetEnemyFlinchCnt() < 1)
         {
-            enemyState.ChangeState(EnemyFlinchState.Instance);
+            enemyState.ChangeState(new EnemyFlinchState());
             return;
         }
     }

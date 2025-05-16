@@ -9,14 +9,14 @@ using UnityEngine;
 public class EnemyAttackState : StateClass<EnemyState>
 {
     // インスタンスを入れる変数
-    private static EnemyAttackState instance;
+    private EnemyAttackState instance;
     // weponData
     private static BaseAttackData weponData;
     // フレームを計る
     float freams = 0.0f;
 
     // インスタンスを取得する関数
-    public static EnemyAttackState Instance
+    public EnemyAttackState Instance
     {
         get
         {
@@ -37,13 +37,13 @@ public class EnemyAttackState : StateClass<EnemyState>
         if (freams >= (weponData.GetAttackStartupFrames(enemyState.GetEnemyConbo()) +
     weponData.GetAttackSuccessFrames(enemyState.GetEnemyConbo())))
         {
-            enemyState.ChangeState(EnemyAttackRecoveryState.Instance);
+            enemyState.ChangeState(new EnemyAttackRecoveryState());
             return;
         }
         // 怯み状態に移行
         if(enemyState.GetEnemyHitCounterFlag())
         {
-            enemyState.ChangeState(EnemyFlinchState.Instance);
+            enemyState.ChangeState(new EnemyFlinchState());
             return;
         }
     }

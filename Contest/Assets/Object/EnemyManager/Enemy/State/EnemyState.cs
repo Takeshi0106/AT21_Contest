@@ -109,7 +109,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
 
         // 状態をセット
-        currentState = EnemyStandingState.Instance;
+        currentState = new EnemyStandingState();
         // 状態の開始処理
         currentState.Enter(this);
 
@@ -264,7 +264,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
         enemyRigidbody.useGravity = false; // 重力をOFFにする
         this.GetComponent<Collider>().enabled = false; // コライダーを無効にする
         
-        ChangeState(EnemyDeadState.Instance); // Dead状態に変更
+        ChangeState(new EnemyDeadState()); // Dead状態に変更
     }
 
     public void Target()
@@ -305,7 +305,6 @@ public class EnemyState : BaseCharacterState<EnemyState>
             Debug.Log("スピードがセットできませんでした。");
         }
     }
-
 
 
     // セッター

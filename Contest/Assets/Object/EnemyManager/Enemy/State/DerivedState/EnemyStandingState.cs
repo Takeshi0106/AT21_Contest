@@ -6,13 +6,13 @@ using UnityEngine.Playables;
 public class EnemyStandingState : StateClass<EnemyState>
 {
     // インスタンスを入れる変数
-    private static EnemyStandingState instance;
+    private EnemyStandingState instance;
     // フレームを計る
     float freams = 0;
     int waitTime = 0;
 
     // インスタンスを取得する関数
-    public static EnemyStandingState Instance
+    public EnemyStandingState Instance
     {
         get
         {
@@ -34,12 +34,12 @@ public class EnemyStandingState : StateClass<EnemyState>
         // 移動状態に移行する
         if (vec.magnitude > 8.0f || enemyState.GetEnemyAttackFlag())
         {
-            enemyState.ChangeState(EnemyMoveState.Instance);
+            enemyState.ChangeState(new EnemyMoveState());
         }
         // 怯み状態に移行
         if (enemyState.GetEnemyDamageFlag() && enemyState.GetEnemyFlinchCnt() < 1)
         {
-            enemyState.ChangeState(EnemyFlinchState.Instance);
+            enemyState.ChangeState(new EnemyFlinchState());
         }
     }
 

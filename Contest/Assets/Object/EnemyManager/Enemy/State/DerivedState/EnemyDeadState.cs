@@ -3,10 +3,10 @@
 public class EnemyDeadState : StateClass<EnemyState>
 {
     // インスタンスを入れる変数
-    private static EnemyDeadState instance;
+    private EnemyDeadState instance;
 
     // インスタンスを取得する関数
-    public static EnemyDeadState Instance
+    public EnemyDeadState Instance
     {
         get
         {

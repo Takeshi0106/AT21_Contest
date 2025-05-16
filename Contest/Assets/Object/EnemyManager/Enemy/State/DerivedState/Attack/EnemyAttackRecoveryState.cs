@@ -10,7 +10,7 @@ using UnityEngine.Playables;
 public class EnemyAttackRecoveryState : StateClass<EnemyState>
 {
     // インスタンスを入れる変数
-    private static EnemyAttackRecoveryState instance;
+    private EnemyAttackRecoveryState instance;
     // weponData
     private static BaseAttackData weponData;
     // フレームを計る
@@ -27,7 +27,7 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
 
 
     // インスタンスを取得する関数
-    public static EnemyAttackRecoveryState Instance
+    public EnemyAttackRecoveryState Instance
     {
         get
         {
@@ -51,13 +51,13 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
             {
                 // コンボを進める
                 enemyState.SetEnemyCombo(enemyState.GetEnemyConbo() + 1);
-                enemyState.ChangeState(EnemyAttackState.Instance);
+                enemyState.ChangeState(new EnemyAttackState());
             }
             else
             {
                 // コンボ終了 → 立ち状態へ戻る
                 enemyState.SetEnemyCombo(0);
-                enemyState.ChangeState(EnemyStandingState.Instance);
+                enemyState.ChangeState(new EnemyStandingState());
             }
             return;
         }
@@ -65,13 +65,13 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
         {
             // コンボ終了 → 立ち状態へ戻る
             enemyState.SetEnemyCombo(0);
-            enemyState.ChangeState(EnemyStandingState.Instance);
+            enemyState.ChangeState(new EnemyStandingState());
         }
 
         // 怯み状態に移行
         if (enemyState.GetEnemyDamageFlag())
         {
-            enemyState.ChangeState(EnemyFlinchState.Instance);
+            enemyState.ChangeState(new EnemyFlinchState());
             return;
         }
     }
