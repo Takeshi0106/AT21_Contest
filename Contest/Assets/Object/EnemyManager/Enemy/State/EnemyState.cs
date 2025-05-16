@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 // =====================================
 // エネミーの状態
@@ -26,6 +27,18 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [Header("デバッグ用　敵の速度(0.01～1.00)")]
     [SerializeField] private float enemySpeed = 1.0f;
 
+    [Header("視野角")]
+    [SerializeField] private float fov;
+    [Header("視野の長さ")]
+    [SerializeField] private float visionLength;
+    [Header("攻撃レンジ")]
+    [SerializeField] private float attackRange;
+
+    //プレイヤーを発見したかのフラグ
+    private bool foundTargetFlg;
+
+    //敵が追いかけるゲームオブジェクト（プレイヤー）
+    private GameObject targetObject;
 
     // 衝突したオブジェクトを保存するリスト
     [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
@@ -82,7 +95,14 @@ public class EnemyState : BaseCharacterState<EnemyState>
         // エネミーマネジャーにスローイベントをセット
         enemyManager.AddOnEnemySlow(SetEnemySpead);
 
+        //ターゲットオブジェクト（プレイヤー）を取得
+        targetObject = GameObject.Find("Player");
 
+        //オブジェクトが見つからなかったら
+        if (targetObject == null)
+        {
+            Debug.LogWarning("指定のオブジェクトが見つかりませんでした");
+        }
 
 #if UNITY_EDITOR
         // エディタ実行時に取得して色を変更する
@@ -250,6 +270,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
     // セッター
     public void SetEnemyCombo(int combo) { enemyConbo = combo; }
+    public void SetFoundTargetFlg(bool _foundTargetFlg) { foundTargetFlg = _foundTargetFlg; }
 
     // ゲッター
     public  List<Collider>  GetEnemyCollidedObjects()  { return collidedObjects; }
@@ -260,6 +281,13 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public string GetEnemyPlayerAttackTag() { return playerAttackTag; }
     public string GetEnemyPlayerCounterAttackTag() { return playerCounterTag; }
     public float GetEnemySpeed() { return enemySpeed; }
+
+    public float GetEnemyFov() { return fov; }
+    public float GetEnemyVisionLength() { return visionLength; }
+    public float GetEnemyAttackRange() { return attackRange; }
+    public EnemyManager GetEnemyManager() { return enemyManager; }
+    public bool GetFoundTargetFlg() { return foundTargetFlg; }
+    public GameObject GetTargetObject() { return targetObject; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
