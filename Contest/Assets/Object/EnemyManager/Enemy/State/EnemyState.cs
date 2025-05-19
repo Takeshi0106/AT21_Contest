@@ -304,10 +304,6 @@ public class EnemyState : BaseCharacterState<EnemyState>
             {
                 enemyAnimator.speed = speed;
             }
-            else
-            {
-                enemyWeponManager.GetCurrentWeaponAnimator().speed = speed;
-            }
         }
         else
         {

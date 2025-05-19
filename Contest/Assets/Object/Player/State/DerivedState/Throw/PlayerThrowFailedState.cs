@@ -49,15 +49,15 @@ public class PlayerThrowFailedState : StateClass<PlayerState>
     public override void Enter(PlayerState playerState)
     {
         AnimationClip animClip = playerState.GetThrowFailedAnimation();
-        var childAnim = playerState.GetPlayerWeponManager().GetCurrentWeaponAnimator();
+        var anim = playerState.GetPlayerAnimator();
 
         // 武器データを取得する
         weponData = playerState.GetPlayerWeponManager().GetWeaponData(playerState.GetPlayerWeponNumber());
 
         // アニメーション開始処理
-        if (animClip != null && childAnim != null)
+        if (animClip != null && anim != null)
         {
-            childAnim.CrossFade(animClip.name, 0.2f);
+            anim.CrossFade(animClip.name, 0.2f);
         }
 
 #if UNITY_EDITOR

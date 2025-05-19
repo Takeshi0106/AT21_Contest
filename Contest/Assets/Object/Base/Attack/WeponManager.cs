@@ -16,9 +16,6 @@ public class WeponManager : MonoBehaviour
     // 今持っている武器の番号
     int weaponHaveNumber = 0;
 
-    // 現在の武器の Animator を保持
-    private Animator currentWeaponAnimator;
-
     void Start()
     {
         if (weaponDataList.Count == 0) return;
@@ -114,16 +111,6 @@ public class WeponManager : MonoBehaviour
             weaponInstance.name = weaponPrefab.name;
             instantiatedWeapons.Clear(); // 前のリストもクリア
             instantiatedWeapons.Add(weaponInstance);
-
-            // Animator を取得・保存
-            currentWeaponAnimator = weaponInstance.GetComponentInChildren<Animator>();
-
-#if UNITY_EDITOR
-            if (currentWeaponAnimator == null)
-            {
-                Debug.LogWarning($"武器 {weaponName} に Animator が存在しません");
-            }
-#endif
         }
 #if UNITY_EDITOR
         else
@@ -193,6 +180,5 @@ public class WeponManager : MonoBehaviour
 
 
     // ゲッター
-    public Animator GetCurrentWeaponAnimator() { return currentWeaponAnimator; }
     public int GetWeaponCount() { return weaponDataList.Count; }
 }
