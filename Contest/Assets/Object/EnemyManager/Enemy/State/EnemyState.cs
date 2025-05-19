@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 // =====================================
 // エネミーの状態
@@ -42,6 +43,16 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
     [Header("攻撃する距離")]
     [SerializeField] private float attackDistance = 1.0f; //移動速度
+
+    [Header("視野角")]
+    [SerializeField] private float fov;
+    [Header("視野の長さ")]
+    [SerializeField] private float visionLength;
+    [Header("攻撃レンジ")]
+    [SerializeField] private float attackRange;
+
+    //プレイヤーを発見したかのフラグ
+    private bool foundTargetFlg;
 
 
     // 衝突したオブジェクトを保存するリスト
@@ -107,12 +118,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
         // エネミーマネジャーにスローイベントをセット
         enemyManager.AddOnEnemySlow(SetEnemySpead);
 
-
         // 状態をセット
         currentState = new EnemyStandingState();
         // 状態の開始処理
         currentState.Enter(this);
-
 
 #if UNITY_EDITOR
         // エディタ実行時に取得して色を変更する
@@ -311,6 +320,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public void SetEnemyCombo(int combo) { enemyConbo = combo; }
     public void SetEnemyFlinchCnt(int cnt) { flinchCnt = cnt; }
     public void SetEnemyAttackFlag(bool flag) { attackFlag = flag; }
+    public void SetFoundTargetFlg(bool _foundTargetFlg) { foundTargetFlg = _foundTargetFlg; }
 
     // ゲッター
     public  List<Collider>  GetEnemyCollidedObjects()  { return collidedObjects; }
@@ -336,6 +346,13 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public Transform GetPlayerTransform() { return playerTransform; }
     public AnimationClip GetEnemyDashAnimation() { return enemyDashAnimation; }
     public float GetDistanceAttack() { return attackDistance; }
+
+    public float GetEnemyFov() { return fov; }
+    public float GetEnemyVisionLength() { return visionLength; }
+    public float GetEnemyAttackRange() { return attackRange; }
+    public EnemyManager GetEnemyManager() { return enemyManager; }
+    public bool GetFoundTargetFlg() { return foundTargetFlg; }
+    public GameObject GetTargetObject() { return player; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
