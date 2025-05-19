@@ -9,8 +9,6 @@ public class EnemyMoveState : StateClass<EnemyState>
     // インスタンスを入れる変数
     private EnemyMoveState instance;
 
-    int i = 0;
-
     // インスタンスを取得する関数
     public EnemyMoveState Instance
     {
@@ -55,6 +53,12 @@ public class EnemyMoveState : StateClass<EnemyState>
     public override void Enter(EnemyState enemyState)
     {
         Debug.Log("Move 開始");
+
+        // 走り状態アニメーション開始
+        if (enemyState.GetEnemyAnimator() != null && enemyState.GetEnemyDashAnimation() != null)
+        {
+            enemyState.GetEnemyAnimator().CrossFade(enemyState.GetEnemyDashAnimation().name, 0.1f);
+        }
     }
 
 
@@ -70,16 +74,6 @@ public class EnemyMoveState : StateClass<EnemyState>
         if (vec.magnitude > 8.0f)
         {
             enemyState.GetEnemyRigidbody().velocity = enemyState.transform.forward * enemyState.GetEnemyDashSpeed();
-
-            if (i == 0)
-            {
-                // 走り状態アニメーション開始
-                if (enemyState.GetEnemyAnimator() != null && enemyState.GetEnemyDashAnimation() != null)
-                {
-                    enemyState.GetEnemyAnimator().CrossFade(enemyState.GetEnemyDashAnimation().name, 0.1f);
-                }
-            }
-            i++;
         }
         else if (vec.magnitude > 1.0f && enemyState.GetEnemyAttackFlag())
         {
@@ -92,6 +86,6 @@ public class EnemyMoveState : StateClass<EnemyState>
     // 状態中の終了処理
     public override void Exit(EnemyState enemyState)
     {
-        i = 0;
+
     }
 }
