@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 public class EnemyStandingState : StateClass<EnemyState>
 {
     // インスタンスを入れる変数
-    private static EnemyStandingState instance;
+    private EnemyStandingState instance;
     // フレームを計る
     float freams = 0;
     int waitTime = 0;
@@ -16,7 +16,7 @@ public class EnemyStandingState : StateClass<EnemyState>
     //private GameObject target;
 
     // インスタンスを取得する関数
-    public static EnemyStandingState Instance
+    public EnemyStandingState Instance
     {
         get
         {
@@ -33,6 +33,21 @@ public class EnemyStandingState : StateClass<EnemyState>
     // 状態の変更処理
     public override void Change(EnemyState enemyState)
     {
+        
+        Vector3 vec = enemyState.GetPlayerState().transform.position - enemyState.transform.position;
+
+        // 移動状態に移行する
+        if (vec.magnitude > 8.0f || enemyState.GetEnemyAttackFlag())
+        {
+            enemyState.ChangeState(new EnemyMoveState());
+        }
+        // 怯み状態に移行
+        if (enemyState.GetEnemyDamageFlag() && enemyState.GetEnemyFlinchCnt() < 1)
+        {
+            enemyState.ChangeState(new EnemyFlinchState());
+        }
+        
+        /*
         //y軸回転
         Quaternion rotation1 = Quaternion.Euler(0f, enemyState.GetEnemyFov() / 2, 0f);
         Quaternion rotation2 = Quaternion.Euler(0f, -enemyState.GetEnemyFov() / 2, 0f);
@@ -72,25 +87,27 @@ public class EnemyStandingState : StateClass<EnemyState>
                 (enemyState.GetTargetObject().transform.position - enemyState.transform.position), out hit, enemyState.GetEnemyVisionLength()))
             {
                 //当たったゲームオブジェクトがプレイヤーかつ、一定の距離より遠いなら追跡ステートに切り替え
-                if (hit.collider.gameObject.name == "Player" && hit.distance > enemyState.GetEnemyAttackRange())
+                if (hit.collider.gameObject.name == enemyState.GetTargetObject().name &&
+                    hit.distance > enemyState.GetEnemyAttackRange())
                 {
                     //Debug.LogError(hit.collider.gameObject.name + "に当たった");
                     enemyState.SetFoundTargetFlg(true);
-                    enemyState.ChangeState(Enemy_ChaseState.Instance);
+                    enemyState.ChangeState(new Enemy_ChaseState());
                 }
                 //一定の距離以下なら攻撃ステートに
-                else if (hit.collider.gameObject.name == "Player" && hit.distance <= enemyState.GetEnemyAttackRange())
+                else if (hit.collider.gameObject.name == enemyState.GetTargetObject().name &&
+                    hit.distance <= enemyState.GetEnemyAttackRange())
                 {
                     // 攻撃状態に移行する
                     if (freams > waitTime)
                     {
-                        enemyState.ChangeState(EnemyAttackState.Instance);
+                        enemyState.ChangeState(new EnemyAttackState());
                     }
                 }
 
             }
         }
-
+        */
     }
 
 
@@ -98,11 +115,17 @@ public class EnemyStandingState : StateClass<EnemyState>
     // 状態の開始処理
     public override void Enter(EnemyState enemyState)
     {
+        // 立ち状態アニメーション開始
+        if (enemyState.GetEnemyAnimator() != null && enemyState.GetEnemyStandingAnimation() != null)
+        {
+            enemyState.GetEnemyAnimator().CrossFade(enemyState.GetEnemyStandingAnimation().name, 0.1f);
+        }
+
         // デバッグ用に攻撃状態に移行するフレームを決める
-        waitTime = Random.Range(30, 120);
+        // waitTime = Random.Range(30, 120);
 
 #if UNITY_EDITOR
-        // Debug.LogError("EnemyStandingState : 開始");
+        Debug.LogError("EnemyStandingState : 開始");
 #endif
     }
 
@@ -113,6 +136,8 @@ public class EnemyStandingState : StateClass<EnemyState>
     {
         // ダメージ処理
         enemyState.HandleDamage();
+
+        enemyState.Target();
 
         // フレーム更新
         freams += enemyState.GetEnemySpeed();

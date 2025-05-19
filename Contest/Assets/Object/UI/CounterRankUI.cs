@@ -7,7 +7,7 @@ using System.Linq;
 public class CounterRankUI : MonoBehaviour
 {
     [Header("プレイヤーオブジェクトの名前")]
-    [SerializeField] private string playerName = "Player";
+    [SerializeField] private GameObject player = null;
 
     
     // テキスト
@@ -20,9 +20,6 @@ public class CounterRankUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Playerを探す
-        GameObject player = GameObject.Find(playerName);
-
         // テキストを取得
         text = this.GetComponent<TextMeshProUGUI>();
         // カウンター取得

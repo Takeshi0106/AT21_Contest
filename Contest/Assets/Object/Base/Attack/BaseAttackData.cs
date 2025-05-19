@@ -36,6 +36,13 @@ public class BaseAttackData : ScriptableObject
     [SerializeField] private Vector3 ThrowStartPosison;
     [Header("投げるオブジェクトの名前")]
     [SerializeField] private string throwWeaponName = "ThrowSword";
+
+    [Header("武器に対応する立ち状態アニメーション")]
+    [SerializeField] private AnimationClip weaponStandingAnimations = null;
+    [Header("武器に対応するダッシュアニメーション")]
+    [SerializeField] private AnimationClip weaponDashAnimations = null;
+    
+
     // ゲッター
     public string GetWeaponName() => weponName;
 
@@ -97,5 +104,15 @@ public class BaseAttackData : ScriptableObject
     public string GetThrowWeaponName() 
     { 
         return throwWeaponName; 
+    }
+
+    public AnimationClip GetWeaponStandingAnimation()
+    {
+        return weaponStandingAnimations;
+    }
+
+    public AnimationClip GetWeaponDashAnimation()
+    {
+        return weaponDashAnimations;
     }
 }

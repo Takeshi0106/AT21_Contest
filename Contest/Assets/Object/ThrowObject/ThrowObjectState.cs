@@ -16,7 +16,7 @@ public class ThrowObjectState : BaseState<ThrowObjectState>
     [SerializeField] private string enemyTag = "Enemy";
 
     // プレイヤーのトランスフォームを入れる変数
-    private Transform cameraTransform;
+    private Transform playerTransform;
     // 自分のリジッドボディーを取得しておく
     private Rigidbody throwObjectRigidbody;
     // アタックコントローラーを取得
@@ -78,11 +78,11 @@ public class ThrowObjectState : BaseState<ThrowObjectState>
 
 
     // セッター
-    public void SetCameraTransfoem(Transform p_playerTransform) { cameraTransform = p_playerTransform; }
+    public void SetPlayerTransfoem(Transform p_playerTransform) { playerTransform = p_playerTransform; }
 
     // ゲッター
     public List<MultiTag> GetMultiTagList() { return collidedTags; }
-    public Transform GetCameraTransform() { return cameraTransform; }
+    public Transform GetPlayerTransform() { return playerTransform; }
     public Rigidbody GetThrowObjectRigidbody() { return throwObjectRigidbody; }
     public float GetForcePower() { return forcePower; }
     public int GetNoGravityFreams() { return noGravityFreams; }

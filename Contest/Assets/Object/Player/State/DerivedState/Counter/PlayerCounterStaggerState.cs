@@ -74,7 +74,10 @@ public class PlayerCounterStaggerState : StateClass<PlayerState>
 
 #if UNITY_EDITOR
         // エディタ実行時に色を元に戻す
-        playerState.GetPlayerRenderer().material.color = Color.white;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.white;
+        }
 #endif
     }
 

@@ -35,6 +35,11 @@ public class PlayerJumpState : StateClass<PlayerState>
         if(!currentstate.GetPlayerAirFlag())
         {
             currentstate.ChangeState(PlayerStandingState.Instance);
+
+            if (currentstate.GetPlayerAnimator() != null && currentstate.GetPlayerJumpEndAnimation() != null)
+            {
+                currentstate.GetPlayerAnimator().CrossFade(currentstate.GetPlayerJumpEndAnimation().name, 0.1f);
+            }
         }
     }
 
@@ -51,6 +56,13 @@ public class PlayerJumpState : StateClass<PlayerState>
 
             // ÉWÉÉÉìÉvèàóù
             currentState.GetPlayerRigidbody().AddForce(new Vector3(0.0f, currentState.GetPlayerJumpPower(), 0.0f), ForceMode.Impulse);
+
+            if (currentState.GetPlayerAnimator() != null && currentState.GetPlayerJumpStartAnimation() != null)
+            {
+                currentState.GetPlayerAnimator().CrossFade(currentState.GetPlayerJumpStartAnimation().name, 0.1f);
+            }
+
+            currentState.SetJumpFlag(true);
         }
     }
 

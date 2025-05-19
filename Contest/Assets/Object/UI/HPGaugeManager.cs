@@ -50,6 +50,13 @@ public class HPGaugeManager : MonoBehaviour
     {
         hpGaugeSlider.maxValue = hpDisplayManager.GetMaxHP();
         hpGaugeSlider.value = hpDisplayManager.GetCurrentHP();
+
+        if (hpDisplayManager.GetCurrentHP() <= 0)
+        {
+            // HP‚ª‚O‚É‚È‚Á‚½‚çƒQ[ƒW‚ðÁ‚·
+            this.gameObject.SetActive(false);
+        }
+
     }
 
 

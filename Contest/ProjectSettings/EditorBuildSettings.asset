@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:febf2f8d286368fbe0cdcaa50addb1691eeb662b146a1ba4f6360d8deb757140
-size 355
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/TitleScene.unity
+    guid: f6bab5e829e85c94588b8eb895d57ee3
+  - enabled: 1
+    path: Assets/Scenes/DebugRoom.unity
+    guid: 80238b2f72470774daf2c73a96e1f74b
+  - enabled: 1
+    path: Assets/Scenes/PlayerWinScene.unity
+    guid: c8809eddedd092744b759e43edef2c05
+  - enabled: 1
+    path: Assets/Scenes/PlayerLoseScene.unity
+    guid: f18a4c6141049794fbe2a658da79c239
+  m_configObjects: {}

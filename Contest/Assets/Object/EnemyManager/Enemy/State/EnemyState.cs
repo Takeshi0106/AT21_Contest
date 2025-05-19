@@ -26,6 +26,23 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
     [Header("デバッグ用　敵の速度(0.01～1.00)")]
     [SerializeField] private float enemySpeed = 1.0f;
+    [Header("怯み時間")]
+    [SerializeField] private int flinchFreams = 10;
+
+    [Header("立ち状態アニメーション")]
+    [SerializeField] private AnimationClip enemyStandingAnimation = null;
+    [Header("死亡アニメーション")]
+    [SerializeField] private AnimationClip enemyDeadAnimation = null;
+    [Header("怯みアニメーション")]
+    [SerializeField] private AnimationClip enemyFlinchAnimation = null;
+    [Header("走るアニメーション")]
+    [SerializeField] private AnimationClip enemyDashAnimation = null;
+
+    [Header("敵の走る移動速度")]
+    [SerializeField] private float dashSpeed = 4.0f; //移動速度
+
+    [Header("攻撃する距離")]
+    [SerializeField] private float attackDistance = 1.0f; //移動速度
 
     [Header("視野角")]
     [SerializeField] private float fov;
@@ -37,8 +54,6 @@ public class EnemyState : BaseCharacterState<EnemyState>
     //プレイヤーを発見したかのフラグ
     private bool foundTargetFlg;
 
-    //敵が追いかけるゲームオブジェクト（プレイヤー）
-    private GameObject targetObject;
 
     // 衝突したオブジェクトを保存するリスト
     [HideInInspector] private List<Collider> collidedObjects = new List<Collider>();
@@ -52,6 +67,11 @@ public class EnemyState : BaseCharacterState<EnemyState>
     private HPManager hpManager;
     // Enemyのリジッドボディー
     private Rigidbody enemyRigidbody;
+    // Enemyのアニメーションを取得する
+    private Animator enemyAnimator;
+
+    private Transform playerTransform;
+
 
     // 現在のコンボ数
     private int enemyConbo = 0;
@@ -59,6 +79,12 @@ public class EnemyState : BaseCharacterState<EnemyState>
     private int weponNumber = 0;
     // カウンター攻撃で倒れたかのチェック
     private bool hitCounter = false;
+    //
+    private bool damagerFlag = false;
+    //
+    private int flinchCnt = 0;
+
+    private bool attackFlag = false;
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される
@@ -71,12 +97,6 @@ public class EnemyState : BaseCharacterState<EnemyState>
     // 初期化処理
     void Start()
     {
-        // 状態をセット
-        currentState = EnemyStandingState.Instance;
-
-        // 状態の開始処理
-        currentState.Enter(this);
-
         // ウェポンマネージャー
         enemyWeponManager = this.gameObject.GetComponent<WeponManager>();
         // hpManager
@@ -87,7 +107,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
         enemyManager = enemyManagerObject.GetComponent<EnemyManager>();
         // リジッドボディーを取得
         enemyRigidbody = this.gameObject.GetComponent<Rigidbody>();
+        // アニメーターを取得
+        enemyAnimator = this.gameObject.GetComponent<Animator>();
 
+        playerTransform = player.transform;
 
         // HPマネージャーにDie関数を渡す
         hpManager.SetOnDeathEvent(Die);
@@ -95,14 +118,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
         // エネミーマネジャーにスローイベントをセット
         enemyManager.AddOnEnemySlow(SetEnemySpead);
 
-        //ターゲットオブジェクト（プレイヤー）を取得
-        targetObject = GameObject.Find("Player");
-
-        //オブジェクトが見つからなかったら
-        if (targetObject == null)
-        {
-            Debug.LogWarning("指定のオブジェクトが見つかりませんでした");
-        }
+        // 状態をセット
+        currentState = new EnemyStandingState();
+        // 状態の開始処理
+        currentState.Enter(this);
 
 #if UNITY_EDITOR
         // エディタ実行時に取得して色を変更する
@@ -117,13 +136,16 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
         // エネミーオブジェクトに自分を渡す
         enemyManager.RegisterEnemy(this);
+
+        SetEnemySpead(0.8f);
+
+        this.gameObject.SetActive(false);
     }
 
 
     // 更新処理
     void Update()
     {
-
         StateUpdate();
     }
 
@@ -131,6 +153,9 @@ public class EnemyState : BaseCharacterState<EnemyState>
     // ダメージ処理（通常攻撃＋カウンター攻撃対応）
     public void HandleDamage()
     {
+        damagerFlag = false;
+        hitCounter = false;
+
         // 保存したコライダーのタグが元に戻る可のチェック
         CleanupInvalidDamageColliders();
 
@@ -142,6 +167,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
             // プレイヤーの攻撃タグがあるかを調べる
             if (info.multiTag.HasTag(playerAttackTag))
             {
+                damagerFlag = true;
+
                 // プレイヤーの基本ダメージを入れる変数
                 float baseDamage = 0.0f;
                 // プレイヤーの攻撃アップ倍率を入れる変数
@@ -229,10 +256,9 @@ public class EnemyState : BaseCharacterState<EnemyState>
 
     private void Die()
     {
+        enemyManager.RemoveOnEnemySlow(SetEnemySpead);
         // EnemyManagerに自分が倒れたことを知らせる
         enemyManager.UnregisterEnemy(this);
-        // 攻撃タグを元に戻す
-        enemyWeponManager.DisableAllWeaponAttacks();
 
         if (playerState != null && dropWeapon != null && hitCounter)
         {
@@ -244,10 +270,26 @@ public class EnemyState : BaseCharacterState<EnemyState>
         Debug.Log($"{gameObject.name} が死亡しました");
 #endif
 
-        // 自分を非アクティブにする
-        gameObject.SetActive(false);
+        enemyRigidbody.useGravity = false; // 重力をOFFにする
+        this.GetComponent<Collider>().enabled = false; // コライダーを無効にする
+        
+        ChangeState(new EnemyDeadState()); // Dead状態に変更
     }
 
+    public void Target()
+    {
+        Vector3 direction = player.transform.position - transform.position;
+
+        // Y方向の回転だけにしたい場合（上下は無視）
+        direction.y = 0;
+
+        // 向きたい方向が0ベクトルでないことを確認
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        }
+    }
 
 
     // スピードをセットする処理
@@ -258,7 +300,14 @@ public class EnemyState : BaseCharacterState<EnemyState>
             // フレームの進む処理を更新
             enemySpeed = speed;
             // アニメーションの速度を変更
-            enemyWeponManager.GetCurrentWeaponAnimator().speed = speed;
+            if (enemyAnimator != null)
+            {
+                enemyAnimator.speed = speed;
+            }
+            else
+            {
+                enemyWeponManager.GetCurrentWeaponAnimator().speed = speed;
+            }
         }
         else
         {
@@ -267,9 +316,10 @@ public class EnemyState : BaseCharacterState<EnemyState>
     }
 
 
-
     // セッター
     public void SetEnemyCombo(int combo) { enemyConbo = combo; }
+    public void SetEnemyFlinchCnt(int cnt) { flinchCnt = cnt; }
+    public void SetEnemyAttackFlag(bool flag) { attackFlag = flag; }
     public void SetFoundTargetFlg(bool _foundTargetFlg) { foundTargetFlg = _foundTargetFlg; }
 
     // ゲッター
@@ -281,13 +331,28 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public string GetEnemyPlayerAttackTag() { return playerAttackTag; }
     public string GetEnemyPlayerCounterAttackTag() { return playerCounterTag; }
     public float GetEnemySpeed() { return enemySpeed; }
+    public int GetEnemyFlinchFreams() { return flinchFreams; }
+    public Animator GetEnemyAnimator() { return enemyAnimator; }
+    public AnimationClip GetEnemyStandingAnimation() { return enemyStandingAnimation; }
+    public AnimationClip GetEnemyDeadAnimation() { return enemyDeadAnimation; }
+    public AnimationClip GetEnemyFlinchAnimation() { return enemyFlinchAnimation; }
+    public bool GetEnemyDamageFlag() { return damagerFlag; }
+    public bool GetEnemyHitCounterFlag() { return hitCounter; }
+    public int GetEnemyFlinchCnt() { return flinchCnt; }
+    public PlayerState GetPlayerState() { return playerState; }
+    public float GetEnemyDashSpeed() { return dashSpeed; }
+    public Rigidbody GetEnemyRigidbody() { return enemyRigidbody; }
+    public bool GetEnemyAttackFlag() { return attackFlag; }
+    public Transform GetPlayerTransform() { return playerTransform; }
+    public AnimationClip GetEnemyDashAnimation() { return enemyDashAnimation; }
+    public float GetDistanceAttack() { return attackDistance; }
 
     public float GetEnemyFov() { return fov; }
     public float GetEnemyVisionLength() { return visionLength; }
     public float GetEnemyAttackRange() { return attackRange; }
     public EnemyManager GetEnemyManager() { return enemyManager; }
     public bool GetFoundTargetFlg() { return foundTargetFlg; }
-    public GameObject GetTargetObject() { return targetObject; }
+    public GameObject GetTargetObject() { return player; }
 
 #if UNITY_EDITOR
     // エディタ実行時に実行される

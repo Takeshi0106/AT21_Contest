@@ -61,7 +61,10 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
         Debug.LogError("CounterStanceState : 開始");
 
         // カウンター構え時緑色にする
-        playerState.GetPlayerRenderer().material.color = Color.green;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.green;
+        }
 #endif
     }
 
@@ -150,7 +153,10 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
 
 #if UNITY_EDITOR
         // 元の色に戻す
-        playerState.GetPlayerRenderer().material.color = Color.white;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.white;
+        }
 #endif
     }
 

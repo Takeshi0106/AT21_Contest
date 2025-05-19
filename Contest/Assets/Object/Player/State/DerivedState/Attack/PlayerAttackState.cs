@@ -77,19 +77,24 @@ public class PlayerAttackState : StateClass<PlayerState>
 
         // アニメーション再生
         // Animator を取得
-        // var anim = playerState.GetPlayerAnimator();
-        // AnimationClip を取得
+        var anim = playerState.GetPlayerAnimator();
         var animClip = weponData.GetAttackAnimation(playerState.GetPlayerConbo());
-        var childAnim = playerState.GetPlayerWeponManager().GetCurrentWeaponAnimator();
-        /*
+
         if (anim != null && animClip != null)
         {
-            // anim.CrossFade(animClip.name, 0.2f);
+            anim.CrossFade(animClip.name, 0.1f);
         }
-        */
-        if (childAnim != null && animClip != null)
+
+        Vector3 nearestEnemyPos = playerState.GetNearEnemyPos();
+
+        // 敵の方向ベクトル（Y軸は無視して水平方向のみ）
+        Vector3 direction = nearestEnemyPos - playerState.GetPlayerTransform().position;
+        direction.y = 0f; // プレイヤーの向きは水平に限定（上下を向かないように）
+
+        if (direction.magnitude <= 5.0f)
         {
-            childAnim.CrossFade(animClip.name, 0.0f);
+            // 一瞬で向きを変更
+            playerState.GetPlayerTransform().forward = direction.normalized;
         }
 
 #if UNITY_EDITOR

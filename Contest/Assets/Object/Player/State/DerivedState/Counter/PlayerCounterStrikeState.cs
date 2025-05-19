@@ -59,7 +59,10 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         Debug.LogError("CounterStrikeState : 開始");
 
         // 赤色に変更する
-        playerState.GetPlayerRenderer().material.color = Color.red;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.red;
+        }
 #endif
     }
 
@@ -106,7 +109,10 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         playerState.GetPlayerStatusEffectManager().StartInvicible(playerState.GetPlayerCounterManager().GetCounterInvincibleFreams());
 
 #if UNITY_EDITOR
-        playerState.GetPlayerRenderer().material.color = Color.white;
+        if (playerState.GetPlayerRenderer() != null)
+        {
+            playerState.GetPlayerRenderer().material.color = Color.white;
+        }
 #endif
     }
 

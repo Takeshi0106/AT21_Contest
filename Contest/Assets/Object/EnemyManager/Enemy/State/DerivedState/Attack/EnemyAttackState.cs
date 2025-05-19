@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// ======================
+// 敵の攻撃状態
+// ======================
+
 public class EnemyAttackState : StateClass<EnemyState>
 {
     // インスタンスを入れる変数
-    private static EnemyAttackState instance;
+    private EnemyAttackState instance;
     // weponData
     private static BaseAttackData weponData;
     // フレームを計る
     float freams = 0.0f;
 
     // インスタンスを取得する関数
-    public static EnemyAttackState Instance
+    public EnemyAttackState Instance
     {
         get
         {
@@ -33,7 +37,13 @@ public class EnemyAttackState : StateClass<EnemyState>
         if (freams >= (weponData.GetAttackStartupFrames(enemyState.GetEnemyConbo()) +
     weponData.GetAttackSuccessFrames(enemyState.GetEnemyConbo())))
         {
-            enemyState.ChangeState(EnemyAttackRecoveryState.Instance);
+            enemyState.ChangeState(new EnemyAttackRecoveryState());
+            return;
+        }
+        // 怯み状態に移行
+        if(enemyState.GetEnemyHitCounterFlag())
+        {
+            enemyState.ChangeState(new EnemyFlinchState());
             return;
         }
     }
@@ -48,12 +58,12 @@ public class EnemyAttackState : StateClass<EnemyState>
 
         // アニメーション取得
         var animClip = weponData.GetAttackAnimation(enemyState.GetEnemyConbo());
-        var childAnim = enemyState.GetEnemyWeponManager().GetCurrentWeaponAnimator();
+        var Anim = enemyState.GetEnemyAnimator();
         
         // アニメーション再生
-        if (childAnim != null && animClip != null)
+        if (Anim != null && animClip != null)
         {
-            childAnim.CrossFade(animClip.name, 0.2f);
+            Anim.CrossFade(animClip.name, 0.2f);
         }
 
 #if UNITY_EDITOR
