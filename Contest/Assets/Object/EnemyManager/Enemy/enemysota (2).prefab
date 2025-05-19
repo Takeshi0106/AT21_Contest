@@ -285,8 +285,12 @@ MonoBehaviour:
   enemyStandingAnimation: {fileID: 3094330708855449807, guid: 000cfc588d3bc224e91ba6eb9d12ad48, type: 3}
   enemyDeadAnimation: {fileID: 3094330708855449807, guid: ec105fe467c688d4c90350131c3874ee, type: 3}
   enemyFlinchAnimation: {fileID: 3094330708855449807, guid: eed216188b27f1140b011295637ece48, type: 3}
-  enemyDashAnimation: {fileID: 0}
+  enemyDashAnimation: {fileID: 3094330708855449807, guid: e7b67a10cefcbf64c917a57c42f0785f, type: 3}
   dashSpeed: 4
+  attackDistance: 1
+  fov: 0
+  visionLength: 0
+  attackRange: 1
   enemyRenderer: {fileID: 0}
 --- !u!114 &4045888681683395993
 MonoBehaviour:
@@ -302,7 +306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weponNumber: 1
   weaponDataList:
-  - {fileID: 11400000, guid: 0bbd2f48fd18b6b49ae7145cffe77d6b, type: 2}
+  - {fileID: 11400000, guid: 19ddd687deb434142af17373e57cdbb0, type: 2}
   pearentWeponAttack: {fileID: 2351968896349266825}
 --- !u!114 &5283891759001760544
 MonoBehaviour:

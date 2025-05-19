@@ -83,6 +83,8 @@ public class Enemy_ChaseState : StateClass<EnemyState>
             Debug.LogWarning("ŒÄ‚Ñ‚±‚ñ‚Å‚¢‚éenemyState‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½");
         }
 
+        Debug.Log("Enemy_ChaseState ŠJn");
+
     }
 
     //ó‘Ô’†‚ÌI—¹ˆ—

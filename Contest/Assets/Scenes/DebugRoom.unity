@@ -130,6 +130,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 750148101}
     m_Modifications:
+    - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: weaponDataList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: eb405332d60f01147aad68874f0652a0, type: 2}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: maxHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: firstHP
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5859196373591376669, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -208,6 +220,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1760065217}
     m_Modifications:
+    - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: weaponDataList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e6b290c3bfa41545b8e5b04c42e8393, type: 2}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: maxHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: firstHP
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5859196373591376669, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -466,6 +490,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1760065217}
     m_Modifications:
+    - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: weaponDataList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0bbd2f48fd18b6b49ae7145cffe77d6b, type: 2}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: maxHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: firstHP
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5859196373591376669, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -544,6 +580,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 750148101}
     m_Modifications:
+    - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: weaponDataList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e6b290c3bfa41545b8e5b04c42e8393, type: 2}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: maxHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: firstHP
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5859196373591376669, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1344,6 +1392,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1760065217}
     m_Modifications:
+    - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: weaponDataList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: eb405332d60f01147aad68874f0652a0, type: 2}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: maxHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: firstHP
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5859196373591376669, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1567,6 +1627,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 750148101}
     m_Modifications:
+    - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: weaponDataList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0bbd2f48fd18b6b49ae7145cffe77d6b, type: 2}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: maxHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: firstHP
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5859196373591376669, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

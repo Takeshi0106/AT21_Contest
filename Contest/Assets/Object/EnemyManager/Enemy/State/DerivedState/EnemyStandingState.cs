@@ -33,7 +33,7 @@ public class EnemyStandingState : StateClass<EnemyState>
     // 状態の変更処理
     public override void Change(EnemyState enemyState)
     {
-        /*
+        
         Vector3 vec = enemyState.GetPlayerState().transform.position - enemyState.transform.position;
 
         // 移動状態に移行する
@@ -46,8 +46,8 @@ public class EnemyStandingState : StateClass<EnemyState>
         {
             enemyState.ChangeState(new EnemyFlinchState());
         }
-         */
-
+        
+        /*
         //y軸回転
         Quaternion rotation1 = Quaternion.Euler(0f, enemyState.GetEnemyFov() / 2, 0f);
         Quaternion rotation2 = Quaternion.Euler(0f, -enemyState.GetEnemyFov() / 2, 0f);
@@ -87,14 +87,16 @@ public class EnemyStandingState : StateClass<EnemyState>
                 (enemyState.GetTargetObject().transform.position - enemyState.transform.position), out hit, enemyState.GetEnemyVisionLength()))
             {
                 //当たったゲームオブジェクトがプレイヤーかつ、一定の距離より遠いなら追跡ステートに切り替え
-                if (hit.collider.gameObject.name == "Player" && hit.distance > enemyState.GetEnemyAttackRange())
+                if (hit.collider.gameObject.name == enemyState.GetTargetObject().name &&
+                    hit.distance > enemyState.GetEnemyAttackRange())
                 {
                     //Debug.LogError(hit.collider.gameObject.name + "に当たった");
                     enemyState.SetFoundTargetFlg(true);
                     enemyState.ChangeState(new Enemy_ChaseState());
                 }
                 //一定の距離以下なら攻撃ステートに
-                else if (hit.collider.gameObject.name == "Player" && hit.distance <= enemyState.GetEnemyAttackRange())
+                else if (hit.collider.gameObject.name == enemyState.GetTargetObject().name &&
+                    hit.distance <= enemyState.GetEnemyAttackRange())
                 {
                     // 攻撃状態に移行する
                     if (freams > waitTime)
@@ -105,7 +107,7 @@ public class EnemyStandingState : StateClass<EnemyState>
 
             }
         }
-
+        */
     }
 
 
