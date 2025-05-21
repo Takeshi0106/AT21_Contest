@@ -33,6 +33,8 @@ public class EnemyState : BaseCharacterState<EnemyState>
     [SerializeField] private float visionLength;
     [Header("攻撃レンジ")]
     [SerializeField] private float attackRange;
+    [Header("移動速度")]
+    [SerializeField] private float moveSpeed;
 
     //プレイヤーを発見したかのフラグ
     private bool foundTargetFlg;
@@ -285,6 +287,7 @@ public class EnemyState : BaseCharacterState<EnemyState>
     public float GetEnemyFov() { return fov; }
     public float GetEnemyVisionLength() { return visionLength; }
     public float GetEnemyAttackRange() { return attackRange; }
+    public float GetEnemyMoveSpeed() { return moveSpeed; }
     public EnemyManager GetEnemyManager() { return enemyManager; }
     public bool GetFoundTargetFlg() { return foundTargetFlg; }
     public GameObject GetTargetObject() { return targetObject; }
