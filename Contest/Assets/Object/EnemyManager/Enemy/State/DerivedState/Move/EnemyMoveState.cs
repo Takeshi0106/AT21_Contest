@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class EnemyMoveState : StateClass<EnemyState>
 {
