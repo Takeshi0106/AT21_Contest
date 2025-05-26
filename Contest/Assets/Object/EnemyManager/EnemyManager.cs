@@ -27,15 +27,13 @@ public class EnemyManager : MonoBehaviour
     {
         // Enemyを追加する
         enemies.Add(enemy);
-        // 非アクティブにする
-        enemy.gameObject.SetActive(false);
 
         if (cnt == 0)
         {
             // EnemySystemに自分を渡す
             enemyManager = system.GetComponent<EnemySystem>();
             enemyManager.RegisterEnemyManager(this);
-            
+
             cnt = 1;
         }
     }
@@ -67,6 +65,12 @@ public class EnemyManager : MonoBehaviour
         onEnemySlow.AddListener(action);
     }
 
+
+    public void RemoveOnEnemySlow(UnityAction<float> action)
+    {
+        onEnemySlow.RemoveListener(action);
+    }
+
     // プレイヤーが敵にぶつかった時の処理
     void OnTriggerEnter(Collider other)
     {
@@ -82,4 +86,65 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+
+
+    // プレイヤーの位置を渡して、最も近い Enemy の位置を返す
+    public Vector3 GetNearestEnemyPosition(Vector3 playerPosition)
+    {
+        EnemyState nearest = null;
+        float shortestDistance = float.MaxValue;
+
+        foreach (EnemyState enemy in enemies)
+        {
+            if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+
+            float distance = Vector3.Distance(playerPosition, enemy.transform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearest = enemy;
+            }
+        }
+
+        // 見つかった場合はその位置を返す。なければ Vector3.zero を返す（要調整可能）
+        return nearest != null ? nearest.transform.position : Vector3.zero;
+    }
+
+
+    public void NearEnemyFlag(Vector3 playerPosition)
+    {
+        EnemyState nearest = null;
+        float shortestDistance = float.MaxValue;
+
+        foreach (EnemyState enemy in enemies)
+        {
+            if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+
+            enemy.SetEnemyAttackFlag(false);
+
+            float distance = Vector3.Distance(playerPosition, enemy.transform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearest = enemy;
+            }
+        }
+        // Nullチェックを追加
+        if (nearest != null)
+        {
+            nearest.SetEnemyAttackFlag(true);
+        }
+
+    }
+
+
+    public void EnemyFlagFalse()
+    {
+        foreach (EnemyState enemy in enemies)
+        {
+            if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+
+            enemy.SetEnemyAttackFlag(false);
+        }
+    }
 }

@@ -41,3 +41,4 @@ MonoBehaviour:
   attackThrowAnimations: {fileID: 0}
   ThrowStartPosison: {x: 0, y: 0, z: 0}
   throwWeaponName: ThrowClub
+  weaponDashAnimations: {fileID: 0}

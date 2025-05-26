@@ -43,7 +43,7 @@ public class Enemy_ChaseState : StateClass<EnemyState>
             if (hit.collider.gameObject.name == "Player")
             {
                 //直立ステートに戻す
-                enemyState.ChangeState(EnemyStandingState.Instance);
+                enemyState.ChangeState(new EnemyStandingState());
             }
         }
     }
@@ -100,6 +100,8 @@ public class Enemy_ChaseState : StateClass<EnemyState>
         {
             Debug.LogWarning("呼びこんでいるenemyStateが見つかりませんでした");
         }
+
+        Debug.Log("Enemy_ChaseState 開始");
 
     }
 

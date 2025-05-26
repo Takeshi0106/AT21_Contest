@@ -60,11 +60,14 @@ public class PlayerStandingState : StateClass<PlayerState>
         {
             if (playerState.GetPlayerWeponManager().GetWeaponCount() <= 1)
             {
+                Debug.Log("投げるの失敗");
+
                 // 武器を投げるの失敗状態に移行
                 playerState.ChangeState(PlayerThrowFailedState.Instance);
             }
             else
             {
+                Debug.Log("投げるの成功");
                 // 武器を投げる状態に移行
                 playerState.ChangeState(PlayerWeaponThrowState.Instance);
             }
@@ -83,6 +86,11 @@ public class PlayerStandingState : StateClass<PlayerState>
             playerState.ChangeState(PlayerAvoidanceState.Instance);
             return;
         }
+        // ダメージを受けていたら怯み状態
+        if(playerState.GetPlayerDamagerFlag())
+        {
+            playerState.ChangeState(PlayerFlinchState.Instance);
+        }
     }
 
 
@@ -90,6 +98,13 @@ public class PlayerStandingState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
+        BaseAttackData weponData = playerState.GetPlayerWeponManager().GetWeaponData(playerState.GetPlayerWeponNumber());
+
+        // 立ち状態アニメーション開始
+        if (playerState.GetPlayerAnimator() != null && playerState.GetPlayerStandingAnimation() != null)
+        {
+            playerState.GetPlayerAnimator().CrossFade(playerState.GetPlayerStandingAnimation().name, 0.1f);
+        }
 #if UNITY_EDITOR
         Debug.LogError("PlayerStandingState : 開始");
 #endif

@@ -16,7 +16,7 @@ public class BaseState<T> : MonoBehaviour where T : BaseState<T>
         currentState.Excute((T)this);
     }
 
-    public void ChangeState(StateClass<T> newState)
+    public virtual void ChangeState(StateClass<T> newState)
     {
         currentState.Exit((T)this);
         currentState = newState;

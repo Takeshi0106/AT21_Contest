@@ -34,7 +34,7 @@ public class CounterObjectManager : MonoBehaviour
         counterObjectInstance = Instantiate(counterObjectPrefab, transform);
         counterObjectInstance.transform.localPosition = Vector3.zero; // プレイヤー中心
         counterObjectInstance.transform.localScale = Vector3.zero;
-        counterObjectInstance.SetActive(false);
+        
 
         // AttackController を取得
         attackController = counterObjectInstance.GetComponent<AttackController>();
@@ -42,6 +42,8 @@ public class CounterObjectManager : MonoBehaviour
         {
             Debug.LogWarning("CounterObjectManager: AttackController が見つかりません");
         }
+
+        counterObjectInstance.SetActive(false);
     }
 
 

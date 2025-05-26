@@ -8,6 +8,8 @@ public class WeponManager : MonoBehaviour
     [SerializeField] private int weponNumber = 1;
     [Header("所持している武器データ（プレイヤー用は3つまで）")]
     [SerializeField] private List<BaseAttackData> weaponDataList = new List<BaseAttackData>();
+    [Header("武器を付ける親オブジェクトの設定")]
+    [SerializeField] private GameObject pearentWeponAttack = null;
 
     // 武器のオブジェクトを入れる
     private List<GameObject> instantiatedWeapons = new List<GameObject>();
@@ -54,12 +56,28 @@ public class WeponManager : MonoBehaviour
             return;
         }
 
+        Debug.Log("オブジェクト削除");
+
         Destroy(instantiatedWeapons[index]);
         instantiatedWeapons.RemoveAt(index);
         weaponDataList.RemoveAt(index);
 
         // 次の武器を取得する
         ChangeWeapon(weaponHaveNumber);
+    }
+
+
+    // 全ての武器を削除
+    public void RemoveAllWeapon()
+    {
+        foreach (var oldWeapon in instantiatedWeapons)
+        {
+            // 武器オブジェクトを削除
+            if (oldWeapon != null)
+                Destroy(oldWeapon);
+        }
+        instantiatedWeapons.Clear(); // オブジェクトリストを削除
+        weaponDataList.Clear(); // データリストを削除
     }
 
 
@@ -83,7 +101,16 @@ public class WeponManager : MonoBehaviour
             instantiatedWeapons.Clear();
 
             // 新しい武器の生成と親子関係の設定
-            GameObject weaponInstance = Instantiate(weaponPrefab, transform);
+            GameObject weaponInstance = null;
+
+            if (pearentWeponAttack != null)
+            {
+                weaponInstance = Instantiate(weaponPrefab, pearentWeponAttack.transform);
+            }
+            else
+            {
+                weaponInstance = Instantiate(weaponPrefab, transform);
+            }
             weaponInstance.name = weaponPrefab.name;
             instantiatedWeapons.Clear(); // 前のリストもクリア
             instantiatedWeapons.Add(weaponInstance);

@@ -5,18 +5,18 @@ using UnityEngine.Playables;
 
 public class EnemyStandingState : StateClass<EnemyState>
 {
-    // ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“ü‚ê‚é•Ï”
-    private static EnemyStandingState instance;
-    // ƒtƒŒ[ƒ€‚ğŒv‚é
+    // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å…¥ã‚Œã‚‹å¤‰æ•°
+    private EnemyStandingState instance;
+    // ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’è¨ˆã‚‹
     float freams = 0;
     int waitTime = 0;
 
-    //‹–ìŠp‚ÉƒvƒŒƒCƒ„[‚ª‚¢‚é‚©‚ğ”»’f‚·‚é•Ï”
+    //è¦–é‡è§’ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹ã‹ã‚’åˆ¤æ–­ã™ã‚‹å¤‰æ•°
     private RaycastHit hit;
     //private GameObject target;
 
-    // ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éŠÖ”
-    public static EnemyStandingState Instance
+    // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹é–¢æ•°
+    public EnemyStandingState Instance
     {
         get
         {
@@ -30,24 +30,61 @@ public class EnemyStandingState : StateClass<EnemyState>
 
 
 
-    // ó‘Ô‚Ì•ÏXˆ—
+    // çŠ¶æ…‹ã®å¤‰æ›´å‡¦ç†
     public override void Change(EnemyState enemyState)
     {
-        //ƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚ÄƒŒƒC‚ğ”ò‚Î‚·
+        Vector3 vec = enemyState.GetPlayerState().transform.position - enemyState.transform.position;
+
+        // ç§»å‹•çŠ¶æ…‹ã«ç§»è¡Œã™ã‚‹
+        if (vec.magnitude > 8.0f || enemyState.GetEnemyAttackFlag())
+        {
+            enemyState.ChangeState(new EnemyMoveState());
+        }
+        // æ€¯ã¿çŠ¶æ…‹ã«ç§»è¡Œ
+        if (enemyState.GetEnemyDamageFlag() && enemyState.GetEnemyFlinchCnt() < 1)
+        {
+            enemyState.ChangeState(new EnemyFlinchState());
+        }
+        
+        /*
+        //yè»¸å›è»¢
+        Quaternion rotation1 = Quaternion.Euler(0f, enemyState.GetEnemyFov() / 2, 0f);
+        Quaternion rotation2 = Quaternion.Euler(0f, -enemyState.GetEnemyFov() / 2, 0f);
+
+        //ç›®æ¨™ï¼ˆPlayerï¼‰ã«å‘ã‘ã¦ã®æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«
+        Vector3 targetDir =
+            (enemyState.GetTargetObject().transform.position - enemyState.transform.position).normalized;
+
+        //æ•µã®æ­£é¢ãƒ™ã‚¯ãƒˆãƒ«ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‘ã¦ã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã¨ã®å†…ç©
+        float angle = Vector3.Dot(enemyState.transform.forward, targetDir);
+
+        //è¦–é‡è§’ã®å³ç«¯æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«
+        Vector3 fovRightVector =
+            (rotation1 * enemyState.transform.forward);
+
+        //è¦–é‡è§’ã®å·¦ç«¯æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«
+        Vector3 fovLeftVector =
+            (rotation2 * enemyState.transform.forward);
+
+        //è¦–é‡è§’ã®å³ç«¯ã€å·¦ç«¯ã¨æ­£é¢ãƒ™ã‚¯ãƒˆãƒ«ã¨ã®å†…ç©
+        float limitFovAngle_right = Vector3.Dot(enemyState.transform.forward, fovRightVector);
+        float limitFovAngle_left = Vector3.Dot(enemyState.transform.forward, fovLeftVector);
+
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‹ã£ã¦ãƒ¬ã‚¤ã‚’é£›ã°ã™
         Debug.DrawRay(enemyState.transform.position,
             (enemyState.GetTargetObject().transform.position - enemyState.transform.position) * 2, Color.blue, 0.1f);
-        //UŒ‚”ÍˆÍ‚ğ‹Šo‰»
+        //æ”»æ’ƒç¯„å›²ã‚’è¦–è¦šåŒ–
         Debug.DrawRay(enemyState.transform.position, enemyState.transform.forward * enemyState.GetEnemyAttackRange(), Color.green, 0.1f);
 
-        //UŒ‚”ÍˆÍ‚Ì“à‘¤‚É‚¢‚é‚©
+        //æ”»æ’ƒç¯„å›²ã®å†…å´ã«ã„ã‚‹ã‹
         if (Physics.Raycast(enemyState.transform.position,
             (enemyState.GetTargetObject().transform.position - enemyState.transform.position), out hit,
             enemyState.GetEnemyAttackRange()))
         {
-            //ƒvƒŒƒCƒ„[‚È‚çUŒ‚ƒXƒe[ƒg‚É
+            //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãªã‚‰æ”»æ’ƒã‚¹ãƒ†ãƒ¼ãƒˆã«
             if (hit.collider.gameObject.name == "Player")
             {
-                // UŒ‚ó‘Ô‚ÉˆÚs‚·‚é
+                // æ”»æ’ƒçŠ¶æ…‹ã«ç§»è¡Œã™ã‚‹
                 if (freams > waitTime)
                 {
                     enemyState.ChangeState(EnemyAttackState.Instance);
@@ -55,41 +92,50 @@ public class EnemyStandingState : StateClass<EnemyState>
             }
 
         }
-        //ŠO‘¤‚È‚ç’ÇÕƒXƒe[ƒg‚É
+        //å¤–å´ãªã‚‰è¿½è·¡ã‚¹ãƒ†ãƒ¼ãƒˆã«
         else
         {
             enemyState.SetFoundTargetFlg(true);
             enemyState.ChangeState(Enemy_ChaseState.Instance);
         }
+        */
     }
 
 
 
-    // ó‘Ô‚ÌŠJnˆ—
+    // çŠ¶æ…‹ã®é–‹å§‹å‡¦ç†
     public override void Enter(EnemyState enemyState)
     {
-        // ƒfƒoƒbƒO—p‚ÉUŒ‚ó‘Ô‚ÉˆÚs‚·‚éƒtƒŒ[ƒ€‚ğŒˆ‚ß‚é
-        waitTime = Random.Range(30, 120);
+        // ç«‹ã¡çŠ¶æ…‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é–‹å§‹
+        if (enemyState.GetEnemyAnimator() != null && enemyState.GetEnemyStandingAnimation() != null)
+        {
+            enemyState.GetEnemyAnimator().CrossFade(enemyState.GetEnemyStandingAnimation().name, 0.1f);
+        }
+
+        // ãƒ‡ãƒãƒƒã‚°ç”¨ã«æ”»æ’ƒçŠ¶æ…‹ã«ç§»è¡Œã™ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’æ±ºã‚ã‚‹
+        // waitTime = Random.Range(30, 120);
 
 #if UNITY_EDITOR
-        // Debug.LogError("EnemyStandingState : ŠJn");
+        Debug.LogError("EnemyStandingState : é–‹å§‹");
 #endif
     }
 
 
 
-    // ó‘Ô’†‚Ìˆ—
+    // çŠ¶æ…‹ä¸­ã®å‡¦ç†
     public override void Excute(EnemyState enemyState)
     {
-        // ƒ_ƒ[ƒWˆ—
+        // ãƒ€ãƒ¡ãƒ¼ã‚¸å‡¦ç†
         enemyState.HandleDamage();
 
-        // ƒtƒŒ[ƒ€XV
+        enemyState.Target();
+
+        // ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
         freams += enemyState.GetEnemySpeed();
 
-        //ƒvƒŒƒCƒ„[‚Ì•û‚ğŒü‚©‚¹‚é
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ–¹ã‚’å‘ã‹ã›ã‚‹
 
-        //ƒXƒ€[ƒY‚ÉƒvƒŒƒCƒ„[‚Ì•û‚ğŒü‚©‚¹‚éˆ—
+        //ã‚¹ãƒ ãƒ¼ã‚ºã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ–¹ã‚’å‘ã‹ã›ã‚‹å‡¦ç†
         Quaternion targetRotation = Quaternion.LookRotation(
             enemyState.GetTargetObject().transform.position - enemyState.transform.position);
 
@@ -109,7 +155,7 @@ public class EnemyStandingState : StateClass<EnemyState>
 
 
 
-    // ó‘Ô’†‚ÌI—¹ˆ—
+    // çŠ¶æ…‹ä¸­ã®çµ‚äº†å‡¦ç†
     public override void Exit(EnemyState enemyState)
     {
         freams = 0.0f;

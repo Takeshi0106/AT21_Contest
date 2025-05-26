@@ -52,7 +52,7 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
     public override void Enter(ThrowObjectState state)
     {
         // 度のベクトルに飛ばすかの処理
-        state.GetThrowObjectRigidbody().AddForce(state.GetCameraTransform().forward * state.GetForcePower(),
+        state.GetThrowObjectRigidbody().AddForce(state.GetPlayerTransform().forward * state.GetForcePower(),
     ForceMode.Impulse);
 
         state.GetThrowAttackController().EnableAttack();
