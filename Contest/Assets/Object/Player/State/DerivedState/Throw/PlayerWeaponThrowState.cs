@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // ===============================
@@ -66,7 +64,7 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
 
         // アニメーションを取得しておく
         AnimationClip animClip = weponData.GetThrowAnimation();
-        var childAnim = playerState.GetPlayerWeponManager().GetCurrentWeaponAnimator();
+        var anim = playerState.GetPlayerAnimator();
 
         // Weponのフレーム数を取得しておく
         throwStartUpFreams = weponData.GetThrowStartUp();
@@ -79,9 +77,9 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
         prefab = Resources.Load<GameObject>($"Object/ThrowWeapon/{weponData.GetThrowWeaponName()}");
 
         // アニメーション開始処理
-        if (animClip != null && childAnim != null)
+        if (animClip != null && anim != null)
         {
-            childAnim.CrossFade(animClip.name, 0.2f);
+            anim.CrossFade(animClip.name, 0.2f);
         }
 
 #if UNITY_EDITOR

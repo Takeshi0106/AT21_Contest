@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewAttackData", menuName = "Attack System/Attack Data")]
@@ -21,10 +19,8 @@ public class BaseAttackData : ScriptableObject
     [SerializeField] private float[] attackDamage = { 10.0f, 10.0f, 10.0f, 10.0f, 10.0f };
     [Header("各コンボに対応する攻撃中アニメーション")]
     [SerializeField] private AnimationClip[] attackAnimations;
-    [Header("各コンボに対応する攻撃後硬直アニメーション")]
-    [SerializeField] private AnimationClip[] attackStaggerAnimations;
 
-    [Header("投げるときのダメージ")]
+    [Header("投げるたオブジェクトのダメージ")]
     [SerializeField] private float attackThrowDamage = 0;
     [Header("投げる前のフレーム")]
     [SerializeField] private int ThrowStartupFruem = 0;
@@ -37,9 +33,9 @@ public class BaseAttackData : ScriptableObject
     [Header("投げるオブジェクトの名前")]
     [SerializeField] private string throwWeaponName = "ThrowSword";
 
-    [Header("武器に対応する立ち状態アニメーション")]
+    [Header("武器に対応する立ち状態アニメーション(今は使われていません)")]
     [SerializeField] private AnimationClip weaponStandingAnimations = null;
-    [Header("武器に対応するダッシュアニメーション")]
+    [Header("武器に対応するダッシュアニメーション(今は使われていません)")]
     [SerializeField] private AnimationClip weaponDashAnimations = null;
     
 
@@ -71,11 +67,6 @@ public class BaseAttackData : ScriptableObject
     public AnimationClip GetAttackAnimation(int comboStep)
     {
         return (comboStep < attackAnimations.Length) ? attackAnimations[comboStep] : null;
-    }
-
-    public AnimationClip GetAttackStaggerAnimation(int comboStep)
-    {
-        return (comboStep < attackStaggerAnimations.Length) ? attackStaggerAnimations[comboStep] : null;
     }
 
     public float GetThrowDamage()

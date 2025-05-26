@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 // =====================================
@@ -104,5 +102,7 @@ public class EnemySystem : MonoBehaviour
     }
 
 
+    // プレイヤーのゲッター
+    public GameObject GetPlayerObj() { return player; }
 
 }
