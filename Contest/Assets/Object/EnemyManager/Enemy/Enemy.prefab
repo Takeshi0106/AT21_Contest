@@ -159,15 +159,11 @@ MonoBehaviour:
   player: {fileID: 0}
   enemyManagerObject: {fileID: 0}
   enemySpeed: 1
-<<<<<<< HEAD
   flinchFreams: 10
   enemyStandingAnimation: {fileID: 0}
   enemyDeadAnimation: {fileID: 0}
-=======
-  fov: 90
-  visionLength: 30
-  attackRange: 5
->>>>>>> main
+  attackRange: 10
+  moveSpeed: 5
   enemyRenderer: {fileID: 0}
 --- !u!114 &7865408868508022245
 MonoBehaviour:
@@ -224,7 +220,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 0
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -248,7 +244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d1647bff54eeff489e391b5c142644c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 2427698529513485658, guid: 07e599ef444625c4b8d6db478b244556, type: 3}
 --- !u!1001 &3553543893504571271
 PrefabInstance:
   m_ObjectHideFlags: 0

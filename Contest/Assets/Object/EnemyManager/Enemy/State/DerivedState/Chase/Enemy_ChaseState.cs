@@ -57,15 +57,22 @@ public class Enemy_ChaseState : StateClass<EnemyState>
             pair_enemyChase.Add(enemyState.name, enemyState.GetComponent<ChaseScript>());
             //pair_enemyChase.Add(enemyState.name, enemyState.GetComponent<ChaseScript>());
             Debug.LogError(enemyState.name + "を追加");
+
+            //ターゲットオブジェクトを渡す
+            pair_enemyChase[enemyState.name].SetTarget(enemyState.GetTargetObject());
+
+            //停止する距離を渡す
+            pair_enemyChase[enemyState.name].SetStoppingDistance(enemyState.GetEnemyAttackRange());
+
+            //移動速度の値を渡す
+            pair_enemyChase[(enemyState.name)].SetMoveSpeed(enemyState.GetEnemyMoveSpeed());
         }
 
-        //ターゲットオブジェクトを渡す
-        pair_enemyChase[enemyState.name].SetTarget(enemyState.GetTargetObject());
+       
 
         Debug.LogError(enemyState.name+":chaseScriptに移行");
 
-        //停止する距離を渡す
-        pair_enemyChase[enemyState.name].SetStoppingDistance(enemyState.GetEnemyAttackRange());
+        
     }
     
     //状態中の処理
@@ -77,6 +84,17 @@ public class Enemy_ChaseState : StateClass<EnemyState>
             //追跡スクリプトの関数呼び出し
             pair_enemyChase[enemyState.name].TargetChase();
             //Debug.LogError(enemyState.name + "が動かしている");
+
+//#if UNITY_EDITOR
+//            // Rendererが存在するなら赤色に変更
+//            var renderer = enemyState.GetComponentInChildren<Renderer>();
+//            if (renderer != null && renderer.material != null)
+//            {
+//                renderer.material.color = Color.red;
+//            }
+//#endif
+
+
         }
         else
         {

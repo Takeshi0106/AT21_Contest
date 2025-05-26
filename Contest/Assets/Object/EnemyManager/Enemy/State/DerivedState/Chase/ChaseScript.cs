@@ -25,15 +25,29 @@ public class ChaseScript : MonoBehaviour
     
     public void SetStoppingDistance(float _stoppingDistance)
     {
-        //停止距離を外から持ってきた値に設定する
-        agent.stoppingDistance = _stoppingDistance;
-        //Debug.Log("停止距離：" + agent.stoppingDistance);
+        //agentが定義されていたら
+        if (agent != null)
+        {
+            //停止距離を外から持ってきた値に設定する
+            agent.stoppingDistance = _stoppingDistance;
+            //Debug.Log("停止距離：" + agent.stoppingDistance);
+        }
+
     }
 
+    public void SetMoveSpeed(float _moveSpeed)
+    {
+        //agentが定義されていたら
+        if (agent != null)
+        {
+            agent.speed = _moveSpeed;
+        }
+    }
 
     public void TargetChase()
     {
-        if(agent != null)
+        //agentが定義されていたら
+        if (agent != null)
         {
             //Debug.LogError(name+":が処理している");
             agent.destination = target.position;
