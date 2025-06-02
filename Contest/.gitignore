@@ -81,18 +81,13 @@ crashlytics-build.properties
 *.fbx
 *.png
 
-Assets/base.meta
 Assets/base/
 Assets/Scenes/player/
-Assets/Scenes/player.meta
 Assets/Scenes/enemy/
-Assets/Scenes/enemy.meta
 Assets/enemy/
 Assets/enemy.meta
 Assets/Scenes/buki/
-Assets/Scenes/buki.meta
 Assets/Scenes/boss/
-Assets/Scenes/boss.meta
 Assets/TextMesh Pro/
 Assets/TextMesh Pro.meta
 Assets/Object/Player/shujinnkou.fbx.meta
@@ -111,5 +106,5 @@ Assets/Sword Animation/
 Assets/Sword Animation.meta
 Assets/Warrior/
 Assets/Warrior.meta
+
 Assets/Brawler Animations Sample/
-Assets/Brawler Animations Sample.meta
