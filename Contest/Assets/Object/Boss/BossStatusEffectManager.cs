@@ -15,7 +15,7 @@ public class BossStatusEffectManager : MonoBehaviour
     float m_StanCntFleams = 0.0f; //カウント用フラグ
 
     // ダメージを受けた時に呼ぶ処理
-    public bool Damage(float _GageDamage)
+    public void Damage(float _GageDamage)
     {
         m_StanGage -= _GageDamage;
 
@@ -23,8 +23,6 @@ public class BossStatusEffectManager : MonoBehaviour
         {
             m_StanFlag = true;
         }
-
-        return m_StanFlag;
     }
 
     // スタン状態の開始処理

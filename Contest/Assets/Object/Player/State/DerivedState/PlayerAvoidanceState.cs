@@ -57,6 +57,20 @@ public class PlayerAvoidanceState : StateClass<PlayerState>
         startUpFreams = currentState.GetPlayerAvoidanceManager().GetAvoidanceStartUpFreams();
         avoidanceFreams = currentState.GetPlayerAvoidanceManager().GetAvoidanceFreams();
         affterFreams = currentState.GetPlayerAvoidanceManager().GetAvoidanceAfterFreams();
+        AnimationClip clip = currentState.GetPlayerAvoidanceManager().GetAvoidanceAnimation();
+        AvoidanceManager avoidanceManager = currentState.GetPlayerAvoidanceManager();
+
+        // アニメーション開始
+        if (currentState.GetPlayerAnimator() != null && clip != null)
+        {
+            currentState.GetPlayerAnimator().CrossFade(clip.name, 0.1f);
+        }
+
+        // 武器を見えないようにする
+        currentState.GetPlayerWeponManager().WeaponInvisible(currentState.GetPlayerWeponNumber());
+
+        // 後ろの下がる
+        currentState.GetPlayerRigidbody().AddForce(-currentState.transform.forward * avoidanceManager.GetAvoidancePower(), ForceMode.Impulse);
 
 #if UNITY_EDITOR
         Debug.Log("PlayerAvoidanceState 開始");
@@ -145,6 +159,9 @@ public class PlayerAvoidanceState : StateClass<PlayerState>
     // 状態中の終了処理
     public override void Exit(PlayerState currentState)
     {
+        // 武器を見えるようにする
+        currentState.GetPlayerWeponManager().WeaponVisible(currentState.GetPlayerWeponNumber());
+
         freams = 0.0f;
     }
 
