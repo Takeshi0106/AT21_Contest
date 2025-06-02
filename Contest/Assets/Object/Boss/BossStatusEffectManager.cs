@@ -10,6 +10,8 @@ public class BossStatusEffectManager : MonoBehaviour
     [SerializeField] private float m_StanGage = 100.0f; // スタンのMAXゲージ
     [Header("スタン中のフレーム数")]
     [SerializeField] private int m_StanFleams = 600; // スタンのフレーム数（時間）
+    [Header("スタン中のアニメーション")]
+    [SerializeField] private AnimationClip m_StanAnimationClip = null; // スタンのアニメーション
 
     bool m_StanFlag = false; // スタンフラグ
     float m_StanCntFleams = 0.0f; //カウント用フラグ
@@ -46,5 +48,5 @@ public class BossStatusEffectManager : MonoBehaviour
 
     // ゲッター
     public bool GetStanFlag() { return m_StanFlag; }
-
+    public AnimationClip GetStanAnimationClip() { return m_StanAnimationClip; }
 }

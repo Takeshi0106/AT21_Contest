@@ -20,6 +20,16 @@ public class BossStanState : StateClass<BossState>
     {
         // スタンの開始処理
         _BossState.GetBossStatusEffectManager().StartStan();
+
+        // アニメーション取得
+        var animClip = _BossState.GetBossStatusEffectManager().GetStanAnimationClip();
+        var Anim = _BossState.GetEnemyAnimator();
+
+        // アニメーション再生
+        if (Anim != null && animClip != null)
+        {
+            Anim.CrossFade(animClip.name, 0.2f);
+        }
     }
 
     // 状態中の処理

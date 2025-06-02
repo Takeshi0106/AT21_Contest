@@ -1287,6 +1287,10 @@ PrefabInstance:
       propertyPath: enemyManagerObject
       value: 
       objectReference: {fileID: 606608951}
+    - target: {fileID: 5753243017126494298, guid: e7c1e351b789c5d4292376214532e9a6, type: 3}
+      propertyPath: m_StanAnimationClip
+      value: 
+      objectReference: {fileID: 5024436281422990708, guid: 0dc5e5943af3ba54daf6458ae3e4bf30, type: 3}
     - target: {fileID: 5845176649281896997, guid: e7c1e351b789c5d4292376214532e9a6, type: 3}
       propertyPath: m_Name
       value: boss ver3 (1)
