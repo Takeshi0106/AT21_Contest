@@ -6,7 +6,6 @@ public class EnemyStandingState : StateClass<EnemyState>
     private EnemyStandingState instance;
     // フレームを計る
     float freams = 0;
-    int waitTime = 0;
 
     //視野角にプレイヤーがいるかを判断する変数
     private RaycastHit hit;
