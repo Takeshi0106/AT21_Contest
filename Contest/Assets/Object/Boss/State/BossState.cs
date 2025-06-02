@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 // =================================
 // BOSSの状態管理クラス
@@ -26,9 +23,9 @@ public class BossState : EnemyBaseState<BossState>
         m_BossStatusEffectManager = this.gameObject.GetComponent<BossStatusEffectManager>();
 
         // 状態をセット
-        // currentState = new EnemyStandingState();
+        currentState = new BossStandingState();
         // 状態の開始処理
-        // currentState.Enter(this);
+        currentState.Enter(this);
 
 #if UNITY_EDITOR
         // エディタ実行時に取得して色を変更する
@@ -57,19 +54,12 @@ public class BossState : EnemyBaseState<BossState>
     // 更新処理
     void Update()
     {
-        /*
-        if(m_BossStatusEffectManager.GetStanFlag())
-        {
-            // ChangeState()
-        }
-        */
-
-        // StateUpdate();
+        StateUpdate();
 
         HandleDamage();
     }
 
-    // ダメージ処理（通常攻撃＋カウンター攻撃対応）
+    // ダメージ処理 Boss用
     override public void HandleDamage()
     {
         damagerFlag = false;
@@ -148,6 +138,11 @@ public class BossState : EnemyBaseState<BossState>
                 // スタンダメージをあたえる
                 m_BossStatusEffectManager.Damage(stanDamage);
 
+                // スタン状態に移行するかのチェック
+                if(m_BossStatusEffectManager.GetStanFlag())
+                {
+                    this.ChangeState(new BossStanState()); // スタン状態に移行
+                }
 
                 break; // 一度ヒットで処理終了
             }
@@ -174,6 +169,10 @@ public class BossState : EnemyBaseState<BossState>
         enemyRigidbody.useGravity = false; // 重力をOFFにする
         this.GetComponent<Collider>().enabled = false; // コライダーを無効にする
 
-        // ChangeState(new EnemyDeadState()); // Dead状態に変更
+        ChangeState(new BossDeadState()); // Dead状態に変更
     }
+
+
+    // ゲッター
+    public BossStatusEffectManager GetBossStatusEffectManager() { return m_BossStatusEffectManager; }
 }

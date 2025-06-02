@@ -18,6 +18,12 @@ MonoBehaviour:
   attackFruem: 1400000028000000140000001e00000014000000
   attackStaggerFruem: 1400000014000000140000001400000014000000
   attackDamage:
+  - 999
+  - 10
+  - 10
+  - 10
+  - 10
+  m_AttackStanDamage:
   - 10
   - 10
   - 10
@@ -29,12 +35,12 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 7ca41bafa539dda409159af85c095c03, type: 2}
   - {fileID: 7400000, guid: 1915694ce53e23e4db2966bdbf1471a2, type: 2}
   - {fileID: 7400000, guid: 14c607dd832c76c4bb8f215ea4d3667b, type: 2}
-  attackStaggerAnimations: []
   attackThrowDamage: 10
+  m_AttackThrowStanDamage: 0
   ThrowStartupFruem: 20
   ThrowStaggerFruem: 30
   attackThrowAnimations: {fileID: 0}
   ThrowStartPosison: {x: 0, y: 1.25, z: 0}
-  throwWeaponName: ThrowSword
+  throwWeaponName: ThrowPlayer01
   weaponStandingAnimations: {fileID: 0}
   weaponDashAnimations: {fileID: 0}

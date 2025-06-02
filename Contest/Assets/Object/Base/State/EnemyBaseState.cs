@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -265,6 +264,16 @@ public class EnemyBaseState<T> : BaseCharacterState<T> where T : EnemyBaseState<
         {
             Debug.Log("スピードがセットできませんでした。");
         }
+    }
+
+
+    // Enemy用のチェンジState　オーバーライド
+    public override void ChangeState(StateClass<T> newState)
+    {
+        currentState.Exit((T)this);
+        currentState = null;
+        currentState = newState;
+        currentState.Enter((T)this);
     }
 
 
