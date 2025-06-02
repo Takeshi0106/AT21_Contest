@@ -17,11 +17,15 @@ public class BaseAttackData : ScriptableObject
     [SerializeField] private int[] attackStaggerFruem = { 20, 20, 20, 20, 20 };
     [Header("攻撃の攻撃力")]
     [SerializeField] private float[] attackDamage = { 10.0f, 10.0f, 10.0f, 10.0f, 10.0f };
+    [Header("攻撃のスタンゲージダメージ")]
+    [SerializeField] private float[] m_AttackStanDamage = { 10.0f, 10.0f, 10.0f, 10.0f, 10.0f };
     [Header("各コンボに対応する攻撃中アニメーション")]
     [SerializeField] private AnimationClip[] attackAnimations;
 
     [Header("投げるたオブジェクトのダメージ")]
     [SerializeField] private float attackThrowDamage = 0;
+    [Header("投げるたオブジェクトのスタンダメージ")]
+    [SerializeField] private float m_AttackThrowStanDamage = 0;
     [Header("投げる前のフレーム")]
     [SerializeField] private int ThrowStartupFruem = 0;
     [Header("投げた後の硬直フレーム")]
@@ -49,6 +53,11 @@ public class BaseAttackData : ScriptableObject
         return (comboStep < maxCombo) ? attackDamage[comboStep] : attackDamage[maxCombo - 1];
     }
 
+    public float GetStanDamage(int comboStep)
+    {
+        return (comboStep < maxCombo) ? m_AttackStanDamage[comboStep] : m_AttackStanDamage[maxCombo - 1];
+    }
+
     public int GetAttackStaggerFrames(int comboStep)
     {
         return (comboStep < maxCombo) ? attackStaggerFruem[comboStep] : attackStaggerFruem[maxCombo - 1];
@@ -72,6 +81,11 @@ public class BaseAttackData : ScriptableObject
     public float GetThrowDamage()
     {
         return attackThrowDamage;
+    }
+
+    public float GetThrowStanDamage()
+    {
+        return m_AttackThrowStanDamage;
     }
 
     public int GetThrowStartUp()

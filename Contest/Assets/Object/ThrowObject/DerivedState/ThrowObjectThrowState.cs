@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 // ==================================
 // 投げられている状態
@@ -14,7 +15,10 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
 
     // フレーム
     int freams = 0;
-
+    // 保存用フレーム
+    int m_SaveFreams = 0;
+    // 消えるときに当たらないことがあるため余分を持たせる
+    bool m_DeleteFlag = false;
 
     // インスタンスを取得する関数
     public static ThrowObjectThrowState Instance
@@ -34,15 +38,10 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
     // 状態を変更する
     public override void Change(ThrowObjectState state)
     {
-        foreach (var tags in state.GetMultiTagList())
+        if (m_DeleteFlag && freams >= m_SaveFreams)
         {
-            // エネミーかステージにぶつかった時
-            if (tags.HasTag(state.GetEnemyTag()) ||
-                (tags.HasTag(state.GetStageTag()) && state.GetNoGravityFreams() < freams) ||
-                state.GetThrowObjectTransform().position.y < -200.0f)
-            {
-                state.ChangeState(ThrowObjectDeleteState.Instance);
-            }
+            state.ChangeState(ThrowObjectDeleteState.Instance);
+            Debug.Log("ThrowObject : 消える状態移行");
         }
     }
 
@@ -64,7 +63,7 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
     public override void Excute(ThrowObjectState state)
     {
         // 重力を無効にする
-        if(state.GetNoGravityFreams() > freams) 
+        if (state.GetNoGravityFreams() > freams)
         {
             state.GetThrowObjectRigidbody().useGravity = false;
         }
@@ -74,7 +73,19 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
             state.GetThrowObjectRigidbody().useGravity = true;
         }
 
-        freams++;
+        freams++; // フレーム更新
+
+        foreach (var tags in state.GetMultiTagList())
+        {
+            // エネミーかステージにぶつかった時
+            if (tags.HasTag(state.GetEnemyTag()) ||
+                (tags.HasTag(state.GetStageTag()) && state.GetNoGravityFreams() < freams) ||
+                state.GetThrowObjectTransform().position.y < -200.0f)
+            {
+                m_SaveFreams = freams;
+                m_DeleteFlag = true;
+            }
+        }
     }
 
 
