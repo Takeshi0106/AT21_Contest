@@ -2058,6 +2058,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_CounterAnimation
+      value: 
+      objectReference: {fileID: 3812546017969097313, guid: e5ae2e82b773e9a48bf9d5f3f6c23ffa, type: 3}
+    - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: counterDamages.Array.size
       value: 5
       objectReference: {fileID: 0}
