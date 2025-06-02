@@ -14,7 +14,7 @@ public class BossStandingState : StateClass<BossState>
         // 移動状態に移行する
         if (vec.magnitude > 8.0f || bossState.GetEnemyAttackFlag())
         {
-            // bossState.ChangeState(new EnemyMoveState());
+            bossState.ChangeState(new BossMoveState());
         }
     }
 

@@ -10,7 +10,7 @@ public class BossMoveState : StateClass<BossState>
         // UŒ‚ó‘Ô
         if (vec.magnitude < bossState.GetDistanceAttack() && bossState.GetEnemyAttackFlag())
         {
-            // bossState.ChangeState(new EnemyAttackState());
+            bossState.ChangeState(new BossAttackState());
             return;
         }
         // —§‚¿ó‘Ô

@@ -133,8 +133,6 @@ public class BossState : EnemyBaseState<BossState>
                 Debug.Log(Time.frameCount + ": Counter Hit!");
 #endif
 
-                // ダメージをあたえる
-                hpManager.TakeDamage(finalDamage);
                 // スタンダメージをあたえる
                 m_BossStatusEffectManager.Damage(stanDamage);
 
@@ -143,6 +141,9 @@ public class BossState : EnemyBaseState<BossState>
                 {
                     this.ChangeState(new BossStanState()); // スタン状態に移行
                 }
+
+                // ダメージをあたえる
+                hpManager.TakeDamage(finalDamage);
 
                 break; // 一度ヒットで処理終了
             }
