@@ -81,6 +81,8 @@ crashlytics-build.properties
 *.fbx
 *.png
 
+!Assets/Object/Player/Animation/Z_Release/*.fbx
+
 Assets/base/
 Assets/Scenes/player/
 Assets/Scenes/enemy/
@@ -108,6 +110,3 @@ Assets/Warrior/
 Assets/Warrior.meta
 
 Assets/Brawler Animations Sample/
-
-!Assets/Object/Player/Animation/
-!Assets/Object/Player/Animation/*.fbx
