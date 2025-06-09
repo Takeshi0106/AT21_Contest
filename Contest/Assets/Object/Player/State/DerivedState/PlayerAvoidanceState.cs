@@ -65,9 +65,13 @@ public class PlayerAvoidanceState : StateClass<PlayerState>
         {
             currentState.GetPlayerAnimator().CrossFade(clip.name, 0.1f);
         }
+        else
+        {
+            Debug.Log("アニメーションNull");
+        }
 
-        // 武器を見えないようにする
-        currentState.GetPlayerWeponManager().WeaponInvisible(currentState.GetPlayerWeponNumber());
+            // 武器を見えないようにする
+            currentState.GetPlayerWeponManager().WeaponInvisible(currentState.GetPlayerWeponNumber());
 
         // 後ろの下がる
         currentState.GetPlayerRigidbody().AddForce(-currentState.transform.forward * avoidanceManager.GetAvoidancePower(), ForceMode.Impulse);
