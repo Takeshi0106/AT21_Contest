@@ -91,6 +91,7 @@ crashlytics-build.properties
 !Assets/Object/UI/HP/*.meta
 !Assets/Object/UI/Title/*.png
 !Assets/Object/UI/Title/*.meta
+!Assets/Object/Player/WeaponData/Z_Release/Naginata/Animation/*.fbx
 
 Assets/base/
 Assets/Scenes/player/*.fbx
