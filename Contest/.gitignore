@@ -108,3 +108,6 @@ Assets/Warrior/
 Assets/Warrior.meta
 
 Assets/Brawler Animations Sample/
+
+!Assets/Object/Player/Animation/
+!Assets/Object/Player/Animation/*.fbx
