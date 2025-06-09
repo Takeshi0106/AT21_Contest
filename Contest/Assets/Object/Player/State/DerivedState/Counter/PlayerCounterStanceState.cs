@@ -57,6 +57,19 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
+        // アニメーション取得
+        var animClip = playerState.GetPlayerCounterManager().GetCounterAnimation();
+        var Anim = playerState.GetPlayerAnimator();
+
+        // アニメーション再生
+        if (Anim != null && animClip != null)
+        {
+            Anim.CrossFade(animClip.name, 0.1f);
+        }
+
+        // 武器を非表示
+        playerState.GetPlayerWeponManager().WeaponInvisible(playerState.GetPlayerWeponNumber());
+
 #if UNITY_EDITOR
         Debug.LogError("CounterStanceState : 開始");
 
@@ -150,6 +163,8 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
         freams = 0.0f;
         counterOutcome = false;
         counterActive = false;
+
+        playerState.GetPlayerWeponManager().WeaponVisible(playerState.GetPlayerWeponNumber());
 
 #if UNITY_EDITOR
         // 元の色に戻す

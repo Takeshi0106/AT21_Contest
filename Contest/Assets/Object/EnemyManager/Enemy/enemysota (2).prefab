@@ -203,6 +203,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3011124497376341643}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6440918568201106986}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2139364025130004871}
   m_SourcePrefab: {fileID: 100100000, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
 --- !u!1 &2351968896349266825 stripped
 GameObject:
@@ -291,6 +297,7 @@ MonoBehaviour:
   fov: 0
   visionLength: 0
   attackRange: 1
+  moveSpeed: 0
   enemyRenderer: {fileID: 0}
 --- !u!114 &4045888681683395993
 MonoBehaviour:
@@ -337,6 +344,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tags:
   - Enemy
+--- !u!114 &6440918568201106986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8097587045541504395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 186234c4d84d8a64aa4eaee5cd3b1998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2139364025130004871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8097587045541504395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5398fe0c2934f48b1697b71449d332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flinchGage: 50
+  flinchGageFreams: 600
+  flinchGageRecover: 1
+  flinchFreams: 30
+  playerFlinchAnimation: {fileID: 3094330708855449807, guid: eed216188b27f1140b011295637ece48, type: 3}
 --- !u!4 &8875390003773849393 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}

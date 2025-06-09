@@ -177,6 +177,17 @@ public class WeponManager : MonoBehaviour
         AttachWeapon(weaponDataList[weaponHaveNumber]);
     }
 
+    // •Ší‚ğŒ©‚¦‚È‚¢‚æ‚¤‚É‚·‚é
+    public void WeaponInvisible(int index)
+    {
+        instantiatedWeapons[index].SetActive(false);
+    }
+
+    // •Ší‚ğŒ©‚¦‚é‚æ‚¤‚É‚·‚é
+    public void WeaponVisible(int index)
+    {
+        instantiatedWeapons[index].SetActive(true);
+    }
 
     // ƒQƒbƒ^[
     public int GetWeaponCount() { return weaponDataList.Count; }

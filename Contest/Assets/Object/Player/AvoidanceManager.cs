@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -13,6 +11,11 @@ public class AvoidanceManager : MonoBehaviour
     [SerializeField] private int avoidanceAfterFreams = 20;
     [Header("回避成功時の無敵フレーム")]
     [SerializeField] private int avoidanceInvincibleFreams = 20;
+    [Header("回避時のアニメーション")]
+    [SerializeField] private AnimationClip avoidanceAnimation = null;
+    [Header("回避時に飛ぶ力")]
+    [SerializeField] private float avoidancePower = 1.0f;
+
     [Header("回避成功時の敵のスピード低下(全体のスピード低下と重複)")]
     [SerializeField] private float avoidanceSlowEnemy = 0.8f;
     [Header("回避が成功して遅くなるフレーム")]
@@ -137,4 +140,6 @@ public class AvoidanceManager : MonoBehaviour
     public int GetAvoidanceAfterFreams() { return avoidanceAfterFreams; }
     public int GetAvoidanceInvincibleFreams() { return avoidanceInvincibleFreams; }
     public EnemySystem GetEnemySystem() { return enemySystem;}
+    public AnimationClip GetAvoidanceAnimation() { return avoidanceAnimation; }
+    public float GetAvoidancePower() { return avoidancePower; }
 }

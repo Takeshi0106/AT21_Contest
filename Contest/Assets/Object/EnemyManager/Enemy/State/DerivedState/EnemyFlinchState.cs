@@ -59,6 +59,7 @@ public class EnemyFlinchState : StateClass<EnemyState>
     // ó‘Ô’†‚ÌI—¹ˆ—
     public override void Exit(EnemyState enemyState)
     {
+        enemyState.GetEnemyDamageResponseManager().RecoverFlinch();
         freams = 0;
     }
 }

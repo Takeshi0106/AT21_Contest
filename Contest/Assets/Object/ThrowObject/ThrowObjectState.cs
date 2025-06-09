@@ -21,6 +21,9 @@ public class ThrowObjectState : BaseState<ThrowObjectState>
     private Rigidbody throwObjectRigidbody;
     // アタックコントローラーを取得
     private AttackController throwAttackController;
+    // 自分のダメージを入れておく
+    float m_Damage = 0.0f;
+    float m_StanDamage = 0.0f;
 
     // 当たったタグを取得しておくリスト
     protected List<MultiTag> collidedTags = new List<MultiTag>();
@@ -79,6 +82,8 @@ public class ThrowObjectState : BaseState<ThrowObjectState>
 
     // セッター
     public void SetPlayerTransfoem(Transform p_playerTransform) { playerTransform = p_playerTransform; }
+    public void SetDamage(float _damage) { m_Damage = _damage; }
+    public void SetStanDamage(float _stanDamage) { m_StanDamage=_stanDamage; }
 
     // ゲッター
     public List<MultiTag> GetMultiTagList() { return collidedTags; }
@@ -91,4 +96,6 @@ public class ThrowObjectState : BaseState<ThrowObjectState>
     public string GetEnemyTag() { return enemyTag; }
     public Transform GetThrowObjectTransform() { return this.transform; }
     public AttackController GetThrowAttackController() { return throwAttackController; }
+    public float GetThrowDamage() { return m_Damage; }
+    public float GetThrowStanDamage() { return m_StanDamage; }
 }

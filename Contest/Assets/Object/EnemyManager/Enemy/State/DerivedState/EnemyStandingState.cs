@@ -6,7 +6,6 @@ public class EnemyStandingState : StateClass<EnemyState>
     private EnemyStandingState instance;
     // フレームを計る
     float freams = 0;
-    int waitTime = 0;
 
     //視野角にプレイヤーがいるかを判断する変数
     private RaycastHit hit;
@@ -36,11 +35,6 @@ public class EnemyStandingState : StateClass<EnemyState>
         if (vec.magnitude > 8.0f || enemyState.GetEnemyAttackFlag())
         {
             enemyState.ChangeState(new EnemyMoveState());
-        }
-        // 怯み状態に移行
-        if (enemyState.GetEnemyDamageFlag() && enemyState.GetEnemyFlinchCnt() < 1)
-        {
-            enemyState.ChangeState(new EnemyFlinchState());
         }
         
         /*

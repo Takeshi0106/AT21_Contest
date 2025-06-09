@@ -9,10 +9,10 @@ using UnityEngine.Events;
 
 public class EnemyManager : MonoBehaviour
 {
-    private List<EnemyState> enemies = new List<EnemyState>();
+    private List<EnemyBaseState<EnemyState>> enemyList = new List<EnemyBaseState<EnemyState>>();
+    private List<EnemyBaseState<BossState>> bossList = new List<EnemyBaseState<BossState>>();
     private UnityEvent<float> onEnemySlow = new UnityEvent<float>() { };
     EnemySystem enemyManager = null;
-    int cnt = 0;
 
     [Header("プレイヤーのタグ名")]
     [SerializeField] private string playerTag = "Player";
@@ -20,29 +20,46 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private EnemySystem system = null;
 
 
-    // Enemyを数を取得
-    public void RegisterEnemy(EnemyState enemy)
+    // 開始処理
+    public void Start()
     {
-        // Enemyを追加する
-        enemies.Add(enemy);
-
-        if (cnt == 0)
-        {
-            // EnemySystemに自分を渡す
-            enemyManager = system.GetComponent<EnemySystem>();
-            enemyManager.RegisterEnemyManager(this);
-
-            cnt = 1;
-        }
+        // EnemySystemに自分を渡す
+        enemyManager = system.GetComponent<EnemySystem>();
+        enemyManager.RegisterEnemyManager(this);
     }
 
 
-    // 敵を倒したときの処理
-    public void UnregisterEnemy(EnemyState enemy)
+    // Enemyを取得
+    public void RegisterEnemy(EnemyBaseState<EnemyState> enemy)
     {
-        enemies.Remove(enemy);
+        // Enemyを追加する
+        enemyList.Add(enemy);
+    }
+    // Bossを取得
+    public void RegisterEnemy(EnemyBaseState<BossState> boss)
+    {
+        // Enemyを追加する
+        bossList.Add(boss);
+    }
 
-        if (enemies.Count == 0)
+
+    // Enemyを倒したときの処理
+    public void UnregisterEnemy(EnemyBaseState<EnemyState> enemy)
+    {
+        enemyList.Remove(enemy);
+
+        if (enemyList.Count + bossList.Count == 0)
+        {
+            // 敵が倒されたらEnemySystemに知らせる
+            enemyManager.UnregisterEnemyManager(this);
+        }
+    }
+    // Bossを倒したときの処理
+    public void UnregisterEnemy(EnemyBaseState<BossState> boss)
+    {
+        bossList.Remove(boss);
+
+        if (enemyList.Count + bossList.Count == 0)
         {
             // 敵が倒されたらEnemySystemに知らせる
             enemyManager.UnregisterEnemyManager(this);
@@ -57,17 +74,17 @@ public class EnemyManager : MonoBehaviour
     }
 
 
-
+    // Enemyのスピード低下関数追加
     public void AddOnEnemySlow(UnityAction<float> action)
     {
         onEnemySlow.AddListener(action);
     }
-
-
+    // Enemyのスピード低下関数削除
     public void RemoveOnEnemySlow(UnityAction<float> action)
     {
         onEnemySlow.RemoveListener(action);
     }
+
 
     // プレイヤーが敵にぶつかった時の処理
     void OnTriggerEnter(Collider other)
@@ -77,22 +94,30 @@ public class EnemyManager : MonoBehaviour
         // 配列の中に同じものがあるかのチェック
         if (tag.HasTag(playerTag))
         {
-            foreach (EnemyState enemy in enemies)
+            // Enemyを有効化
+            foreach (EnemyBaseState<EnemyState> enemy in enemyList)
             {
                 enemy.gameObject.SetActive(true);  // 登録された敵を有効化
             }
+            // Bossを有効化
+            foreach (EnemyBaseState<BossState> boss in bossList)
+            {
+                boss.gameObject.SetActive(true);  // 登録された敵を有効化
+            }
         }
     }
-
 
 
     // プレイヤーの位置を渡して、最も近い Enemy の位置を返す
     public Vector3 GetNearestEnemyPosition(Vector3 playerPosition)
     {
-        EnemyState nearest = null;
+        // BossとEnemyの一番近い物を入れる
+        EnemyBaseState<EnemyState> enemyNearest = null;
+        EnemyBaseState<BossState> bossNearest = null;
         float shortestDistance = float.MaxValue;
 
-        foreach (EnemyState enemy in enemies)
+        // 一番近いEnemyを探る
+        foreach (EnemyBaseState<EnemyState> enemy in enemyList)
         {
             if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
 
@@ -100,21 +125,45 @@ public class EnemyManager : MonoBehaviour
             if (distance < shortestDistance)
             {
                 shortestDistance = distance;
-                nearest = enemy;
+                enemyNearest = enemy;
+            }
+        }
+        // 一番近いBossを探る
+        foreach (EnemyBaseState<BossState> boss in bossList)
+        {
+            if (boss == null || !boss.gameObject.activeInHierarchy) continue;
+
+            float distance = Vector3.Distance(playerPosition, boss.transform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                enemyNearest = null;
+                bossNearest = boss;
             }
         }
 
-        // 見つかった場合はその位置を返す。なければ Vector3.zero を返す（要調整可能）
-        return nearest != null ? nearest.transform.position : Vector3.zero;
+        // 見つかった場合はその位置を返す。
+        if (enemyNearest != null)
+        {
+            return enemyNearest.transform.position;
+        }
+        else if(bossNearest != null)
+        {
+            return bossNearest.gameObject.transform.position;
+        }
+
+        return Vector3.zero;
     }
 
 
+    // 一番近いEnemy・Bossにフラグを渡す
     public void NearEnemyFlag(Vector3 playerPosition)
     {
-        EnemyState nearest = null;
+        EnemyBaseState<EnemyState> enemyNearest = null;
+        EnemyBaseState<BossState> bossNearest = null;
         float shortestDistance = float.MaxValue;
 
-        foreach (EnemyState enemy in enemies)
+        foreach (EnemyBaseState<EnemyState> enemy in enemyList)
         {
             if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
 
@@ -124,25 +173,48 @@ public class EnemyManager : MonoBehaviour
             if (distance < shortestDistance)
             {
                 shortestDistance = distance;
-                nearest = enemy;
+                enemyNearest = enemy;
             }
         }
-        // Nullチェックを追加
-        if (nearest != null)
+        // 一番近いBossを探る
+        foreach (EnemyBaseState<BossState> boss in bossList)
         {
-            nearest.SetEnemyAttackFlag(true);
+            if (boss == null || !boss.gameObject.activeInHierarchy) continue;
+
+            float distance = Vector3.Distance(playerPosition, boss.transform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                enemyNearest = null;
+                bossNearest = boss;
+            }
         }
 
+        // Nullチェックを追加
+        if (enemyNearest != null)
+        {
+            enemyNearest.SetEnemyAttackFlag(true);
+        }
+        else if (bossNearest != null)
+        {
+            bossNearest.SetEnemyAttackFlag(true);
+        }
     }
 
 
     public void EnemyFlagFalse()
     {
-        foreach (EnemyState enemy in enemies)
+        foreach (EnemyBaseState<EnemyState> enemy in enemyList)
         {
             if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
 
             enemy.SetEnemyAttackFlag(false);
+        }
+        foreach (EnemyBaseState<BossState> boss in bossList)
+        {
+            if (boss == null || !boss.gameObject.activeInHierarchy) continue;
+
+            boss.SetEnemyAttackFlag(false);
         }
     }
 }

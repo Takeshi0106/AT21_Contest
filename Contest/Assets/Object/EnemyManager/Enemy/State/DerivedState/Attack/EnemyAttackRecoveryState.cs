@@ -67,13 +67,6 @@ public class EnemyAttackRecoveryState : StateClass<EnemyState>
             enemyState.SetEnemyCombo(0);
             enemyState.ChangeState(new EnemyStandingState());
         }
-
-        // ‹¯‚İó‘Ô‚ÉˆÚs
-        if (enemyState.GetEnemyDamageFlag())
-        {
-            enemyState.ChangeState(new EnemyFlinchState());
-            return;
-        }
     }
 
 

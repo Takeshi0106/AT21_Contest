@@ -74,6 +74,7 @@ public class PlayerAttackState : StateClass<PlayerState>
     public override void Enter(PlayerState playerState)
     {
         weponData = playerState.GetPlayerWeponManager().GetWeaponData(playerState.GetPlayerWeponNumber());
+        CounterManager counter = playerState.GetPlayerCounterManager();
 
         // アニメーション再生
         // Animator を取得
@@ -96,6 +97,11 @@ public class PlayerAttackState : StateClass<PlayerState>
             // 一瞬で向きを変更
             playerState.GetPlayerTransform().forward = direction.normalized;
         }
+
+        // 攻撃力をインターフェイスに送る
+        playerState.GetAttackInterface().SetSelfAttackDamage(weponData.GetDamage(playerState.GetPlayerConbo()) * counter.GetDamageMultiplier());
+        // スタン力をインターフェイスに送る
+        playerState.GetAttackInterface().SetSelfStanAttackDamage(weponData.GetStanDamage(playerState.GetPlayerConbo()));
 
 #if UNITY_EDITOR
         Debug.LogError($"PlayerAttackState : 開始（Combo数：{playerState.GetPlayerConbo() + 1}）");

@@ -10,7 +10,7 @@ public class CounterManager : MonoBehaviour
     [Header("カウンター成功時のゲージ増加量")]
     [SerializeField] private float counterSuccessGain = 20f;
     [Header("ダメージアップ倍率（ランクごと）")]
-    [SerializeField] private float[] damageMultipliers = { 1.0f, 1.2f, 1.5f, 2.0f,5.0f };
+    [SerializeField] private float[] damageMultipliers = { 1.0f, 1.2f, 1.5f, 2.0f, 5.0f };
     [Header("カウンターの受付フレーム（ランクごと)")]
     [SerializeField] private int[] counterFrames = { 30, 40, 50, 60, 70 };
     [Header("カウンター失敗硬直フレーム（ランクごと）")]
@@ -24,10 +24,15 @@ public class CounterManager : MonoBehaviour
     [Header("カウンター成功時からランクダウン開始までの無効フレーム（ランクごと）")]
     [SerializeField] private int[] decayGraceFrames = { 120, 120, 120, 120, 120 };
     [Header("カウンター成功時の攻撃力 ( 攻撃力 ＊ ダメージアップ倍率 )")]
-    [SerializeField] private float counterDamages = 20;
+    [SerializeField] private float[] counterDamages = { 20, 20, 20, 20, 20 };
+    [Header("カウンター成功時のスタンダメージ量")]
+    [SerializeField] private float[] m_CounterStanDamages = { 20, 20, 20, 20, 20 };
     [Header("プレイヤーのカウンター成功後の無敵時間（カウンター成功中の無敵時間とは別）")]
     [SerializeField] private int[] invincibleTime = { 0, 0, 0, 0, 0 };
 
+
+    [Header("カウンターアニメーション")]
+    [SerializeField] private AnimationClip m_CounterAnimation = null;
 
     // 最新のゲージを入れる
     private float currentGauge = 0f;
@@ -168,6 +173,8 @@ public class CounterManager : MonoBehaviour
     public  int    GetCounterStartupFrames() { return counterStartupFrames[(int)currentRank]; }
     public int GetCounterInvincibleFreams() { return invincibleTime[(int)currentRank]; }
     public  float  GetCurrentGauge()         { return currentGauge; }
-    public float GetCounterDamage() { return counterDamages; }
+    public float GetCounterDamage() { return counterDamages[(int)currentRank]; }
+    public float GetCounterStanDamage() { return m_CounterStanDamages[(int)currentRank]; }
     public int GetCurrentRank() { return currentRank; }
+    public AnimationClip GetCounterAnimation() { return m_CounterAnimation; }
 }

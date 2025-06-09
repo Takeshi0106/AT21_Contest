@@ -116,6 +116,8 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
             // 投げる武器のオブジェクトを取得する
             if (prefab != null)
             {
+                ThrowObjectState throwObjectState = null; // 状態管理クラスを取得する
+
                 // 投げる位置のグローバルな位置を計算する
                 Vector3 worldThrowPos = playerState.GetPlayerTransform().position
                       + (playerState.GetPlayerTransform().forward * weaponPos.z)
@@ -134,8 +136,14 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
                 // 回転を合成する（lookRotation を基準にして originalRotation を追加）
                 thrownObj.transform.rotation = lookRotation * originalRotation;
 
+                throwObjectState = thrownObj.GetComponent<ThrowObjectState>(); // 状態管理クラスを取得する
+
                 // プレイヤーのトランスフォームをセットする
-                thrownObj.GetComponent<ThrowObjectState>().SetPlayerTransfoem(playerState.GetPlayerTransform());
+                throwObjectState.SetPlayerTransfoem(playerState.GetPlayerTransform());
+                throwObjectState.SetDamage(playerState.GetPlayerWeponManager().
+                    GetWeaponData(playerState.GetPlayerWeponNumber()).GetThrowDamage()); // 投げるオブジェクトのダメージを取得
+                throwObjectState.SetStanDamage(playerState.GetPlayerWeponManager().
+                    GetWeaponData(playerState.GetPlayerWeponNumber()).GetThrowStanDamage()); // 投げるオブジェクトのスタンダメージを取得
             }
 
             // 装備から削除
