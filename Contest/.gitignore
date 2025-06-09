@@ -89,7 +89,8 @@ crashlytics-build.properties
 !Assets/Object/Boss/Animation/Demo/*.fbx
 !Assets/Object/UI/HP/*.png
 !Assets/Object/UI/HP/*.meta
-
+!Assets/Object/UI/Title/*.png
+!Assets/Object/UI/Title/*.meta
 
 Assets/base/
 Assets/Scenes/player/*.fbx
