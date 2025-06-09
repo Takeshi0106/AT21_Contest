@@ -21,12 +21,16 @@ MonoBehaviour:
   - 20
   - 20
   - 20
+  m_AttackStanDamage:
+  - 10
+  - 10
+  - 10
   attackAnimations:
   - {fileID: 7400000, guid: ea34e24894c42c040aaaaf30d7cbb006, type: 2}
   - {fileID: 7400000, guid: 0220eab00ed01d14f8323e83a9647e57, type: 2}
   - {fileID: 7400000, guid: d24b7083f4812c0469d27062f30b77f1, type: 2}
-  attackStaggerAnimations: []
   attackThrowDamage: 0
+  m_AttackThrowStanDamage: 0
   ThrowStartupFruem: 0
   ThrowStaggerFruem: 0
   attackThrowAnimations: {fileID: 0}
