@@ -1261,10 +1261,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1830468726916809409, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1851115868855261820, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_SizeDelta.x
       value: 415
@@ -1282,39 +1278,7 @@ PrefabInstance:
       value: 415
       objectReference: {fileID: 0}
     - target: {fileID: 2984415249573539327, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3412603819125013933, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3412603819125013933, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3412603819125013933, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3412603819125013933, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_DrawMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3412603819125013933, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3412603819125013933, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_SortingOrder
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3412603819125013933, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 634062501
-      objectReference: {fileID: 0}
-    - target: {fileID: 4478209828599107422, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_AnchorMax.y
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5005782541991389540, guid: 008358370be33294c902fbc6e5edd309, type: 3}
@@ -1332,18 +1296,6 @@ PrefabInstance:
     - target: {fileID: 5732494257093788610, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6052114522523364345, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 104.436005
-      objectReference: {fileID: 0}
-    - target: {fileID: 6052114522523364345, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6052114522523364345, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -399.9
       objectReference: {fileID: 0}
     - target: {fileID: 6955420968940031103, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_Pivot.x
@@ -1429,17 +1381,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerHpCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 7377462287118381691, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_Colors.m_FadeDuration
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 7394132210299190192, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_Value
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842246933557181262, guid: 008358370be33294c902fbc6e5edd309, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
