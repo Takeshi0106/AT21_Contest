@@ -1249,6 +1249,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 400968039037673753, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 520056441326215113, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 520056441326215113, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1830468726916809409, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1851115868855261820, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_SizeDelta.x
       value: 415
@@ -1260,6 +1276,14 @@ PrefabInstance:
     - target: {fileID: 1851115868855261820, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984415249573539327, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 415
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984415249573539327, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3412603819125013933, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_Color.b
@@ -1288,6 +1312,10 @@ PrefabInstance:
     - target: {fileID: 3412603819125013933, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_SortingLayerID
       value: 634062501
+      objectReference: {fileID: 0}
+    - target: {fileID: 4478209828599107422, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5005782541991389540, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: player
@@ -1400,6 +1428,18 @@ PrefabInstance:
     - target: {fileID: 7347466407292532410, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_Name
       value: PlayerHpCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7377462287118381691, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_Colors.m_FadeDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7394132210299190192, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842246933557181262, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
