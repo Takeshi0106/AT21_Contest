@@ -86,12 +86,12 @@ crashlytics-build.properties
 !Assets/Object/EnemyManager/Enemy/Animation/Z_Release/nagi/*.fbx
 
 Assets/base/
-Assets/Scenes/player/
-Assets/Scenes/enemy/
+Assets/Scenes/player/*.fbx
+Assets/Scenes/enemy/*.fbx
 Assets/enemy/
 Assets/enemy.meta
-Assets/Scenes/buki/
-Assets/Scenes/boss/
+Assets/Scenes/buki/*.fbx
+Assets/Scenes/boss/*.fbx
 Assets/TextMesh Pro/
 Assets/TextMesh Pro.meta
 Assets/Object/Player/shujinnkou.fbx.meta
@@ -112,3 +112,5 @@ Assets/Warrior/
 Assets/Warrior.meta
 
 Assets/Brawler Animations Sample/
+
+!Assets/Enemy
