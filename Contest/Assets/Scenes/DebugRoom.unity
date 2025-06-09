@@ -1288,6 +1288,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 606608951}
     - target: {fileID: 5753243017126494298, guid: e7c1e351b789c5d4292376214532e9a6, type: 3}
+      propertyPath: m_StanGage
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753243017126494298, guid: e7c1e351b789c5d4292376214532e9a6, type: 3}
       propertyPath: m_StanAnimationClip
       value: 
       objectReference: {fileID: 5024436281422990708, guid: 0dc5e5943af3ba54daf6458ae3e4bf30, type: 3}
@@ -2085,6 +2089,22 @@ PrefabInstance:
       propertyPath: counterDamages.Array.data[4]
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_CounterStanDamages.Array.data[1]
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_CounterStanDamages.Array.data[2]
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_CounterStanDamages.Array.data[3]
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_CounterStanDamages.Array.data[4]
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1262091075240986851, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.36
@@ -2152,6 +2172,14 @@ PrefabInstance:
     - target: {fileID: 1945677674695005656, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: avoidanceSlowEnemy
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4796733918042600986, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: flinchFreams
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4796733918042600986, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: flinchGageFreams
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 5001020707627489824, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: m_Size.x

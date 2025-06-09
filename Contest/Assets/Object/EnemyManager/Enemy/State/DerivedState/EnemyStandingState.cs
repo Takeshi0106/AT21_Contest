@@ -36,11 +36,6 @@ public class EnemyStandingState : StateClass<EnemyState>
         {
             enemyState.ChangeState(new EnemyMoveState());
         }
-        // 怯み状態に移行
-        if (enemyState.GetEnemyDamageFlag() && enemyState.GetEnemyFlinchCnt() < 1)
-        {
-            enemyState.ChangeState(new EnemyFlinchState());
-        }
         
         /*
         //y軸回転

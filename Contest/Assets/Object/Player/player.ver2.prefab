@@ -104,6 +104,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afbe08ef031536843b449484d0a2a6d6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 770010313425714840}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afbe08ef031536843b449484d0a2a6d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7032069353997645217}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afbe08ef031536843b449484d0a2a6d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4796733918042600986}
   m_SourcePrefab: {fileID: 100100000, guid: afbe08ef031536843b449484d0a2a6d6, type: 3}
 --- !u!4 &1262091075240986851 stripped
 Transform:
@@ -204,14 +210,15 @@ MonoBehaviour:
   counterPossibleAttack: EnemyAttack
   counterRange: 5
   enemyAttackTag: EnemyAttack
-  flinchFreams: 0
   ThrowFailedFreams: 0
   throwFailedAnimations: {fileID: 0}
   playerSpeed: 1
   playerStandingAnimation: {fileID: 3094330708855449807, guid: 29f52374ccfca5346baaca9c3ea09364, type: 3}
+  playerWeaponTakeAnimation: {fileID: 0}
   playerWalkAnimation: {fileID: 3094330708855449807, guid: 6362c125196cf9e49b2f43a0d0ffc566, type: 3}
   playerDashAnimation: {fileID: 3094330708855449807, guid: facc44e2400f68c488b37009d40bdb2b, type: 3}
-  playerJumpAnimation: {fileID: 3094330708855449807, guid: d7aa1902caca68d49bd483f636537b35, type: 3}
+  playerJumpStartAnimation: {fileID: 0}
+  playerJumpEndAnimation: {fileID: 0}
   playerRenderer: {fileID: 0}
 --- !u!114 &8910196664495749839
 MonoBehaviour:
@@ -230,6 +237,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d46360db657b7e74fa14216f5499f351, type: 2}
   - {fileID: 11400000, guid: d46360db657b7e74fa14216f5499f351, type: 2}
   - {fileID: 11400000, guid: 7bd74f80cd643b54fba22753e7d6bbf3, type: 2}
+  pearentWeponAttack: {fileID: 0}
 --- !u!114 &1945677674695005656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +254,8 @@ MonoBehaviour:
   avoidanceFreams: 90
   avoidanceAfterFreams: 20
   avoidanceInvincibleFreams: 1200
+  avoidanceAnimation: {fileID: 0}
+  avoidancePower: 1
   avoidanceSlowEnemy: 0.02
   slowFreams: 1200
   enemySystemObj: {fileID: 0}
@@ -362,8 +372,44 @@ MonoBehaviour:
   counterStartupFrames: 0800000006000000040000000200000000000000
   rankDecayFrames: 2c0100002c0100002c0100002c0100002c010000
   decayGraceFrames: b4000000b4000000b4000000b4000000b4000000
-  counterDamages: 20
+  counterDamages: []
+  m_CounterStanDamages:
+  - 20
+  - 20
+  - 20
+  - 20
+  - 20
   invincibleTime: 3c0000003c0000003c0000003c0000003c000000
+  m_CounterAnimation: {fileID: 0}
+--- !u!114 &7032069353997645217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929802928627798617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 186234c4d84d8a64aa4eaee5cd3b1998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4796733918042600986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929802928627798617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5398fe0c2934f48b1697b71449d332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flinchGage: 100
+  flinchGageFreams: 60
+  flinchGageRecover: 1
+  flinchFreams: 30
+  playerFlinchAnimation: {fileID: 3094330708855449807, guid: e3cc5dd1f3745884daf24b904a1060ff, type: 3}
 --- !u!1001 &7204936229567548849
 PrefabInstance:
   m_ObjectHideFlags: 0

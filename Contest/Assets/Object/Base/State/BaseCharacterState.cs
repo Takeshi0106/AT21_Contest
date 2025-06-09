@@ -26,7 +26,20 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
     protected List<CollidedInfo> collidedInfos = new List<CollidedInfo>();
     // すでにダメージを受けた攻撃オブジェクトを保持しておく
     protected HashSet<Collider> damagedColliders = new HashSet<Collider>();
+    // 自分の攻撃情報を取得する
+    protected AttackInterface m_SelfAttackInterface;
 
+    protected void CharacterStart()
+    {
+        m_SelfAttackInterface = this.GetComponent<AttackInterface>();
+
+#if UNITY_EDITOR
+        if (m_SelfAttackInterface == null)
+        {
+            Debug.Log("AttackInterfaceが見つかりませんでした。");
+        }
+#endif
+    }
 
     // プレイヤーが敵にぶつかった時の処理
     void OnTriggerEnter(Collider other)
@@ -59,5 +72,7 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
     }
 
 
+    // ゲッター
+    public AttackInterface GetAttackInterface() { return m_SelfAttackInterface; }
 
 }

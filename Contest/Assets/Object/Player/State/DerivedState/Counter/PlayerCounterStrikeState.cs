@@ -45,6 +45,10 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
     // 状態の開始処理
     public override void Enter(PlayerState playerState)
     {
+        float attackData = playerState.GetPlayerCounterManager().GetCounterDamage();   // カウンターの攻撃力
+        float stanAttackData = playerState.GetPlayerCounterManager().GetCounterStanDamage(); // スタン力を取得 
+        float multiData = playerState.GetPlayerCounterManager().GetDamageMultiplier(); // カウンターマネージャーを取得
+
         // ゲージ量アップ
         playerState.GetPlayerCounterManager().IncreaseGauge();
 
@@ -54,6 +58,12 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
 
         // 攻撃タグを付ける
         playerState.GetPlayerCounterAttackController().EnableAttack();
+
+        // 攻撃情報を更新する
+        playerState.GetAttackInterface().SetSelfAttackDamage(attackData* multiData);
+        // スタン情報を更新する
+        playerState.GetAttackInterface().SetSelfStanAttackDamage(stanAttackData);
+
 
 #if UNITY_EDITOR
         Debug.LogError("CounterStrikeState : 開始");

@@ -35,12 +35,6 @@ public class EnemyMoveState : StateClass<EnemyState>
             enemyState.ChangeState(new EnemyStandingState());
             return;
         }
-        // ‹¯‚İó‘Ô
-        if (enemyState.GetEnemyDamageFlag() && enemyState.GetEnemyFlinchCnt() < 1)
-        {
-            enemyState.ChangeState(new EnemyFlinchState());
-            return;
-        }
     }
 
 

@@ -40,12 +40,6 @@ public class EnemyAttackState : StateClass<EnemyState>
             enemyState.ChangeState(new EnemyAttackRecoveryState());
             return;
         }
-        // 怯み状態に移行
-        if(enemyState.GetEnemyHitCounterFlag())
-        {
-            enemyState.ChangeState(new EnemyFlinchState());
-            return;
-        }
     }
 
 
@@ -65,6 +59,13 @@ public class EnemyAttackState : StateClass<EnemyState>
         {
             Anim.CrossFade(animClip.name, 0.2f);
         }
+
+        // 攻撃力を更新
+        enemyState.GetAttackInterface().SetSelfAttackDamage(weponData.GetDamage(enemyState.GetEnemyConbo()));
+        // スタン力を更新
+        enemyState.GetAttackInterface().SetSelfStanAttackDamage(weponData.GetStanDamage(enemyState.GetEnemyConbo()));
+
+
 
 #if UNITY_EDITOR
 

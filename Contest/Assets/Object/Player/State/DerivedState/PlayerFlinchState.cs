@@ -26,11 +26,10 @@ public class PlayerFlinchState : StateClass<PlayerState>
         }
     }
 
-
     // 状態を変更する
     public override void Change(PlayerState playerState)
     {
-        if (freams > playerState.GetPlayerFlinchFreams())
+        if (freams > playerState.GetPlayerDamageResponseManager().GetFlinchFreams())
         {
             playerState.ChangeState(PlayerStandingState.Instance);
         }
@@ -43,7 +42,7 @@ public class PlayerFlinchState : StateClass<PlayerState>
         // アニメーション再生
         // Animator を取得
         var anim = currentState.GetPlayerAnimator();
-        var animClip = currentState.GetPlayerFlinchAnimation();
+        var animClip = currentState.GetPlayerDamageResponseManager().GetFlinchAnimation();
 
         if (anim != null && animClip != null)
         {
@@ -104,6 +103,8 @@ public class PlayerFlinchState : StateClass<PlayerState>
         // ストックの初期化
         playerState.SetPlayerNextReseved(RESEVEDSTATE.NOTHING);
         */
+
+        playerState.GetPlayerDamageResponseManager().RecoverFlinch();
 
         freams = 0;
 

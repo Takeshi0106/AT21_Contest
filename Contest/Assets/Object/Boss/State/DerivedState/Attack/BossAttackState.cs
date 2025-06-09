@@ -42,6 +42,11 @@ public class BossAttackState : StateClass<BossState>
             Anim.CrossFade(animClip.name, 0.2f);
         }
 
+        // 攻撃力を更新
+        bossState.GetAttackInterface().SetSelfAttackDamage(weponData.GetDamage(bossState.GetEnemyConbo()));
+        // スタン力を更新
+        bossState.GetAttackInterface().SetSelfStanAttackDamage(weponData.GetStanDamage(bossState.GetEnemyConbo()));
+
 #if UNITY_EDITOR
 
         if (weponData == null)

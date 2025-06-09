@@ -8,10 +8,15 @@ using UnityEngine;
 
 public class EnemyState : EnemyBaseState<EnemyState>
 {
+    DamageResponseManager enemyDamageResponseManager;
+
     // 初期化処理
     void Start()
     {
+        CharacterStart(); // キャラクター初期化
         EnemyStart(); // エネミークラス初期化
+
+        enemyDamageResponseManager = this.gameObject.GetComponent<DamageResponseManager>();
 
         // HPマネージャーにDie関数を渡す
         hpManager.SetOnDeathEvent(Die);
@@ -37,7 +42,59 @@ public class EnemyState : EnemyBaseState<EnemyState>
     void Update()
     {
         StateUpdate();
+        enemyDamageResponseManager.FlinchUpdate(enemySpeed);
     }
+
+
+
+    // ダメージ処理（通常攻撃＋カウンター攻撃対応）
+    virtual public void HandleDamage()
+    {
+        damagerFlag = false;
+        hitCounter = false;
+
+        foreach (var info in collidedInfos)
+        {
+            // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
+            if (info.multiTag == null || damagedColliders.Contains(info.collider)) { continue; }
+
+            // プレイヤーの攻撃タグがあるかを調べる
+            if (info.multiTag.HasTag(playerAttackTag))
+            {
+                damagerFlag = true;
+
+                // カウンタータグがあるか調べる
+                bool isCounterAttack = info.multiTag.HasTag(playerCounterTag);
+                // 投げられたボブジェクトがを調べる
+                bool isThrowAttack = info.multiTag.HasTag(playerThrowTag);
+
+                // 一度ダメージ処理したコライダーを保存
+                damagedColliders.Add(info.collider);
+
+                var attackInterface = info.collider.GetComponentInParent<AttackInterface>();
+
+#if UNITY_EDITOR
+                Debug.Log($"Enemyのダメージ: {attackInterface.GetOtherAttackDamage()}（{(isCounterAttack ? "カウンター" : "通常")}）");
+                Debug.Log(Time.frameCount + ": Counter Hit!");
+#endif
+                // 怯み処理
+                if (enemyDamageResponseManager.FlinchDamage(attackInterface.GetOtherStanAttackDamage()))
+                {
+                    ChangeState(new EnemyFlinchState());
+                }
+                // ダメージをあたえる
+                hpManager.TakeDamage(attackInterface.GetOtherAttackDamage());
+
+                attackInterface.HitAttack();
+
+                break; // 一度ヒットで処理終了
+            }
+        }
+
+        // 保存したコライダーのタグが元に戻る可のチェック
+        CleanupInvalidDamageColliders();
+    }
+
 
 
     protected void Die()
@@ -61,4 +118,7 @@ public class EnemyState : EnemyBaseState<EnemyState>
 
         ChangeState(new EnemyDeadState()); // Dead状態に変更
     }
+
+    // ゲッター
+    public DamageResponseManager GetEnemyDamageResponseManager() { return enemyDamageResponseManager; }
 }

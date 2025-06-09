@@ -86,11 +86,6 @@ public class PlayerStandingState : StateClass<PlayerState>
             playerState.ChangeState(PlayerAvoidanceState.Instance);
             return;
         }
-        // ƒ_ƒ[ƒW‚ğó‚¯‚Ä‚¢‚½‚ç‹¯‚İó‘Ô
-        if(playerState.GetPlayerDamagerFlag())
-        {
-            playerState.ChangeState(PlayerFlinchState.Instance);
-        }
     }
 
 

@@ -12,6 +12,7 @@ public class BossState : EnemyBaseState<BossState>
 
     private void Start()
     {
+        CharacterStart(); // キャラクター初期化
         EnemyStart(); // エネミークラス初期化
 
         // HPマネージャーにDie関数を渡す
@@ -60,7 +61,7 @@ public class BossState : EnemyBaseState<BossState>
     }
 
     // ダメージ処理 Boss用
-    override public void HandleDamage()
+    public void HandleDamage()
     {
         damagerFlag = false;
         hitCounter = false;
@@ -78,15 +79,6 @@ public class BossState : EnemyBaseState<BossState>
             {
                 damagerFlag = true;
 
-                // プレイヤーの基本ダメージを入れる変数
-                float baseDamage = 0.0f;
-                // プレイヤーの攻撃アップ倍率を入れる変数
-                float multiplier = 1.0f;
-                // プレイヤーのスタンゲージダメージ処理を入れる変数
-                float stanDamage = 0.0f;
-                // 最終ダメージを入れる変数
-                float finalDamage = 0f;
-
                 // カウンタータグがあるか調べる
                 bool isCounterAttack = info.multiTag.HasTag(playerCounterTag);
                 // 投げられたボブジェクトがを調べる
@@ -95,46 +87,15 @@ public class BossState : EnemyBaseState<BossState>
                 // 一度ダメージ処理したコライダーを保存
                 damagedColliders.Add(info.collider);
 
-                // カウンターの場合の処理
-                if (isCounterAttack)
-                {
-                    // ダメージを計算するためにパラメータを取得
-                    baseDamage = playerState.GetPlayerCounterManager().GetCounterDamage();
-                    multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
-                    stanDamage = playerState.GetPlayerCounterManager().GetCounterStanDamage();
-
-                    hitCounter = true;
-                }
-                // 投げる攻撃の場合の処理
-                else if (isThrowAttack)
-                {
-                    ThrowObjectState throwState = info.collider.gameObject.GetComponentInParent<ThrowObjectState>();
-                    baseDamage = throwState.GetThrowDamage(); // ダメージを取得
-                    multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
-                    stanDamage=throwState.GetThrowStanDamage(); // スタンダメージ取得
-                }
-                // 通常こうげきの場合の処理
-                else
-                {
-                    // ダメージを計算するためにパラメータを取得
-                    var weaponManager = playerState.GetPlayerWeponManager();
-                    var weaponData = weaponManager.GetWeaponData(playerState.GetPlayerWeponNumber());
-
-                    baseDamage = weaponData.GetDamage(playerState.GetPlayerConbo());
-                    multiplier = playerState.GetPlayerCounterManager().GetDamageMultiplier();
-                    stanDamage = weaponData.GetStanDamage(playerState.GetPlayerConbo());
-                }
-
-                // ダメージ計算
-                finalDamage = baseDamage * multiplier;
+                var attackInterface = info.collider.GetComponentInParent<AttackInterface>();
 
 #if UNITY_EDITOR
-                Debug.Log($"Enemyのダメージ: {finalDamage}（{(isCounterAttack ? "カウンター" : "通常")}）");
+                Debug.Log($"Enemyのダメージ: {attackInterface.GetOtherAttackDamage()}（{(isCounterAttack ? "カウンター" : "通常")}）");
                 Debug.Log(Time.frameCount + ": Counter Hit!");
 #endif
 
                 // スタンダメージをあたえる
-                m_BossStatusEffectManager.Damage(stanDamage);
+                m_BossStatusEffectManager.Damage(attackInterface.GetOtherStanAttackDamage());
 
                 // スタン状態に移行するかのチェック
                 if(m_BossStatusEffectManager.GetStanFlag())
@@ -143,7 +104,9 @@ public class BossState : EnemyBaseState<BossState>
                 }
 
                 // ダメージをあたえる
-                hpManager.TakeDamage(finalDamage);
+                hpManager.TakeDamage(attackInterface.GetOtherAttackDamage());
+
+                attackInterface.HitAttack();
 
                 break; // 一度ヒットで処理終了
             }

@@ -30,8 +30,6 @@ public class PlayerState : BaseCharacterState<PlayerState>
     [SerializeField] private float counterRange = 5.0f;
     [Header("敵の攻撃タグ名")]
     [SerializeField] private string enemyAttackTag = "EnemyAttack";
-    [Header("プレイヤーがひるんだ時のフレーム数")]
-    [SerializeField] private int flinchFreams = 0;
     [Header("プレイヤーが投げるのを失敗したときのフレーム数")]
     [SerializeField] private int ThrowFailedFreams = 0;
     [Header("プレイヤーが投げるのを失敗したときのアニメーション")]
@@ -51,8 +49,6 @@ public class PlayerState : BaseCharacterState<PlayerState>
     [SerializeField] private AnimationClip playerJumpStartAnimation = null;
     [Header("プレイヤーのジャンプ終了状態アニメーション")]
     [SerializeField] private AnimationClip playerJumpEndAnimation = null;
-    [Header("プレイヤーの怯み状態アニメーション")]
-    [SerializeField] private AnimationClip playerFlinchAnimation = null;
 
 
     // カメラのトランスフォーム このスクリプト以外で変更できないように設定
@@ -77,6 +73,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     private HPManager hpManager;
     // PlayerのHPマネージャー
     private AvoidanceManager playerAvoidanceManager;
+    // Playerの怯み状態マネージャ
+    private DamageResponseManager playerDamageResponseManager;
 
 
     // 現在のコンボ数
@@ -127,11 +125,15 @@ public class PlayerState : BaseCharacterState<PlayerState>
         playerStatusEffectManager = this.gameObject.GetComponent<StatusEffectManager>();
         // 回避管理
         playerAvoidanceManager = this.gameObject.GetComponent<AvoidanceManager>();
+        // スタン
+        playerDamageResponseManager = this.gameObject.GetComponent<DamageResponseManager>();
 
         playerCounterObject.SetActive(false);
         // HPマネージャーにDie関数を渡す
         hpManager.SetOnDeathEvent(Die);
 
+        // キャラクターの初期化
+        CharacterStart();
 
         // 状態をセット
         currentState = PlayerStandingState.Instance;
@@ -207,6 +209,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
         playerAvoidanceManager.AvoidUpdate();
         // カウンターランクが落ちる処理
         playerCounterManager.GaugeDecay();
+        // 怯み状態更新
+        playerDamageResponseManager.FlinchUpdate(playerSpeed);
     }
 
 
@@ -303,14 +307,22 @@ public class PlayerState : BaseCharacterState<PlayerState>
                 damagedColliders.Add(info.collider);
 
                 // 親オブジェクトから EnemyState を取得
-                var enemyState = info.collider.GetComponentInParent<EnemyState>();
+                var enemyInterface = info.collider.GetComponentInParent<AttackInterface>();
 
-                if (enemyState != null)
+                if (enemyInterface != null)
                 {
+                    // スタン処理
+                    if (playerDamageResponseManager.FlinchDamage(enemyInterface.GetOtherStanAttackDamage()))
+                    {
+                        ChangeState(PlayerFlinchState.Instance); // スタン状態に移行
+                    }
                     // ダメージ処理
-                    hpManager.TakeDamage(enemyState.GetEnemyWeponManager().GetWeaponData(0).GetDamage(enemyState.GetEnemyConbo()));
+                    hpManager.TakeDamage(enemyInterface.GetOtherAttackDamage());
+
                     damageFlag = true;
                 }
+
+                enemyInterface.HitAttack(); // 攻撃が当たった時の処理
 
 #if UNITY_EDITOR
                 // ダメージ処理などをここに追加
@@ -397,7 +409,6 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public string GetPlayerEnemyAttackTag() { return enemyAttackTag; }
     public StatusEffectManager GetPlayerStatusEffectManager() {  return playerStatusEffectManager; }
     public HashSet<Collider> GetPlayerDamagedColliders() { return damagedColliders; }
-    public int GetPlayerFlinchFreams() { return flinchFreams; }
     public int GetThrowFailedFreams() { return ThrowFailedFreams; }
     public AnimationClip GetThrowFailedAnimation() { return throwFailedAnimations; }
     public bool GetPlayerAirFlag() { return isInAir; }
@@ -408,9 +419,9 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public AnimationClip GetPlayerDashAnimation() { return playerDashAnimation; }
     public AnimationClip GetPlayerJumpStartAnimation() { return playerJumpStartAnimation; }
     public AnimationClip GetPlayerJumpEndAnimation() { return playerJumpEndAnimation; }
-    public AnimationClip GetPlayerFlinchAnimation() { return playerFlinchAnimation; }
     public AnimationClip GetPlayerWeaponTakeAnimation() { return playerWeaponTakeAnimation; }
     public bool GetPlayerDamagerFlag() { return damageFlag; }
+    public DamageResponseManager GetPlayerDamageResponseManager() { return playerDamageResponseManager; }
     
     public Vector3 GetNearEnemyPos()
     {
