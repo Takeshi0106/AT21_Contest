@@ -82,6 +82,8 @@ crashlytics-build.properties
 *.png
 
 !Assets/Object/Player/Animation/Z_Release/*.fbx
+!Assets/Object/EnemyManager/Enemy/Animation/Z_Release/*.fbx
+!Assets/Object/EnemyManager/Enemy/Animation/Z_Release/nagi/*.fbx
 
 Assets/base/
 Assets/Scenes/player/
