@@ -14,18 +14,20 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
     {
         public Collider collider;
         public MultiTag multiTag;
+        public bool hitFlag;
 
-        public CollidedInfo(Collider collider, MultiTag multiTag)
+        public CollidedInfo(Collider collider, MultiTag multiTag,bool hitFlag)
         {
             this.collider = collider;
             this.multiTag = multiTag;
+            this.hitFlag = hitFlag;
         }
     }
 
     // 接触中の情報を入れる配列（Collider + MultiTag）
     protected List<CollidedInfo> collidedInfos = new List<CollidedInfo>();
     // すでにダメージを受けた攻撃オブジェクトを保持しておく
-    protected HashSet<Collider> damagedColliders = new HashSet<Collider>();
+    // protected HashSet<Collider> damagedColliders = new HashSet<Collider>();
     // 自分の攻撃情報を取得する
     protected AttackInterface m_SelfAttackInterface;
 
@@ -50,7 +52,7 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
             // MulltiTagを取得する
             MultiTag multiTag = other.GetComponent<MultiTag>();
             // 配列に追加
-            collidedInfos.Add(new CollidedInfo(other, multiTag));
+            collidedInfos.Add(new CollidedInfo(other, multiTag, false));
         }
 
 #if UNITY_EDITOR
@@ -64,7 +66,7 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
     void OnTriggerExit(Collider other)
     {
         // 配列から同じ物を探す
-        collidedInfos.RemoveAll(info => info.collider == other);
+        // collidedInfos.RemoveAll(info => info.collider == other);
 
 #if UNITY_EDITOR
         // Debug.Log("Triggerから離れた : " + other.gameObject.name);

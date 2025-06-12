@@ -116,6 +116,7 @@ public class EnemyBaseState<T> : BaseCharacterState<T> where T : EnemyBaseState<
 #endif
     }
 
+    /*
     // 攻撃タグまたはカウンタータグが外れたら削除
     public void CleanupInvalidDamageColliders()
     {
@@ -136,6 +137,7 @@ public class EnemyBaseState<T> : BaseCharacterState<T> where T : EnemyBaseState<
             !info.collider.gameObject.activeInHierarchy ||
             !info.collider.enabled);
     }
+    */
 
     public void Target()
     {

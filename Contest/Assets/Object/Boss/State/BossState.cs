@@ -67,12 +67,14 @@ public class BossState : EnemyBaseState<BossState>
         hitCounter = false;
 
         // 保存したコライダーのタグが元に戻る可のチェック
-        CleanupInvalidDamageColliders();
+        // CleanupInvalidDamageColliders();
 
-        foreach (var info in collidedInfos)
+        for (int i = 0; i < collidedInfos.Count; i++)
         {
+            var info = collidedInfos[i];
+
             // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
-            if (info.multiTag == null || damagedColliders.Contains(info.collider)) { continue; }
+            if (info.multiTag == null || info.hitFlag) { continue; }
 
             // プレイヤーの攻撃タグがあるかを調べる
             if (info.multiTag.HasTag(playerAttackTag))
@@ -85,7 +87,7 @@ public class BossState : EnemyBaseState<BossState>
                 bool isThrowAttack = info.multiTag.HasTag(playerThrowTag);
 
                 // 一度ダメージ処理したコライダーを保存
-                damagedColliders.Add(info.collider);
+                // damagedColliders.Add(info.collider);
 
                 var attackInterface = info.collider.GetComponentInParent<AttackInterface>();
 
@@ -105,6 +107,8 @@ public class BossState : EnemyBaseState<BossState>
 
                 // ダメージをあたえる
                 hpManager.TakeDamage(attackInterface.GetOtherAttackDamage());
+
+                info.hitFlag = true;
 
                 attackInterface.HitAttack();
 

@@ -2,28 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System.Linq;
+using UnityEngine.UI;
 
 public class CounterRankUI : MonoBehaviour
 {
     [Header("プレイヤーオブジェクトの名前")]
     [SerializeField] private GameObject player = null;
+    [Header("カウンターランクのUI")]
+    [SerializeField] private Sprite[] m_sprite = { };
 
-    
-    // テキスト
-    private TextMeshProUGUI text;
     // Playerのマネージャーを入れる
     private CounterManager counterManager;
-
-
+    // イメージ
+    private UnityEngine.UI.Image rankImage;
+    int rank = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        // テキストを取得
-        text = this.GetComponent<TextMeshProUGUI>();
         // カウンター取得
         counterManager = player.GetComponent<CounterManager>();
+        // 自分のイメージを取得
+        rankImage = this.GetComponent<Image>();
 
         // カウンターマネージャーにランクアップイベントを設定
         counterManager.SetCounterRankUpEvent(RankUp);
@@ -39,10 +39,6 @@ public class CounterRankUI : MonoBehaviour
         {
             Debug.LogError("CounterRankUI : PlayerObjectが見つかりません");
         }
-        if (text == null)
-        {
-            Debug.LogError("CounterRankUI : TextMeshProが見つかりません");
-        }
         if (counterManager == null)
         {
             Debug.LogError("CounterRankUI : CounterManagerが見つかりません");
@@ -55,7 +51,11 @@ public class CounterRankUI : MonoBehaviour
     // ランクアップ時に実行する
     public void RankUp()
     {
-        text.text = (counterManager.GetCurrentRank() + 1).ToString();
+        rank++;
+        if (rankImage != null && m_sprite[rank] != null)
+        {
+            rankImage.sprite = m_sprite[rank];
+        }
     }
 
 
@@ -63,14 +63,22 @@ public class CounterRankUI : MonoBehaviour
     // ランクダウン時に実行する
     public void RankDown()
     {
-        text.text = (counterManager.GetCurrentRank() + 1).ToString();
+        rank--;
+        if (rankImage != null && m_sprite[rank] != null)
+        {
+            rankImage.sprite = m_sprite[rank];
+        }
     }
 
 
     // ランクを初期化
     private void RankInitialization()
     {
-        text.text = (counterManager.GetCurrentRank() + 1).ToString();
+        rank = 0;
+        if (rankImage != null && m_sprite[rank] != null)
+        {
+            rankImage.sprite = m_sprite[rank];
+        }
     }
 
 

@@ -62,7 +62,7 @@ public class PlayerFlinchState : StateClass<PlayerState>
     public override void Excute(PlayerState playerState)
     {
         // ƒ_ƒ[ƒWˆ—
-        playerState.CleanupInvalidDamageColliders();
+        playerState.HandleDamage();
 
         freams += playerState.GetPlayerSpeed();
 
