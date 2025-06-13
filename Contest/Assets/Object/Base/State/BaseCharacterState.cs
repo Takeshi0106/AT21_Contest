@@ -10,7 +10,7 @@ using UnityEngine;
 public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T>
 {
     // 接触したオブジェクトの情報を入れる
-    public struct CollidedInfo
+    public class CollidedInfo
     {
         public Collider collider;
         public MultiTag multiTag;
@@ -65,8 +65,20 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
     // プレイヤーが敵と離れた時の処理
     void OnTriggerExit(Collider other)
     {
+        for (int i = collidedInfos.Count - 1; i >= 0; i--)
+        {
+            if (collidedInfos[i].collider == other)
+            {
+#if UNITY_EDITOR
+                // Debug.Log($"[TriggerExit] {other.gameObject.name} から離れました。hitFlag: {collidedInfos[i].hitFlag}");
+#endif
+                collidedInfos.RemoveAt(i);
+                break; // 一致は1つだけの想定なら break でOK
+            }
+        }
+
         // 配列から同じ物を探す
-        // collidedInfos.RemoveAll(info => info.collider == other);
+        //collidedInfos.RemoveAll(info => info.collider == other);
 
 #if UNITY_EDITOR
         // Debug.Log("Triggerから離れた : " + other.gameObject.name);

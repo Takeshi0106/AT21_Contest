@@ -92,6 +92,11 @@ public class BossState : EnemyBaseState<BossState>
                 var attackInterface = info.collider.GetComponentInParent<AttackInterface>();
 
 #if UNITY_EDITOR
+                if(attackInterface == null)
+                {
+                    Debug.Log("AttackInterface が見つかりません");
+                }
+
                 Debug.Log($"Enemyのダメージ: {attackInterface.GetOtherAttackDamage()}（{(isCounterAttack ? "カウンター" : "通常")}）");
                 Debug.Log(Time.frameCount + ": Counter Hit!");
 #endif
@@ -110,7 +115,7 @@ public class BossState : EnemyBaseState<BossState>
 
                 info.hitFlag = true;
 
-                attackInterface.HitAttack();
+                // attackInterface.HitAttack();
 
                 break; // 一度ヒットで処理終了
             }

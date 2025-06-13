@@ -296,7 +296,14 @@ public class PlayerState : BaseCharacterState<PlayerState>
             var info = collidedInfos[i];
 
             // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
-            if (info.multiTag == null || info.hitFlag) { continue; }
+            if (info.multiTag == null || info.hitFlag)
+            {
+                if (info.hitFlag)
+                {
+                    // Debug.Log("info.hitFlag がTrueでスキップされました。");
+                }
+                continue; 
+            }
 
             // 敵の攻撃タグがあるかの判定
             if (info.multiTag.HasTag(enemyAttackTag))
