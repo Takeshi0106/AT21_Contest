@@ -115,6 +115,8 @@ public class BossState : EnemyBaseState<BossState>
 
                 info.hitFlag = true;
 
+                if (isCounterAttack) { hitCounter = true; }
+
                 // attackInterface.HitAttack();
 
                 break; // 一度ヒットで処理終了
@@ -136,6 +138,10 @@ public class BossState : EnemyBaseState<BossState>
         }
 
 #if UNITY_EDITOR
+        if(!hitCounter)
+        {
+            Debug.Log("カウンター以外で倒された");
+        }
         Debug.Log($"{gameObject.name} が死亡しました");
 #endif
 

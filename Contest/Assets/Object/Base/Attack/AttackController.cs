@@ -9,6 +9,8 @@ public class AttackController : MonoBehaviour
     [SerializeField] private List<string> attackTags = new List<string>();
     [Header("攻撃が無効なときに付けるタグ一覧")]
     [SerializeField] private List<string> noAttackTags = new List<string>();
+    [Header("攻撃の軌道を設定")]
+    [SerializeField] private TrailRenderer[] trailArray;
 
     // 子オブジェクトを含む全ての MultiTag を保存
     private MultiTag[] multiTags;
@@ -37,6 +39,11 @@ public class AttackController : MonoBehaviour
             {
                 mt.AddTag(tag);
             }
+        }
+
+        foreach (var trail in trailArray)
+        {
+            trail.emitting = false;
         }
 
         // コライダーを所得する
@@ -105,6 +112,11 @@ public class AttackController : MonoBehaviour
             }
         }
 
+        foreach (var trail in trailArray)
+        {
+            trail.emitting = true;
+        }
+
 #if UNITY_EDITOR
         if (renderers != null)
         {
@@ -141,6 +153,11 @@ public class AttackController : MonoBehaviour
             {
                 mt.AddTag(tag);
             }
+        }
+
+        foreach (var trail in trailArray)
+        {
+            trail.emitting = false;
         }
 
 #if UNITY_EDITOR

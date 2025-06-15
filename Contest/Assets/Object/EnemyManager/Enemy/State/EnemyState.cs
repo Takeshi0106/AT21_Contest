@@ -89,6 +89,8 @@ public class EnemyState : EnemyBaseState<EnemyState>
                 // ダメージ処理をした
                 info.hitFlag = true;
 
+                if(isCounterAttack) { hitCounter = true; }
+
                 // attackInterface.HitAttack();
 
                 break; // 一度ヒットで処理終了
