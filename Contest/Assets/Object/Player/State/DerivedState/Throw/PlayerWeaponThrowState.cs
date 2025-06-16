@@ -83,7 +83,7 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
         }
 
 #if UNITY_EDITOR
-        Debug.LogError("PlayerWeaponThrowState : 開始");
+        Debug.Log("PlayerWeaponThrowState : 開始");
 
         // エディタ実行時に取得して色を変更する
         if (playerState.GetPlayerRenderer() != null)
@@ -93,7 +93,7 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
 
         if (prefab == null)
         {
-            Debug.LogError("ThrowWeapon が見つかりません");
+            Debug.Log("ThrowWeapon が見つかりません");
         }
 
 #endif
@@ -140,10 +140,20 @@ public class PlayerWeaponThrowState : StateClass<PlayerState>
 
                 // プレイヤーのトランスフォームをセットする
                 throwObjectState.SetPlayerTransfoem(playerState.GetPlayerTransform());
-                throwObjectState.SetDamage(playerState.GetPlayerWeponManager().
-                    GetWeaponData(playerState.GetPlayerWeponNumber()).GetThrowDamage()); // 投げるオブジェクトのダメージを取得
+                if (throwObjectState == null)
+                {
+                    Debug.LogError("ThrowObjectState is NULL! Check if it's attached to the prefab.");
+                }
+                else
+                {
+                    throwObjectState.SetDamage(playerState.GetPlayerWeponManager().
+                    GetWeaponData(playerState.GetPlayerWeponNumber()).GetThrowDamage()); // ここでエラーは起きないはず
+                }
+                // throwObjectState.SetDamage(100); // 投げるオブジェクトのダメージを取得
                 throwObjectState.SetStanDamage(playerState.GetPlayerWeponManager().
-                    GetWeaponData(playerState.GetPlayerWeponNumber()).GetThrowStanDamage()); // 投げるオブジェクトのスタンダメージを取得
+                   GetWeaponData(playerState.GetPlayerWeponNumber()).GetThrowStanDamage()); // 投げるオブジェクトのスタンダメージを取得
+
+
             }
 
             // 装備から削除

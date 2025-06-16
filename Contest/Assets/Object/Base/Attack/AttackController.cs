@@ -44,12 +44,15 @@ public class AttackController : MonoBehaviour
         foreach (var trail in trailArray)
         {
             trail.emitting = false;
+            // Debug.LogWarning("トレイルOFF");
         }
 
         // コライダーを所得する
         // colliders = this.GetComponentsInChildren<Collider>();
 
 #if UNITY_EDITOR
+        Debug.Log("START");
+
         if (multiTags == null)
         {
             Debug.LogError("[AttackController] multiTags が null です");
@@ -75,7 +78,7 @@ public class AttackController : MonoBehaviour
         {
             if (renderers[i] != null && renderers[i].material != null)
             {
-                originalColors[i] = renderers[i].material.color; // 元の色を保存
+                // originalColors[i] = renderers[i].material.color; // 元の色を保存
             }
         }
 #endif
@@ -88,6 +91,10 @@ public class AttackController : MonoBehaviour
     {
         if (multiTags == null || multiTags.Length == 0)
         {
+            if(multiTags==null)
+            {
+                Debug.Log("NULL");
+            }
             Debug.LogWarning("[AttackController] MultiTag が初期化されていないか、子オブジェクトに存在しません");
             return;
         }
@@ -115,6 +122,7 @@ public class AttackController : MonoBehaviour
         foreach (var trail in trailArray)
         {
             trail.emitting = true;
+            // Debug.LogWarning("トレイルON");
         }
 
 #if UNITY_EDITOR
@@ -124,7 +132,7 @@ public class AttackController : MonoBehaviour
             {
                 if (renderers[i] != null && renderers[i].material != null)
                 {
-                    renderers[i].material.color = Color.red;
+                   // renderers[i].material.color = Color.red;
                 }
             }
         }
@@ -158,6 +166,7 @@ public class AttackController : MonoBehaviour
         foreach (var trail in trailArray)
         {
             trail.emitting = false;
+            // Debug.LogWarning("トレイルOFF");
         }
 
 #if UNITY_EDITOR
@@ -167,7 +176,7 @@ public class AttackController : MonoBehaviour
             {
                 if (renderers[i] != null)
                 {
-                    renderers[i].material.color = originalColors[i];
+                    // renderers[i].material.color = originalColors[i];
                 }
             }
         }

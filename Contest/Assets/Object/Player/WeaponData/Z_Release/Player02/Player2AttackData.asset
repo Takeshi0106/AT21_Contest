@@ -35,12 +35,12 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 7ca41bafa539dda409159af85c095c03, type: 2}
   - {fileID: 7400000, guid: 1915694ce53e23e4db2966bdbf1471a2, type: 2}
   - {fileID: 7400000, guid: 14c607dd832c76c4bb8f215ea4d3667b, type: 2}
-  attackThrowDamage: 10
-  m_AttackThrowStanDamage: 0
+  attackThrowDamage: 20
+  m_AttackThrowStanDamage: 10
   ThrowStartupFruem: 20
   ThrowStaggerFruem: 30
   attackThrowAnimations: {fileID: 0}
-  ThrowStartPosison: {x: 0, y: 0, z: 0}
+  ThrowStartPosison: {x: 0, y: 1.25, z: 0}
   throwWeaponName: ThrowPlayer02
   weaponStandingAnimations: {fileID: 0}
   weaponDashAnimations: {fileID: 0}
