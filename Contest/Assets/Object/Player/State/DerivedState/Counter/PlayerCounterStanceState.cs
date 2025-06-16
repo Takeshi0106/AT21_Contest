@@ -99,54 +99,48 @@ public class PlayerCounterStanceState : StateClass<PlayerState>
 
         if (counterActive)
         {
-            // 攻撃タグが戻っているかをチェック
-            playerState.CleanupInvalidDamageColliders();
+            var counterTag = playerState.GetPlayerCounterPossibleAttack();
+            var collidedInfos = playerState.GetPlayerCollidedInfos();
 
-            // 当たっているオブジェクトを調べる
-            foreach (var collidedInfo in playerState.GetPlayerCollidedInfos())
+            for (int i = 0; i < collidedInfos.Count; i++)
             {
-                if (collidedInfo.collider != null)
+                var collidedInfo = collidedInfos[i];
+                var collider = collidedInfo.collider;
+                var tag = collidedInfo.multiTag;
+
+                if (collider == null) continue;
+
+                // すでにダメージ処理されたものはスキップ
+                if (collidedInfo.hitFlag) continue;
+
+                if (tag != null && tag.HasTag(counterTag))
                 {
-                    // コライダーがすでにダメージ処理をしていたら次のオブジェクトを調べる
-                    if (playerState.GetPlayerDamagedColliders().Contains(collidedInfo.collider)) { continue; }
+                    // カウンター成功
+                    counterOutcome = true;
 
-                    // タグを取得する
-                    MultiTag tag = collidedInfo.multiTag;
-
-                    if (tag != null && tag.HasTag(playerState.GetPlayerCounterPossibleAttack()))
-                    {
-                        // カウンター成功
-                        counterOutcome = true;
-                        // コライダーを保存する
-                        playerState.AddDamagedCollider(collidedInfo.collider);
-
+                    // フラグを更新して書き戻す
+                    collidedInfo.hitFlag = true;
+                    collidedInfos[i] = collidedInfo;
 
 #if UNITY_EDITOR
-                        // 親オブジェクトの名前を取得する
-                        Transform parentTransform = collidedInfo.collider.transform.parent;
-                        // 一番上の親オブジェクトを取得
-                        while (parentTransform.parent != null)
-                        {
-                            parentTransform = parentTransform.parent;
-                        }
+                    // 一番上の親オブジェクトを取得
+                    Transform parentTransform = collider.transform;
+                    while (parentTransform.parent != null)
+                    {
+                        parentTransform = parentTransform.parent;
+                    }
 
-                        // ログ表示
-                        if (parentTransform != null)
-                        {
-                            Debug.Log("カウンター成功！相手の親: " + parentTransform.gameObject.name);
-                        }
-                        Debug.Log("攻撃オブジェクト名: " + collidedInfo.collider.gameObject.name);
+                    Debug.Log("カウンター成功！相手の親: " + parentTransform.gameObject.name);
+                    Debug.Log("攻撃オブジェクト名: " + collider.gameObject.name);
 #endif
 
-                        // カウンター成功時に処理を終了する
-                        return;
-                    }
+                    return;
                 }
             }
         }
         else
         {
-            // ダメージ処理を有効にする
+            // 通常ダメージ処理
             playerState.HandleDamage();
         }
 

@@ -8,24 +8,6 @@ using UnityEngine;
 
 public class ThrowObjectDeleteState : StateClass<ThrowObjectState>
 {
-    // インスタンスを入れる変数
-    private static ThrowObjectDeleteState instance;
-
-
-    // インスタンスを取得する関数
-    public static ThrowObjectDeleteState Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new ThrowObjectDeleteState();
-            }
-            return instance;
-        }
-    }
-
-
 
     // 状態を変更する
     public override void Change(ThrowObjectState state)

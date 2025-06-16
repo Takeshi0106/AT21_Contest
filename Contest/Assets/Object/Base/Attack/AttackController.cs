@@ -9,6 +9,10 @@ public class AttackController : MonoBehaviour
     [SerializeField] private List<string> attackTags = new List<string>();
     [Header("攻撃が無効なときに付けるタグ一覧")]
     [SerializeField] private List<string> noAttackTags = new List<string>();
+    [Header("攻撃の軌道を設定")]
+    [SerializeField] private TrailRenderer[] trailArray;
+    [Header("攻撃のパーティクルを設定")]
+    [SerializeField] private ParticleSystem[] particle;
 
     // 子オブジェクトを含む全ての MultiTag を保存
     private MultiTag[] multiTags;
@@ -39,10 +43,22 @@ public class AttackController : MonoBehaviour
             }
         }
 
+        foreach (var trail in trailArray)
+        {
+            trail.emitting = false;
+            // Debug.LogWarning("トレイルOFF");
+        }
+        foreach (var par in particle)
+        {
+            par.Stop();
+        }
+
         // コライダーを所得する
         // colliders = this.GetComponentsInChildren<Collider>();
 
 #if UNITY_EDITOR
+        Debug.Log("START");
+
         if (multiTags == null)
         {
             Debug.LogError("[AttackController] multiTags が null です");
@@ -68,7 +84,7 @@ public class AttackController : MonoBehaviour
         {
             if (renderers[i] != null && renderers[i].material != null)
             {
-                originalColors[i] = renderers[i].material.color; // 元の色を保存
+                // originalColors[i] = renderers[i].material.color; // 元の色を保存
             }
         }
 #endif
@@ -81,6 +97,10 @@ public class AttackController : MonoBehaviour
     {
         if (multiTags == null || multiTags.Length == 0)
         {
+            if(multiTags==null)
+            {
+                Debug.Log("NULL");
+            }
             Debug.LogWarning("[AttackController] MultiTag が初期化されていないか、子オブジェクトに存在しません");
             return;
         }
@@ -105,6 +125,16 @@ public class AttackController : MonoBehaviour
             }
         }
 
+        foreach (var trail in trailArray)
+        {
+            trail.emitting = true;
+            // Debug.LogWarning("トレイルON");
+        }
+        foreach (var par in particle)
+        {
+            par.Play();
+        }
+
 #if UNITY_EDITOR
         if (renderers != null)
         {
@@ -112,7 +142,7 @@ public class AttackController : MonoBehaviour
             {
                 if (renderers[i] != null && renderers[i].material != null)
                 {
-                    renderers[i].material.color = Color.red;
+                   // renderers[i].material.color = Color.red;
                 }
             }
         }
@@ -143,6 +173,16 @@ public class AttackController : MonoBehaviour
             }
         }
 
+        foreach (var trail in trailArray)
+        {
+            trail.emitting = false;
+            // Debug.LogWarning("トレイルOFF");
+        }
+        foreach (var par in particle)
+        {
+            par.Stop();
+        }
+
 #if UNITY_EDITOR
         if (renderers != null)
         {
@@ -150,7 +190,7 @@ public class AttackController : MonoBehaviour
             {
                 if (renderers[i] != null)
                 {
-                    renderers[i].material.color = originalColors[i];
+                    // renderers[i].material.color = originalColors[i];
                 }
             }
         }

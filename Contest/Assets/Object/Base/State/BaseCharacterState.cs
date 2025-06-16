@@ -9,23 +9,30 @@ using UnityEngine;
 
 public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T>
 {
+    [Header("ヒットエフェクトパーティクル")]
+    [SerializeField] private GameObject[] m_HitParticle;
+    [Header("ヒットエフェクトパーティクルの位置")]
+    [SerializeField] private Vector3 m_HitParticlePos;
+
     // 接触したオブジェクトの情報を入れる
-    public struct CollidedInfo
+    public class CollidedInfo
     {
         public Collider collider;
         public MultiTag multiTag;
+        public bool hitFlag;
 
-        public CollidedInfo(Collider collider, MultiTag multiTag)
+        public CollidedInfo(Collider collider, MultiTag multiTag,bool hitFlag)
         {
             this.collider = collider;
             this.multiTag = multiTag;
+            this.hitFlag = hitFlag;
         }
     }
 
     // 接触中の情報を入れる配列（Collider + MultiTag）
     protected List<CollidedInfo> collidedInfos = new List<CollidedInfo>();
     // すでにダメージを受けた攻撃オブジェクトを保持しておく
-    protected HashSet<Collider> damagedColliders = new HashSet<Collider>();
+    // protected HashSet<Collider> damagedColliders = new HashSet<Collider>();
     // 自分の攻撃情報を取得する
     protected AttackInterface m_SelfAttackInterface;
 
@@ -50,7 +57,7 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
             // MulltiTagを取得する
             MultiTag multiTag = other.GetComponent<MultiTag>();
             // 配列に追加
-            collidedInfos.Add(new CollidedInfo(other, multiTag));
+            collidedInfos.Add(new CollidedInfo(other, multiTag, false));
         }
 
 #if UNITY_EDITOR
@@ -63,14 +70,40 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
     // プレイヤーが敵と離れた時の処理
     void OnTriggerExit(Collider other)
     {
+        for (int i = collidedInfos.Count - 1; i >= 0; i--)
+        {
+            if (collidedInfos[i].collider == other)
+            {
+#if UNITY_EDITOR
+                // Debug.Log($"[TriggerExit] {other.gameObject.name} から離れました。hitFlag: {collidedInfos[i].hitFlag}");
+#endif
+                collidedInfos.RemoveAt(i);
+                break; // 一致は1つだけの想定なら break でOK
+            }
+        }
+
         // 配列から同じ物を探す
-        collidedInfos.RemoveAll(info => info.collider == other);
+        //collidedInfos.RemoveAll(info => info.collider == other);
 
 #if UNITY_EDITOR
         // Debug.Log("Triggerから離れた : " + other.gameObject.name);
 #endif
     }
 
+    
+    protected void DamageParticle(Collider other)
+    {
+        // プレイヤーの中心で生成
+        Vector3 hitPos = transform.position;
+        // 回転は適当に正面向き、または Quaternion.identity
+        Quaternion hitRot = Quaternion.identity;
+
+        foreach (var particle in m_HitParticle)
+        {
+            Instantiate(particle, hitPos + m_HitParticlePos, hitRot);
+        }
+    }
+    
 
     // ゲッター
     public AttackInterface GetAttackInterface() { return m_SelfAttackInterface; }

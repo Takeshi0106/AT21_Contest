@@ -267,7 +267,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
         // フラグ更新
         damageFlag = false;
         // 保存したコライダーのタグが元に戻る可のチェック
-        CleanupInvalidDamageColliders();
+        // CleanupInvalidDamageColliders();
 
         // プレイヤーが無敵状態か調べる
         if (playerStatusEffectManager.Invincible())
@@ -291,10 +291,19 @@ public class PlayerState : BaseCharacterState<PlayerState>
 
 
         // 当たっているオブジェクトのタグを調べる
-        foreach (var info in collidedInfos)
+        for (int i = 0; i < collidedInfos.Count; i++)
         {
+            var info = collidedInfos[i];
+
             // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
-            if (info.multiTag == null || damagedColliders.Contains(info.collider)) { continue; }
+            if (info.multiTag == null || info.hitFlag)
+            {
+                if (info.hitFlag)
+                {
+                    // Debug.Log("info.hitFlag がTrueでスキップされました。");
+                }
+                continue; 
+            }
 
             // 敵の攻撃タグがあるかの判定
             if (info.multiTag.HasTag(enemyAttackTag))
@@ -304,7 +313,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
 #endif
 
                 // コライダーは記録
-                damagedColliders.Add(info.collider);
+                // damagedColliders.Add(info.collider);
 
                 // 親オブジェクトから EnemyState を取得
                 var enemyInterface = info.collider.GetComponentInParent<AttackInterface>();
@@ -319,10 +328,16 @@ public class PlayerState : BaseCharacterState<PlayerState>
                     // ダメージ処理
                     hpManager.TakeDamage(enemyInterface.GetOtherAttackDamage());
 
+                    // エフェクト
+                    DamageParticle(info.collider);
+
                     damageFlag = true;
                 }
 
                 enemyInterface.HitAttack(); // 攻撃が当たった時の処理
+                info.hitFlag = true;
+
+
 
 #if UNITY_EDITOR
                 // ダメージ処理などをここに追加
@@ -333,7 +348,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     }
 
 
-
+    /*
     // 攻撃タグが元に戻るまで
     public void CleanupInvalidDamageColliders()
     {
@@ -354,7 +369,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
         !info.collider.gameObject.activeInHierarchy ||
         !info.collider.enabled);
     }
-
+    */
 
 
     private void Die()
@@ -367,7 +382,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     }
 
 
-
+    /*
     public void AddDamagedCollider(Collider target)
     {
         if (target != null && !damagedColliders.Contains(target))
@@ -375,6 +390,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
             damagedColliders.Add(target);
         }
     }
+    */
 
 
 
@@ -408,7 +424,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public HPManager GetPlayerHPManager() { return hpManager; }
     public string GetPlayerEnemyAttackTag() { return enemyAttackTag; }
     public StatusEffectManager GetPlayerStatusEffectManager() {  return playerStatusEffectManager; }
-    public HashSet<Collider> GetPlayerDamagedColliders() { return damagedColliders; }
+    // public HashSet<Collider> GetPlayerDamagedColliders() { return damagedColliders; }
     public int GetThrowFailedFreams() { return ThrowFailedFreams; }
     public AnimationClip GetThrowFailedAnimation() { return throwFailedAnimations; }
     public bool GetPlayerAirFlag() { return isInAir; }

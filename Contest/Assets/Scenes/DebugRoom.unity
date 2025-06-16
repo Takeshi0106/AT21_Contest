@@ -1395,6 +1395,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1846426061017999777, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1081296566}
     - target: {fileID: 1851115868855261820, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_SizeDelta.x
       value: 415
@@ -1430,6 +1434,22 @@ PrefabInstance:
     - target: {fileID: 5732494257093788610, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6016104180046391598, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6016104180046391598, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6016104180046391598, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -862.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6016104180046391598, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 320.9
       objectReference: {fileID: 0}
     - target: {fileID: 6955420968940031103, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_Pivot.x
@@ -1518,6 +1538,18 @@ PrefabInstance:
     - target: {fileID: 7394132210299190192, guid: 008358370be33294c902fbc6e5edd309, type: 3}
       propertyPath: m_Value
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9186504473051781946, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_Color.b
+      value: 0.3207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 9186504473051781946, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_Color.g
+      value: 0.3207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 9186504473051781946, guid: 008358370be33294c902fbc6e5edd309, type: 3}
+      propertyPath: m_Color.r
+      value: 0.3207547
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2380,6 +2412,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_HitParticlePos.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: playerDashAnimation
       value: 
       objectReference: {fileID: 3094330708855449807, guid: 8e1a2d70ea6e94b40bc97f085bed7b96, type: 3}
@@ -2400,6 +2436,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3094330708855449807, guid: 1220f2d3f4d0f0742aa40621048a07d6, type: 3}
     - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_HitParticle.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: playerJumpStartAnimation
       value: 
       objectReference: {fileID: 3094330708855449807, guid: a8a6e38def8db0743833cc6df8146136, type: 3}
@@ -2407,6 +2447,10 @@ PrefabInstance:
       propertyPath: playerWeaponTakeAnimation
       value: 
       objectReference: {fileID: 3094330708855449807, guid: 7d56046455433f447887b90b21f02c0a, type: 3}
+    - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_HitParticle.Array.data[0]
+      value: 
+      objectReference: {fileID: 257709942018966754, guid: 05867e25252533c49a479a79c3e17c9a, type: 3}
     - target: {fileID: 6485146916093109638, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2421,7 +2465,7 @@ PrefabInstance:
       objectReference: {fileID: 7806823468490163876}
     - target: {fileID: 8910196664495749839, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: weaponDataList.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8910196664495749839, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: weaponDataList.Array.data[0]

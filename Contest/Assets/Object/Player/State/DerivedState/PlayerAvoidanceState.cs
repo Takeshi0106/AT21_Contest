@@ -96,51 +96,49 @@ public class PlayerAvoidanceState : StateClass<PlayerState>
 
         if (avoidanceFlag)
         {
-            // 攻撃タグが戻っているかをチェック
-            currentState.CleanupInvalidDamageColliders();
+            var counterTag = currentState.GetPlayerCounterPossibleAttack();
+            var collidedInfos = currentState.GetPlayerCollidedInfos();
 
             // 当たっているオブジェクトを調べる
-            foreach (var collidedInfo in currentState.GetPlayerCollidedInfos())
+            for (int i = 0; i < collidedInfos.Count; i++)
             {
-                if (collidedInfo.collider != null)
+                var collidedInfo = collidedInfos[i];
+                var collider = collidedInfo.collider;
+                var tag = collidedInfo.multiTag;
+
+                if (collider == null) continue;
+
+                // すでにダメージ処理されたものはスキップ
+                if (collidedInfo.hitFlag) continue;
+
+                if (tag != null && tag.HasTag(counterTag))
                 {
-                    // コライダーがすでにダメージ処理をしていたら次のオブジェクトを調べる
-                    if (currentState.GetPlayerDamagedColliders().Contains(collidedInfo.collider)) { continue; }
+                    // 無敵を有効にする
+                    currentState.GetPlayerStatusEffectManager().
+                        StartInvicible(currentState.GetPlayerAvoidanceManager().GetAvoidanceInvincibleFreams());
 
-                    // タグを取得する
-                    MultiTag tag = collidedInfo.multiTag;
-
-                    if (tag != null && tag.HasTag(currentState.GetPlayerCounterPossibleAttack()))
-                    {
-                        // 無敵を有効にする
-                        currentState.GetPlayerStatusEffectManager().
-                            StartInvicible(currentState.GetPlayerAvoidanceManager().GetAvoidanceInvincibleFreams());
-                        // コライダーを保存する
-                        currentState.AddDamagedCollider(collidedInfo.collider);
-
-                        // 回避成功処理を呼び出す
-                        currentState.GetPlayerAvoidanceManager().AvoidanceStart();
+                    // 回避成功処理を呼び出す
+                    currentState.GetPlayerAvoidanceManager().AvoidanceStart();
 
 #if UNITY_EDITOR
-                        // 親オブジェクトの名前を取得する
-                        Transform parentTransform = collidedInfo.collider.transform.parent;
-                        // 一番上の親オブジェクトを取得
-                        while (parentTransform.parent != null)
-                        {
-                            parentTransform = parentTransform.parent;
-                        }
+                    // 親オブジェクトの名前を取得する
+                    Transform parentTransform = collidedInfo.collider.transform.parent;
+                    // 一番上の親オブジェクトを取得
+                    while (parentTransform.parent != null)
+                    {
+                        parentTransform = parentTransform.parent;
+                    }
 
-                        // ログ表示
-                        if (parentTransform != null)
-                        {
-                            Debug.Log("回避成功！相手の親: " + parentTransform.gameObject.name);
-                        }
-                        Debug.Log("攻撃オブジェクト名: " + collidedInfo.collider.gameObject.name);
+                    // ログ表示
+                    if (parentTransform != null)
+                    {
+                        Debug.Log("回避成功！相手の親: " + parentTransform.gameObject.name);
+                    }
+                    Debug.Log("攻撃オブジェクト名: " + collidedInfo.collider.gameObject.name);
 #endif
 
-                        // カウンター成功時に処理を終了する
-                        return;
-                    }
+                    // カウンター成功時に処理を終了する
+                    return;
                 }
             }
         }

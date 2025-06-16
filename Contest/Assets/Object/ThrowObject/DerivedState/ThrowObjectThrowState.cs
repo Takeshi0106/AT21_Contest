@@ -16,27 +16,12 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
     // 消えるときに当たらないことがあるため余分を持たせる
     bool m_DeleteFlag = false;
 
-    // インスタンスを取得する関数
-    public static ThrowObjectThrowState Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new ThrowObjectThrowState();
-            }
-            return instance;
-        }
-    }
-
-
-
     // 状態を変更する
     public override void Change(ThrowObjectState state)
     {
         if (m_DeleteFlag && freams >= m_SaveFreams)
         {
-            state.ChangeState(ThrowObjectDeleteState.Instance);
+            state.ChangeState(new ThrowObjectDeleteState());
             Debug.Log("ThrowObject : 消える状態移行");
         }
     }
@@ -51,6 +36,9 @@ public class ThrowObjectThrowState : StateClass<ThrowObjectState>
     ForceMode.Impulse);
 
         state.GetThrowAttackController().EnableAttack();
+
+        state.GetThrowAttackInterface().SetSelfAttackDamage(state.GetThrowDamage());
+        state.GetThrowAttackInterface().SetSelfStanAttackDamage(state.GetThrowStanDamage());
     }
 
 

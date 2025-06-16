@@ -53,10 +53,11 @@ public class EnemyState : EnemyBaseState<EnemyState>
         damagerFlag = false;
         hitCounter = false;
 
-        foreach (var info in collidedInfos)
+        for (int i = 0; i < collidedInfos.Count; i++)
         {
+            var info = collidedInfos[i];
             // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
-            if (info.multiTag == null || damagedColliders.Contains(info.collider)) { continue; }
+            if (info.multiTag == null || info.hitFlag) { continue; }
 
             // プレイヤーの攻撃タグがあるかを調べる
             if (info.multiTag.HasTag(playerAttackTag))
@@ -69,7 +70,7 @@ public class EnemyState : EnemyBaseState<EnemyState>
                 bool isThrowAttack = info.multiTag.HasTag(playerThrowTag);
 
                 // 一度ダメージ処理したコライダーを保存
-                damagedColliders.Add(info.collider);
+                // damagedColliders.Add(info.collider);
 
                 var attackInterface = info.collider.GetComponentInParent<AttackInterface>();
 
@@ -85,14 +86,16 @@ public class EnemyState : EnemyBaseState<EnemyState>
                 // ダメージをあたえる
                 hpManager.TakeDamage(attackInterface.GetOtherAttackDamage());
 
-                attackInterface.HitAttack();
+                // ダメージ処理をした
+                info.hitFlag = true;
+
+                if(isCounterAttack) { hitCounter = true; }
+
+                // attackInterface.HitAttack();
 
                 break; // 一度ヒットで処理終了
             }
         }
-
-        // 保存したコライダーのタグが元に戻る可のチェック
-        CleanupInvalidDamageColliders();
     }
 
 

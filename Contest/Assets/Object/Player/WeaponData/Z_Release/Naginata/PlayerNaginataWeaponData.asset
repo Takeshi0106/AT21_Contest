@@ -19,10 +19,16 @@ MonoBehaviour:
   attackStaggerFruem: 28000000
   attackDamage:
   - 10
+  m_AttackStanDamage:
+  - 10
+  - 10
+  - 10
+  - 10
+  - 10
   attackAnimations:
   - {fileID: 3094330708855449807, guid: 06fcae5408be27142981079a1e9f9403, type: 3}
-  attackStaggerAnimations: []
   attackThrowDamage: 150
+  m_AttackThrowStanDamage: 10
   ThrowStartupFruem: 10
   ThrowStaggerFruem: 20
   attackThrowAnimations: {fileID: 0}

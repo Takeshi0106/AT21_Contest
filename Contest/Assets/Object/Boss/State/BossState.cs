@@ -67,12 +67,14 @@ public class BossState : EnemyBaseState<BossState>
         hitCounter = false;
 
         // 保存したコライダーのタグが元に戻る可のチェック
-        CleanupInvalidDamageColliders();
+        // CleanupInvalidDamageColliders();
 
-        foreach (var info in collidedInfos)
+        for (int i = 0; i < collidedInfos.Count; i++)
         {
+            var info = collidedInfos[i];
+
             // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
-            if (info.multiTag == null || damagedColliders.Contains(info.collider)) { continue; }
+            if (info.multiTag == null || info.hitFlag) { continue; }
 
             // プレイヤーの攻撃タグがあるかを調べる
             if (info.multiTag.HasTag(playerAttackTag))
@@ -85,11 +87,16 @@ public class BossState : EnemyBaseState<BossState>
                 bool isThrowAttack = info.multiTag.HasTag(playerThrowTag);
 
                 // 一度ダメージ処理したコライダーを保存
-                damagedColliders.Add(info.collider);
+                // damagedColliders.Add(info.collider);
 
                 var attackInterface = info.collider.GetComponentInParent<AttackInterface>();
 
 #if UNITY_EDITOR
+                if(attackInterface == null)
+                {
+                    Debug.Log("AttackInterface が見つかりません");
+                }
+
                 Debug.Log($"Enemyのダメージ: {attackInterface.GetOtherAttackDamage()}（{(isCounterAttack ? "カウンター" : "通常")}）");
                 Debug.Log(Time.frameCount + ": Counter Hit!");
 #endif
@@ -106,7 +113,11 @@ public class BossState : EnemyBaseState<BossState>
                 // ダメージをあたえる
                 hpManager.TakeDamage(attackInterface.GetOtherAttackDamage());
 
-                attackInterface.HitAttack();
+                info.hitFlag = true;
+
+                if (isCounterAttack) { hitCounter = true; }
+
+                // attackInterface.HitAttack();
 
                 break; // 一度ヒットで処理終了
             }
@@ -127,6 +138,10 @@ public class BossState : EnemyBaseState<BossState>
         }
 
 #if UNITY_EDITOR
+        if(!hitCounter)
+        {
+            Debug.Log("カウンター以外で倒された");
+        }
         Debug.Log($"{gameObject.name} が死亡しました");
 #endif
 

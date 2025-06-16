@@ -92,6 +92,7 @@ crashlytics-build.properties
 !Assets/Object/UI/Title/*.png
 !Assets/Object/UI/Title/*.meta
 !Assets/Object/Player/WeaponData/Z_Release/Naginata/Animation/*.fbx
+!Assets/Object/UI/*.png
 
 Assets/base/
 Assets/Scenes/player/*.fbx
@@ -120,3 +121,8 @@ Assets/Warrior/
 Assets/Warrior.meta
 
 Assets/Brawler Animations Sample/
+
+Assets/Matthew Guz/
+Assets/Matthew Guz.meta
+Assets/NamuFX/
+Assets/NamuFX.meta
