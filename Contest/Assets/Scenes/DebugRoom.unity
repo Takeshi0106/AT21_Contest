@@ -2412,6 +2412,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_HitParticlePos.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: playerDashAnimation
       value: 
       objectReference: {fileID: 3094330708855449807, guid: 8e1a2d70ea6e94b40bc97f085bed7b96, type: 3}
@@ -2432,6 +2436,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3094330708855449807, guid: 1220f2d3f4d0f0742aa40621048a07d6, type: 3}
     - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_HitParticle.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: playerJumpStartAnimation
       value: 
       objectReference: {fileID: 3094330708855449807, guid: a8a6e38def8db0743833cc6df8146136, type: 3}
@@ -2439,6 +2447,10 @@ PrefabInstance:
       propertyPath: playerWeaponTakeAnimation
       value: 
       objectReference: {fileID: 3094330708855449807, guid: 7d56046455433f447887b90b21f02c0a, type: 3}
+    - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_HitParticle.Array.data[0]
+      value: 
+      objectReference: {fileID: 257709942018966754, guid: 05867e25252533c49a479a79c3e17c9a, type: 3}
     - target: {fileID: 6485146916093109638, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: m_IsActive
       value: 1

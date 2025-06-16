@@ -328,11 +328,16 @@ public class PlayerState : BaseCharacterState<PlayerState>
                     // ダメージ処理
                     hpManager.TakeDamage(enemyInterface.GetOtherAttackDamage());
 
+                    // エフェクト
+                    DamageParticle(info.collider);
+
                     damageFlag = true;
                 }
 
                 enemyInterface.HitAttack(); // 攻撃が当たった時の処理
                 info.hitFlag = true;
+
+
 
 #if UNITY_EDITOR
                 // ダメージ処理などをここに追加

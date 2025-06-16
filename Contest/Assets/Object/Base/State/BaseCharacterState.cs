@@ -9,6 +9,11 @@ using UnityEngine;
 
 public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T>
 {
+    [Header("ヒットエフェクトパーティクル")]
+    [SerializeField] private GameObject[] m_HitParticle;
+    [Header("ヒットエフェクトパーティクルの位置")]
+    [SerializeField] private Vector3 m_HitParticlePos;
+
     // 接触したオブジェクトの情報を入れる
     public class CollidedInfo
     {
@@ -85,6 +90,20 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
 #endif
     }
 
+    
+    protected void DamageParticle(Collider other)
+    {
+        // プレイヤーの中心で生成
+        Vector3 hitPos = transform.position;
+        // 回転は適当に正面向き、または Quaternion.identity
+        Quaternion hitRot = Quaternion.identity;
+
+        foreach (var particle in m_HitParticle)
+        {
+            Instantiate(particle, hitPos + m_HitParticlePos, hitRot);
+        }
+    }
+    
 
     // ゲッター
     public AttackInterface GetAttackInterface() { return m_SelfAttackInterface; }
