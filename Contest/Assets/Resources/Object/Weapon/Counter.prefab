@@ -50,6 +50,8 @@ MonoBehaviour:
   - CounterAttack
   noAttackTags:
   - Nothing
+  trailArray: []
+  particle: []
 --- !u!1 &2106409003504034967
 GameObject:
   m_ObjectHideFlags: 0
