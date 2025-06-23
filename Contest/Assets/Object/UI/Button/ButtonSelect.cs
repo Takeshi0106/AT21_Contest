@@ -48,14 +48,14 @@ public class ButtonSelect : MonoBehaviour
 
             if (Time.time - m_LastInputTime > m_InputInterval)
             {
-                if (inputY > 0.5f)
+                if (inputX > 0.5f)
                 {
                     m_SelectButton = (m_SelectButton + 1) % m_buttonList.Length;
                     m_LastInputTime = Time.time;
                     EventSystem.current.SetSelectedGameObject(m_buttonList[m_SelectButton].gameObject);
 
                 }
-                else if (inputY < -0.5f)
+                else if (inputX < -0.5f)
                 {
                     m_SelectButton = (m_SelectButton - 1 + m_buttonList.Length) % m_buttonList.Length;
                     m_LastInputTime = Time.time;
