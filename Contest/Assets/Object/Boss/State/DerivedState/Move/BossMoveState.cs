@@ -8,13 +8,13 @@ public class BossMoveState : StateClass<BossState>
         Vector3 vec = bossState.GetPlayerState().transform.position - bossState.transform.position;
 
         // çUåÇèÛë‘
-        if (vec.magnitude < bossState.GetDistanceAttack() && bossState.GetEnemyAttackFlag())
+        if (vec.magnitude < bossState.GetDistanceAttack())
         {
             bossState.ChangeState(new BossAttackState());
             return;
         }
         // óßÇøèÛë‘
-        if (vec.magnitude < 7.5f && !bossState.GetEnemyAttackFlag())
+        if (vec.magnitude < 7.5f)
         {
             bossState.ChangeState(new BossStandingState());
             return;
@@ -45,11 +45,7 @@ public class BossMoveState : StateClass<BossState>
 
         bossState.Target();
 
-        if (vec.magnitude > 8.0f)
-        {
-            bossState.GetEnemyRigidbody().velocity = bossState.transform.forward * bossState.GetEnemyDashSpeed();
-        }
-        else if (vec.magnitude > 1.0f && bossState.GetEnemyAttackFlag())
+        if (vec.magnitude > 1.0f)
         {
             bossState.GetEnemyRigidbody().velocity = bossState.transform.forward * bossState.GetEnemyDashSpeed();
         }

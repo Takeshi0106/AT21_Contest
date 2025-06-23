@@ -78,6 +78,11 @@ public class EnemyBaseState<T> : BaseCharacterState<T> where T : EnemyBaseState<
     protected int flinchCnt = 0;
     protected bool attackFlag = false;
 
+    // 追加：初期位置を保存する変数
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
+
+
 #if UNITY_EDITOR
     // エディタ実行時に実行される
     // Enemyのレンダラー
@@ -102,7 +107,9 @@ public class EnemyBaseState<T> : BaseCharacterState<T> where T : EnemyBaseState<
 
         playerTransform = player.transform;
 
-
+        // ここで初期位置・回転を記録
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
 
 #if UNITY_EDITOR
         // エディタ実行時に取得して色を変更する
@@ -182,6 +189,21 @@ public class EnemyBaseState<T> : BaseCharacterState<T> where T : EnemyBaseState<
         currentState = null;
         currentState = newState;
         currentState.Enter((T)this);
+    }
+
+    public void ResetEnemy()
+    {
+        transform.position = initialPosition;
+        transform.rotation = initialRotation;
+
+        hpManager.Heal(hpManager.GetMaxHP());
+
+        // Rigidbodyがあれば速度をリセット（あれば）
+        if (enemyRigidbody != null)
+        {
+            enemyRigidbody.velocity = Vector3.zero;
+            enemyRigidbody.angularVelocity = Vector3.zero;
+        }
     }
 
 

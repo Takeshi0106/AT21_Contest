@@ -107,6 +107,26 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        MultiTag tag = other.GetComponent<MultiTag>();
+
+        if (tag != null && tag.HasTag(playerTag))
+        {
+            // Enemyを無効化
+            foreach (EnemyBaseState<EnemyState> enemy in enemyList)
+            {
+                if (enemy != null)
+                {
+                    enemy.ResetEnemy();
+                    enemy.gameObject.SetActive(false);
+                }
+            }
+
+            Debug.Log("プレイヤーがエリア外に出たため、敵を非アクティブにしました。");
+        }
+    }
+
 
     // プレイヤーの位置を渡して、最も近い Enemy の位置を返す
     public Vector3 GetNearestEnemyPosition(Vector3 playerPosition)
@@ -160,7 +180,6 @@ public class EnemyManager : MonoBehaviour
     public void NearEnemyFlag(Vector3 playerPosition)
     {
         EnemyBaseState<EnemyState> enemyNearest = null;
-        EnemyBaseState<BossState> bossNearest = null;
         float shortestDistance = float.MaxValue;
 
         foreach (EnemyBaseState<EnemyState> enemy in enemyList)
@@ -176,28 +195,12 @@ public class EnemyManager : MonoBehaviour
                 enemyNearest = enemy;
             }
         }
-        // 一番近いBossを探る
-        foreach (EnemyBaseState<BossState> boss in bossList)
-        {
-            if (boss == null || !boss.gameObject.activeInHierarchy) continue;
 
-            float distance = Vector3.Distance(playerPosition, boss.transform.position);
-            if (distance < shortestDistance)
-            {
-                shortestDistance = distance;
-                enemyNearest = null;
-                bossNearest = boss;
-            }
-        }
 
         // Nullチェックを追加
         if (enemyNearest != null)
         {
             enemyNearest.SetEnemyAttackFlag(true);
-        }
-        else if (bossNearest != null)
-        {
-            bossNearest.SetEnemyAttackFlag(true);
         }
     }
 
@@ -209,12 +212,6 @@ public class EnemyManager : MonoBehaviour
             if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
 
             enemy.SetEnemyAttackFlag(false);
-        }
-        foreach (EnemyBaseState<BossState> boss in bossList)
-        {
-            if (boss == null || !boss.gameObject.activeInHierarchy) continue;
-
-            boss.SetEnemyAttackFlag(false);
         }
     }
 }

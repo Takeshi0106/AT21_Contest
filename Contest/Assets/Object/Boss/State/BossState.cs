@@ -28,6 +28,8 @@ public class BossState : EnemyBaseState<BossState>
         // 状態の開始処理
         currentState.Enter(this);
 
+        attackFlag = true;
+
 #if UNITY_EDITOR
         // エディタ実行時に取得して色を変更する
         enemyRenderer = this.gameObject.GetComponent<Renderer>();
@@ -110,6 +112,7 @@ public class BossState : EnemyBaseState<BossState>
                     this.ChangeState(new BossStanState()); // スタン状態に移行
                 }
 
+                if (isCounterAttack) { hitCounter = true; }
                 // ダメージをあたえる
                 hpManager.TakeDamage(attackInterface.GetOtherAttackDamage());
 
@@ -117,8 +120,6 @@ public class BossState : EnemyBaseState<BossState>
                 DamageEffect(info.collider);
 
                 info.hitFlag = true;
-
-                if (isCounterAttack) { hitCounter = true; }
 
                 // attackInterface.HitAttack();
 

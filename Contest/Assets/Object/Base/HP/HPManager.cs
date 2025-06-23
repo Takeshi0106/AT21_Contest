@@ -52,6 +52,7 @@ public class HPManager : MonoBehaviour
     {
         currentHP += amount;
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+        onDamaged.Invoke();
     }
 
 
