@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 // Cameraコンポーネントが必須！！
@@ -16,7 +17,6 @@ public class TPFCamera : MonoBehaviour
     [Header("カメラの注視点設定(オブジェクトからの相対位置を入れる)")]
     public Vector2 lookPoint = new Vector2(0.0f, 1.0f); //オブジェクトの中心からのカメラの位置
 
-
     // カメラを入れるオブジェクト
     GameObject obj;
     // カメラのトランスフォーム
@@ -26,7 +26,6 @@ public class TPFCamera : MonoBehaviour
     // マウスの入力
     float mouseInputX;
     float mouseInputY;
-
 
 
     // Start is called before the first frame update
@@ -146,7 +145,4 @@ public class TPFCamera : MonoBehaviour
         res += obj.transform.up * lookPoint.y;
         return res;
     }
-
-
-
 }

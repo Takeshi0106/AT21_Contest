@@ -2246,6 +2246,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1081296566}
+    - target: {fileID: 5348400120547552581, guid: 7b27c574668aec54dbe1c21844c524ef, type: 3}
+      propertyPath: m_hitStopManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6356992571988325647, guid: 7b27c574668aec54dbe1c21844c524ef, type: 3}
       propertyPath: m_Name
       value: EventSystem
@@ -2435,6 +2439,10 @@ PrefabInstance:
       propertyPath: m_HitParticle.Array.data[0]
       value: 
       objectReference: {fileID: 257709942018966754, guid: 05867e25252533c49a479a79c3e17c9a, type: 3}
+    - target: {fileID: 8870990946848870020, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: m_TPFCamera
+      value: 
+      objectReference: {fileID: 313905190}
     - target: {fileID: 8910196664495749839, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: pearentWeponAttack
       value: 

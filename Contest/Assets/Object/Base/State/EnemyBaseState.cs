@@ -158,7 +158,7 @@ public class EnemyBaseState<T> : BaseCharacterState<T> where T : EnemyBaseState<
     // スピードをセットする処理
     public void SetEnemySpead(float speed)
     {
-        if (speed >= 0.01f && speed <= 1.0f)
+        if (speed >= 0.00f && speed <= 1.0f)
         {
             // フレームの進む処理を更新
             enemySpeed = speed;
