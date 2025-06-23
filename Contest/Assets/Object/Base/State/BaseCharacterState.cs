@@ -20,12 +20,14 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
         public Collider collider;
         public MultiTag multiTag;
         public bool hitFlag;
+        public int hitID;
 
-        public CollidedInfo(Collider collider, MultiTag multiTag,bool hitFlag)
+        public CollidedInfo(Collider collider, MultiTag multiTag,bool hitFlag,int hitID)
         {
             this.collider = collider;
             this.multiTag = multiTag;
             this.hitFlag = hitFlag;
+            this.hitID = hitID;
         }
     }
 
@@ -51,13 +53,40 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
     // プレイヤーが敵にぶつかった時の処理
     void OnTriggerEnter(Collider other)
     {
-        // 配列の中に同じものがあるかのチェック
-        if (!collidedInfos.Any(info => info.collider == other))
+        // MulltiTagを取得する
+        MultiTag multiTag = other.GetComponent<MultiTag>();
+        // AttackInterface を取得
+        AttackInterface attackInterface = other.GetComponentInParent<AttackInterface>();
+
+        int currentAttackId = -1;
+
+        if (attackInterface != null)
         {
-            // MulltiTagを取得する
-            MultiTag multiTag = other.GetComponent<MultiTag>();
-            // 配列に追加
-            collidedInfos.Add(new CollidedInfo(other, multiTag, false));
+            currentAttackId = attackInterface.GetOtherAttackID();
+
+            Debug.Log($"Name : {other.name} : AttackID{currentAttackId}");
+        }
+
+        var existingInfo = collidedInfos.FirstOrDefault(info => info.collider == other);
+
+        if (existingInfo == null)
+        {
+            // 新規追加
+            collidedInfos.Add(new CollidedInfo(other, multiTag, false, currentAttackId));
+        }
+        else
+        {
+            // 攻撃IDが変わっていたらフラグリセット
+            if (existingInfo.hitID != currentAttackId)
+            {
+#if UNITY_EDITOR
+                Transform root = other.transform.root;
+                Debug.Log($"{this.gameObject.name} {root.name} : 一度ヒットした者");
+#endif
+
+                existingInfo.hitFlag = false;
+                existingInfo.hitID = currentAttackId;
+            }
         }
 
 #if UNITY_EDITOR

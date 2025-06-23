@@ -53,20 +53,26 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         playerState.GetPlayerCounterManager().IncreaseGauge();
 
         // Sphere を初期サイズにし、アクティブ化
-        playerState.GetPlayerCounterObject().transform.localScale = Vector3.zero;
-        playerState.GetPlayerCounterObject().SetActive(true);
+        // playerState.GetPlayerCounterObject().transform.localScale = Vector3.zero;
+        // playerState.GetPlayerCounterObject().SetActive(true);
 
         // 攻撃タグを付ける
-        playerState.GetPlayerCounterAttackController().EnableAttack();
+        // playerState.GetPlayerCounterAttackController().EnableAttack();
 
         // 攻撃情報を更新する
         playerState.GetAttackInterface().SetSelfAttackDamage(attackData* multiData);
         // スタン情報を更新する
         playerState.GetAttackInterface().SetSelfStanAttackDamage(stanAttackData);
+        // ID
+        playerState.GetAttackInterface().SetSelfID();
+        // カウンター開始処理
+        playerState.GetPlayerCounterObjectManager().Activate();
 
 
 #if UNITY_EDITOR
-        Debug.LogError("CounterStrikeState : 開始");
+        Debug.Log("CounterStrikeState : 開始");
+
+        Debug.LogError($"CounterStrikeState : {playerState.GetAttackInterface().GetOtherAttackID()}");
 
         // 赤色に変更する
         if (playerState.GetPlayerRenderer() != null)
@@ -85,13 +91,18 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         // playerState.CleanupInvalidDamageColliders();
 
         // カウンター中の Sphere 拡大処理
-        var sphere = playerState.GetPlayerCounterObject();
+        // var sphere = playerState.GetPlayerCounterObject();
+        /*
         if (sphere != null)
         {
             float maxSize = playerState.GetPlayerCounterRange(); // 拡大の最大サイズ
             float scale = Mathf.Lerp(0f, maxSize, (float)freams / playerState.GetPlayerCounterManager().GetCounterSuccessFrames());
             sphere.transform.localScale = new Vector3(scale, scale, scale);
         }
+        */
+
+        playerState.GetPlayerCounterObjectManager().UpdateScale(freams / (float)playerState.GetPlayerCounterManager().GetCounterSuccessFrames(),
+            playerState.GetPlayerCounterObjectManager().GetCounterMaxSize());
 
         // フレーム更新
         freams += playerState.GetPlayerSpeed();
@@ -106,14 +117,18 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         freams = 0.0f;
 
         // 攻撃タグを戻す
-        playerState.GetPlayerCounterAttackController().DisableAttack();
+        // playerState.GetPlayerCounterAttackController().DisableAttack();
+
+        playerState.GetPlayerCounterObjectManager().Deactivate();
 
         // Sphere を非アクティブに戻す
-        var sphere = playerState.GetPlayerCounterObject();
+        //var sphere = playerState.GetPlayerCounterObject();
+        /*
         if (sphere != null)
         {
             sphere.SetActive(false);
         }
+        */
 
         // 無敵を有効にする
         playerState.GetPlayerStatusEffectManager().StartInvicible(playerState.GetPlayerCounterManager().GetCounterInvincibleFreams());

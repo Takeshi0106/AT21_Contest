@@ -2403,34 +2403,18 @@ PrefabInstance:
       propertyPath: m_Size.z
       value: 0.3
       objectReference: {fileID: 0}
-    - target: {fileID: 5144225618590945945, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: b230af84b7962e84a84a7655d1010a25, type: 2}
-    - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
-      propertyPath: flinchFreams
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: m_HitParticlePos.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: playerCounterObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: playerDashAnimation
       value: 
       objectReference: {fileID: 3094330708855449807, guid: 8e1a2d70ea6e94b40bc97f085bed7b96, type: 3}
-    - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
-      propertyPath: playerJumpAnimation
-      value: 
-      objectReference: {fileID: 3094330708855449807, guid: a8a6e38def8db0743833cc6df8146136, type: 3}
-    - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
-      propertyPath: playerWalkAnimation
-      value: 
-      objectReference: {fileID: 3094330708855449807, guid: 6362c125196cf9e49b2f43a0d0ffc566, type: 3}
-    - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
-      propertyPath: playerFlinchAnimation
-      value: 
-      objectReference: {fileID: 3094330708855449807, guid: e3cc5dd1f3745884daf24b904a1060ff, type: 3}
     - target: {fileID: 5982548982246596382, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: playerJumpEndAnimation
       value: 
@@ -2451,22 +2435,10 @@ PrefabInstance:
       propertyPath: m_HitParticle.Array.data[0]
       value: 
       objectReference: {fileID: 257709942018966754, guid: 05867e25252533c49a479a79c3e17c9a, type: 3}
-    - target: {fileID: 6485146916093109638, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8125354509964723900, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8910196664495749839, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: pearentWeponAttack
       value: 
       objectReference: {fileID: 7806823468490163876}
-    - target: {fileID: 8910196664495749839, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
-      propertyPath: weaponDataList.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 8910196664495749839, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: weaponDataList.Array.data[0]
       value: 

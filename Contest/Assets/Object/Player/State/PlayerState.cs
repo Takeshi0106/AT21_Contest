@@ -66,7 +66,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     // Playerのアニメーター
     [HideInInspector] private Animator playerAnimator;
     // カウンターのAttackController
-    [HideInInspector] private AttackController playerCounterAttackController;
+    // [HideInInspector] private AttackController playerCounterAttackController;
     // Playerの状態マネージャー
     [HideInInspector] private StatusEffectManager playerStatusEffectManager;
     // PlayerのHPマネージャー
@@ -75,6 +75,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     private AvoidanceManager playerAvoidanceManager;
     // Playerの怯み状態マネージャ
     private DamageResponseManager playerDamageResponseManager;
+    // Playerのカウンターオブジェクトマネージャー
+    private CounterObjectManager m_PlayerCounterObjectManager;
 
 
     // 現在のコンボ数
@@ -118,7 +120,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
         // アニメーター
         playerAnimator = this.gameObject.GetComponent<Animator>();
         // カウンターの攻撃コントローラー
-        playerCounterAttackController = playerCounterObject.GetComponent<AttackController>();
+        // playerCounterAttackController = playerCounterObject.GetComponent<AttackController>();
         // HpManager
         hpManager = this.gameObject.GetComponent<HPManager>(); 
         // 状態管理
@@ -127,8 +129,10 @@ public class PlayerState : BaseCharacterState<PlayerState>
         playerAvoidanceManager = this.gameObject.GetComponent<AvoidanceManager>();
         // スタン
         playerDamageResponseManager = this.gameObject.GetComponent<DamageResponseManager>();
+        // カウンターオブジェクト
+        m_PlayerCounterObjectManager = this.gameObject.GetComponent<CounterObjectManager>();   
 
-        playerCounterObject.SetActive(false);
+        // playerCounterObject.SetActive(false);
         // HPマネージャーにDie関数を渡す
         hpManager.SetOnDeathEvent(Die);
 
@@ -139,6 +143,9 @@ public class PlayerState : BaseCharacterState<PlayerState>
         currentState = PlayerStandingState.Instance;
         // 状態の開始処理
         currentState.Enter(this);
+
+        // カウンターオブジェクト初期化
+        m_PlayerCounterObjectManager.setting();
 
 #if UNITY_EDITOR
 
@@ -178,10 +185,12 @@ public class PlayerState : BaseCharacterState<PlayerState>
         {
             Debug.Log("PlayerState : PlayerAnimatorが見つかりません");
         }
+        /*
         if (playerCounterAttackController == null)
         {
             Debug.Log("PlayerState : PlayerCounterAttackControllerが見つかりません");
         }
+        */
         if (hpManager == null)
         {
             Debug.Log("PlayerState : HPManagerが見つかりません");
@@ -193,6 +202,10 @@ public class PlayerState : BaseCharacterState<PlayerState>
         if(playerAvoidanceManager == null)
         {
             Debug.Log("PlayerState : playerAvoidanceManagerが見つかりません");
+        }
+        if (m_PlayerCounterObjectManager == null)
+        {
+            Debug.Log("PlayerState : m_PlayerCounterObjectManagerが見つかりません");
         }
 #endif
     }
@@ -416,10 +429,10 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public int GetPlayerConbo()                      { return playerConbo; }
     public int GetPlayerWeponNumber()                { return weponNumber; }
     public Animator GetPlayerAnimator() { return playerAnimator; }
-    public GameObject GetPlayerCounterObject() { return playerCounterObject; }
+    // public GameObject GetPlayerCounterObject() { return playerCounterObject; }
     public string GetPlayerCounterPossibleAttack() { return counterPossibleAttack; }
     public RESEVEDSTATE GetPlayerNextReseved() { return nextReserved; }
-    public AttackController GetPlayerCounterAttackController() { return playerCounterAttackController; }
+    // public AttackController GetPlayerCounterAttackController() { return playerCounterAttackController; }
     public float GetPlayerCounterRange() { return counterRange; }
     public HPManager GetPlayerHPManager() { return hpManager; }
     public string GetPlayerEnemyAttackTag() { return enemyAttackTag; }
@@ -438,6 +451,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
     public AnimationClip GetPlayerWeaponTakeAnimation() { return playerWeaponTakeAnimation; }
     public bool GetPlayerDamagerFlag() { return damageFlag; }
     public DamageResponseManager GetPlayerDamageResponseManager() { return playerDamageResponseManager; }
+    public CounterObjectManager GetPlayerCounterObjectManager() { return m_PlayerCounterObjectManager; }
     
     public Vector3 GetNearEnemyPos()
     {

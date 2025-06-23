@@ -1,16 +1,20 @@
     using System.Collections;
     using System.Collections.Generic;
-    using UnityEngine;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class CounterObjectManager : MonoBehaviour
 {
     [Header("カウンターオブジェクトのプレハブ")]
     [SerializeField] private GameObject counterObjectPrefab;
+    [Header("カウンターオブジェクトの最大サイズ")]
+    [SerializeField] private float m_MaxSize;
 
 
 
     private GameObject counterObjectInstance;
     private AttackController attackController;
+    private Renderer m_CounterRend;
 
 
 
@@ -32,15 +36,31 @@ public class CounterObjectManager : MonoBehaviour
 
         // インスタンスを生成してプレイヤーの子に設定
         counterObjectInstance = Instantiate(counterObjectPrefab, transform);
-        counterObjectInstance.transform.localPosition = Vector3.zero; // プレイヤー中心
+
+        Vector3 counterPos = Vector3.zero;
+        counterPos.y = 1.0f;
+
+        counterObjectInstance.transform.localPosition = counterPos; // プレイヤー中心
         counterObjectInstance.transform.localScale = Vector3.zero;
-        
 
         // AttackController を取得
         attackController = counterObjectInstance.GetComponent<AttackController>();
         if (attackController == null)
         {
             Debug.LogWarning("CounterObjectManager: AttackController が見つかりません");
+        }
+
+        // 初期化
+        attackController.AttackControllerStart();
+
+        m_CounterRend = counterObjectInstance.GetComponentInChildren<Renderer>();
+        if (m_CounterRend != null)
+        {
+            m_CounterRend.enabled = false;
+        }
+        else
+        {
+            Debug.LogWarning("CounterObjectManager: 子オブジェクトに Renderer が見つかりませんでした");
         }
 
         counterObjectInstance.SetActive(false);
@@ -56,6 +76,10 @@ public class CounterObjectManager : MonoBehaviour
 
         counterObjectInstance.transform.localScale = Vector3.zero;
         counterObjectInstance.SetActive(true);
+
+#if UNITY_EDITOR
+        m_CounterRend.enabled = true;
+#endif 
     }
 
 
@@ -65,7 +89,7 @@ public class CounterObjectManager : MonoBehaviour
     {
         // 攻撃も無効化
         attackController.DisableAttack();
-
+        counterObjectInstance.transform.localScale = Vector3.zero;
         counterObjectInstance.SetActive(false);
     }
 
@@ -85,4 +109,5 @@ public class CounterObjectManager : MonoBehaviour
     {
         return counterObjectInstance;
     }
+    public float GetCounterMaxSize() { return m_MaxSize; }
 }

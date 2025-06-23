@@ -30,7 +30,8 @@ public class CounterManager : MonoBehaviour
     [Header("プレイヤーのカウンター成功後の無敵時間（カウンター成功中の無敵時間とは別）")]
     [SerializeField] private int[] invincibleTime = { 0, 0, 0, 0, 0 };
 
-
+    [Header("カウンターオブジェクト")]
+    [SerializeField] private Object m_CounterObj = null;
     [Header("カウンターアニメーション")]
     [SerializeField] private AnimationClip m_CounterAnimation = null;
 
@@ -177,4 +178,5 @@ public class CounterManager : MonoBehaviour
     public float GetCounterStanDamage() { return m_CounterStanDamages[(int)currentRank]; }
     public int GetCurrentRank() { return currentRank; }
     public AnimationClip GetCounterAnimation() { return m_CounterAnimation; }
+    public Object GetCounterObject() { return m_CounterObj; }
 }

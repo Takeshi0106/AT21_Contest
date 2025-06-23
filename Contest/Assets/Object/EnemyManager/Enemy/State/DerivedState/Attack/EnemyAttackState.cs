@@ -65,6 +65,7 @@ public class EnemyAttackState : StateClass<EnemyState>
         // スタン力を更新
         enemyState.GetAttackInterface().SetSelfStanAttackDamage(weponData.GetStanDamage(enemyState.GetEnemyConbo()));
 
+        enemyState.GetAttackInterface().SetSelfID();
 
 
 #if UNITY_EDITOR
