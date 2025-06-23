@@ -361,7 +361,9 @@ MonoBehaviour:
   - ParryableAttack
   noAttackTags:
   - Nothing
-  trailArray: []
+  trailArray:
+  - {fileID: 5221277342154193673}
+  particle: []
 --- !u!4 &6822911081795217331 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b4061ad1ad1162043a2258760908cc67, type: 3}
