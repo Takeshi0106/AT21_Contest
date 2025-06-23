@@ -113,6 +113,9 @@ public class BossState : EnemyBaseState<BossState>
                 // ダメージをあたえる
                 hpManager.TakeDamage(attackInterface.GetOtherAttackDamage());
 
+                // エフェクト
+                DamageEffect(info.collider);
+
                 info.hitFlag = true;
 
                 if (isCounterAttack) { hitCounter = true; }

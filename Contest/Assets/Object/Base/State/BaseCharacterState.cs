@@ -38,14 +38,21 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
     // 自分の攻撃情報を取得する
     protected AttackInterface m_SelfAttackInterface;
 
+    private ShakeController m_shake = null;
+
     protected void CharacterStart()
     {
         m_SelfAttackInterface = this.GetComponent<AttackInterface>();
+        m_shake = this.GetComponent<ShakeController>();
 
 #if UNITY_EDITOR
         if (m_SelfAttackInterface == null)
         {
             Debug.Log("AttackInterfaceが見つかりませんでした。");
+        }
+        if(m_shake==null)
+        {
+            Debug.Log("ShakeControllerが見つかりませんでした。");
         }
 #endif
     }
@@ -120,7 +127,7 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
     }
 
     
-    protected void DamageParticle(Collider other)
+    protected void DamageEffect(Collider other)
     {
         // プレイヤーの中心で生成
         Vector3 hitPos = transform.position;
@@ -131,8 +138,14 @@ public class BaseCharacterState<T> : BaseState<T> where T : BaseCharacterState<T
         {
             Instantiate(particle, hitPos + m_HitParticlePos, hitRot);
         }
+
+        // シェイク処理を開始
+        if (m_shake != null)
+        {
+            m_shake.StartShake();
+        }
     }
-    
+
 
     // ゲッター
     public AttackInterface GetAttackInterface() { return m_SelfAttackInterface; }

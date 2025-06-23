@@ -209,6 +209,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2139364025130004871}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3980824676254619878}
   m_SourcePrefab: {fileID: 100100000, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}
 --- !u!1 &2351968896349266825 stripped
 GameObject:
@@ -280,6 +283,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71837023c18f68540a6b2bbd93a45ff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_HitParticle: []
+  m_HitParticlePos: {x: 0, y: 0, z: 0}
   playerAttackTag: PlayerAttack
   playerCounterTag: CounterAttack
   playerThrowTag: ThrowAttack
@@ -373,6 +378,20 @@ MonoBehaviour:
   flinchGageRecover: 1
   flinchFreams: 30
   playerFlinchAnimation: {fileID: 3094330708855449807, guid: eed216188b27f1140b011295637ece48, type: 3}
+--- !u!114 &3980824676254619878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8097587045541504395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0afd440ff47a301479f4fe0269e25b72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.2
+  magnitude: 0.1
 --- !u!4 &8875390003773849393 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dc0ad81ced69c1140943ecfba2c307c4, type: 3}

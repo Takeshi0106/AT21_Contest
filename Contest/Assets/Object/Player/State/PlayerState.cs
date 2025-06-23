@@ -77,6 +77,8 @@ public class PlayerState : BaseCharacterState<PlayerState>
     private DamageResponseManager playerDamageResponseManager;
     // Playerのカウンターオブジェクトマネージャー
     private CounterObjectManager m_PlayerCounterObjectManager;
+    // カメラ
+    private TPFCamera m_TPFCamera;
 
 
     // 現在のコンボ数
@@ -106,7 +108,10 @@ public class PlayerState : BaseCharacterState<PlayerState>
     void Start()
     {
         //　カメラオブジェクトを代入
-        cameraTransform = GameObject.Find(cameraName).transform;
+        var camera = GameObject.Find(cameraName);
+
+        cameraTransform = camera.transform;
+        m_TPFCamera = camera.GetComponent<TPFCamera>();
         // Playerリジッドボディー
         playerRigidbody = this.gameObject.GetComponent<Rigidbody>();
         // Playerコライダー
@@ -342,7 +347,7 @@ public class PlayerState : BaseCharacterState<PlayerState>
                     hpManager.TakeDamage(enemyInterface.GetOtherAttackDamage());
 
                     // エフェクト
-                    DamageParticle(info.collider);
+                    DamageEffect(info.collider);
 
                     damageFlag = true;
                 }
@@ -410,7 +415,25 @@ public class PlayerState : BaseCharacterState<PlayerState>
     // セッター
     public void SetPlayerCombo(int value) { playerConbo = value; }
     public void SetPlayerNextReseved(RESEVEDSTATE next) { nextReserved = next; }
-    public void SetPlayerSpeed(float speed) { playerSpeed = speed; }
+    public void SetPlayerSpeed(float speed)
+    {
+        if (speed >= 0.00f && speed <= 1.0f)
+        {
+            // フレームの進む処理を更新
+            playerSpeed = speed;
+
+            // ヒットストップの時だけアニメーションの速度を変更
+            if (playerAnimator != null && speed == 0.00f)
+            {
+                playerAnimator.speed = speed;
+            }
+        }
+        else
+        {
+            Debug.Log("スピードがセットできませんでした。");
+        }
+         
+    }
     public void SetJumpFlag(bool flag) { jumpFlag = flag; }
 
 

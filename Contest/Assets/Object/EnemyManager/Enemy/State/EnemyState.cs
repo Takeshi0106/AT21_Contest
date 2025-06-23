@@ -95,6 +95,9 @@ public class EnemyState : EnemyBaseState<EnemyState>
                 // ダメージをあたえる
                 hpManager.TakeDamage(attackInterface.GetOtherAttackDamage());
 
+                // エフェクト
+                DamageEffect(info.collider);
+
                 // ダメージ処理をした
                 info.hitFlag = true;
 

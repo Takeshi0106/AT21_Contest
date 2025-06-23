@@ -101,7 +101,6 @@ public class EnemySystem : MonoBehaviour
         return nearestPosition;
     }
 
-
     // プレイヤーのゲッター
     public GameObject GetPlayerObj() { return player; }
 
