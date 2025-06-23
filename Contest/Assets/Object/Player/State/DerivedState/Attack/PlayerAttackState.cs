@@ -102,6 +102,8 @@ public class PlayerAttackState : StateClass<PlayerState>
         playerState.GetAttackInterface().SetSelfAttackDamage(weponData.GetDamage(playerState.GetPlayerConbo()) * counter.GetDamageMultiplier());
         // スタン力をインターフェイスに送る
         playerState.GetAttackInterface().SetSelfStanAttackDamage(weponData.GetStanDamage(playerState.GetPlayerConbo()));
+        // ID
+        playerState.GetAttackInterface().SetSelfID();
 
 #if UNITY_EDITOR
         Debug.LogError($"PlayerAttackState : 開始（Combo数：{playerState.GetPlayerConbo() + 1}）");

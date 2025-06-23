@@ -47,6 +47,8 @@ public class BossAttackState : StateClass<BossState>
         // スタン力を更新
         bossState.GetAttackInterface().SetSelfStanAttackDamage(weponData.GetStanDamage(bossState.GetEnemyConbo()));
 
+        bossState.GetAttackInterface().SetSelfID();
+
 #if UNITY_EDITOR
 
         if (weponData == null)

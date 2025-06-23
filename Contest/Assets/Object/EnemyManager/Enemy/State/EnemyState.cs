@@ -54,8 +54,16 @@ public class EnemyState : EnemyBaseState<EnemyState>
         hitCounter = false;
 
         for (int i = 0; i < collidedInfos.Count; i++)
-        {
+        { 
             var info = collidedInfos[i];
+
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                Debug.Log($"{info.collider.name} :  HitFlag :{info.hitFlag} / HitID{info.hitID}");
+            }
+#endif
+
             // すでにダメージ処理済み,タグコンポーネントがnullならスキップ
             if (info.multiTag == null || info.hitFlag) { continue; }
 
@@ -75,6 +83,7 @@ public class EnemyState : EnemyBaseState<EnemyState>
                 var attackInterface = info.collider.GetComponentInParent<AttackInterface>();
 
 #if UNITY_EDITOR
+
                 Debug.Log($"Enemyのダメージ: {attackInterface.GetOtherAttackDamage()}（{(isCounterAttack ? "カウンター" : "通常")}）");
                 Debug.Log(Time.frameCount + ": Counter Hit!");
 #endif

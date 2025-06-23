@@ -63,12 +63,16 @@ public class PlayerCounterStrikeState : StateClass<PlayerState>
         playerState.GetAttackInterface().SetSelfAttackDamage(attackData* multiData);
         // スタン情報を更新する
         playerState.GetAttackInterface().SetSelfStanAttackDamage(stanAttackData);
+        // ID
+        playerState.GetAttackInterface().SetSelfID();
         // カウンター開始処理
         playerState.GetPlayerCounterObjectManager().Activate();
 
 
 #if UNITY_EDITOR
-        Debug.LogError("CounterStrikeState : 開始");
+        Debug.Log("CounterStrikeState : 開始");
+
+        Debug.LogError($"CounterStrikeState : {playerState.GetAttackInterface().GetOtherAttackID()}");
 
         // 赤色に変更する
         if (playerState.GetPlayerRenderer() != null)
