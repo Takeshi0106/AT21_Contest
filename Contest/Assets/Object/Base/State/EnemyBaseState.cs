@@ -48,6 +48,8 @@ public class EnemyBaseState<T> : BaseCharacterState<T> where T : EnemyBaseState<
     [Header("移動速度")]
     [SerializeField] protected float moveSpeed;
 
+
+
     // プレイヤーを発見したかのフラグ
     protected bool foundTargetFlg;
 

@@ -18,6 +18,10 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private string playerTag = "Player";
     [Header("敵のsystem")]
     [SerializeField] private EnemySystem system = null;
+    [Header("出現時のパーティクル")]
+    [SerializeField] private GameObject m_Particle = null;
+    [Header("出現時のパーティクルの位置")]
+    [SerializeField] private Vector3 m_ParticlePos;
 
 
     // 開始処理
@@ -97,11 +101,13 @@ public class EnemyManager : MonoBehaviour
             // Enemyを有効化
             foreach (EnemyBaseState<EnemyState> enemy in enemyList)
             {
+                Instantiate(m_Particle, enemy.transform.position + m_ParticlePos, Quaternion.identity);
                 enemy.gameObject.SetActive(true);  // 登録された敵を有効化
             }
             // Bossを有効化
             foreach (EnemyBaseState<BossState> boss in bossList)
             {
+                Instantiate(m_Particle, boss.transform.position + m_ParticlePos, Quaternion.identity);
                 boss.gameObject.SetActive(true);  // 登録された敵を有効化
             }
         }
@@ -118,6 +124,7 @@ public class EnemyManager : MonoBehaviour
             {
                 if (enemy != null)
                 {
+                    Instantiate(m_Particle, enemy.transform.position + m_ParticlePos, Quaternion.identity);
                     enemy.ResetEnemy();
                     enemy.gameObject.SetActive(false);
                 }
