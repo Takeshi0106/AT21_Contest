@@ -131,6 +131,7 @@ public class EnemyState : EnemyBaseState<EnemyState>
 
         enemyRigidbody.useGravity = false; // 重力をOFFにする
         this.GetComponent<Collider>().enabled = false; // コライダーを無効にする
+        enemyRigidbody.velocity = Vector3.zero;
 
         ChangeState(new EnemyDeadState()); // Dead状態に変更
     }

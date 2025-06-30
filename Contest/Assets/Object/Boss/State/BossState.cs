@@ -151,6 +151,7 @@ public class BossState : EnemyBaseState<BossState>
 
         enemyRigidbody.useGravity = false; // 重力をOFFにする
         this.GetComponent<Collider>().enabled = false; // コライダーを無効にする
+        enemyRigidbody.velocity = Vector3.zero;
 
         ChangeState(new BossDeadState()); // Dead状態に変更
     }
