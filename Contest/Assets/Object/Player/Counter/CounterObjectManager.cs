@@ -77,9 +77,9 @@ public class CounterObjectManager : MonoBehaviour
         counterObjectInstance.transform.localScale = Vector3.zero;
         counterObjectInstance.SetActive(true);
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         m_CounterRend.enabled = true;
-#endif 
+//#endif 
     }
 
 
