@@ -60,14 +60,19 @@ public class EnemyMoveState : StateClass<EnemyState>
 
 
         enemyState.Target();
+        Rigidbody rb = enemyState.GetEnemyRigidbody();
 
         if (vec.magnitude > 8.0f)
         {
-            enemyState.GetEnemyRigidbody().velocity = enemyState.transform.forward * enemyState.GetEnemyDashSpeed();
+            Vector3 vel = enemyState.transform.forward * enemyState.GetEnemyDashSpeed();
+            vel.y = rb.velocity.y; // y方向（重力）を維持
+            rb.velocity = vel;
         }
         else if (vec.magnitude > 1.0f && enemyState.GetEnemyAttackFlag())
         {
-            enemyState.GetEnemyRigidbody().velocity = enemyState.transform.forward * enemyState.GetEnemyDashSpeed();
+            Vector3 vel = enemyState.transform.forward * enemyState.GetEnemyDashSpeed();
+            vel.y = rb.velocity.y; // y方向（重力）を維持
+            rb.velocity = vel;
         }
     }
 
