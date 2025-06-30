@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weponName: EnemyNaginata
   maxCombo: 1
-  attackStartupFruem: 28000000
-  attackFruem: 0f000000
-  attackStaggerFruem: 14000000
+  attackStartupFruem: 14000000
+  attackFruem: 14000000
+  attackStaggerFruem: 32000000
   attackDamage:
   - 10
   m_AttackStanDamage:
