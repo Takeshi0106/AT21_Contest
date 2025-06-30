@@ -17,7 +17,12 @@ public class DamageResponseManager : MonoBehaviour
     private float m_CurentGage = 0.0f;
     private bool m_RecoverFlag = false;
     private float m_freams = 0.0f;
-    
+
+    private void Start()
+    {
+        m_CurentGage = flinchGage;
+    }
+
 
     // Update is called once per frame
     public void FlinchUpdate(float _characterFleams)

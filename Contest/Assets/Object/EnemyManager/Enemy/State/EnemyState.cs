@@ -86,6 +86,7 @@ public class EnemyState : EnemyBaseState<EnemyState>
 
                 Debug.Log($"Enemyのダメージ: {attackInterface.GetOtherAttackDamage()}（{(isCounterAttack ? "カウンター" : "通常")}）");
                 Debug.Log(Time.frameCount + ": Counter Hit!");
+                Debug.Log($"Enemyのスタンダメージ　：　{attackInterface.GetOtherStanAttackDamage()}");
 #endif
                 // 怯み処理
                 if (enemyDamageResponseManager.FlinchDamage(attackInterface.GetOtherStanAttackDamage()))

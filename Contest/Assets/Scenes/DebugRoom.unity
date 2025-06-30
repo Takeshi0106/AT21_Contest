@@ -138,6 +138,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2139364025130004871, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: flinchGage
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: weaponDataList.Array.data[0]
       value: 
@@ -276,13 +280,17 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2139364025130004871, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: flinchGage
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: weaponDataList.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 6e6b290c3bfa41545b8e5b04c42e8393, type: 2}
     - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: maxHP
-      value: 100
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: firstHP
@@ -677,6 +685,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2139364025130004871, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: flinchGage
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: weaponDataList.Array.data[0]
       value: 
@@ -811,13 +823,17 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2139364025130004871, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: flinchGage
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: weaponDataList.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 6e6b290c3bfa41545b8e5b04c42e8393, type: 2}
     - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: maxHP
-      value: 100
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: firstHP
@@ -1186,10 +1202,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2139364025130004871, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: flinchGage
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: weaponDataList.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 6e6b290c3bfa41545b8e5b04c42e8393, type: 2}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: maxHP
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 5859196373591376669, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1283,6 +1307,10 @@ PrefabInstance:
     - target: {fileID: 1990500728470179481, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2139364025130004871, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: flinchGage
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: pearentWeponAttack
@@ -1850,7 +1878,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5753243017126494298, guid: e7c1e351b789c5d4292376214532e9a6, type: 3}
       propertyPath: m_StanGage
-      value: 500
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 5753243017126494298, guid: e7c1e351b789c5d4292376214532e9a6, type: 3}
       propertyPath: m_StanAnimationClip
@@ -1859,6 +1887,10 @@ PrefabInstance:
     - target: {fileID: 5845176649281896997, guid: e7c1e351b789c5d4292376214532e9a6, type: 3}
       propertyPath: m_Name
       value: boss ver3 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5924832777668337039, guid: e7c1e351b789c5d4292376214532e9a6, type: 3}
+      propertyPath: maxHP
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5924832777668337039, guid: e7c1e351b789c5d4292376214532e9a6, type: 3}
       propertyPath: firstHP
@@ -2156,13 +2188,17 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2139364025130004871, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: flinchGage
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: weaponDataList.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: eb405332d60f01147aad68874f0652a0, type: 2}
     - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: maxHP
-      value: 100
+      value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: firstHP
@@ -2954,6 +2990,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2139364025130004871, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: flinchGage
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: weaponDataList.Array.data[0]
       value: 
@@ -3056,10 +3096,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2139364025130004871, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: flinchGage
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4045888681683395993, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: weaponDataList.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 0bbd2f48fd18b6b49ae7145cffe77d6b, type: 2}
+    - target: {fileID: 5283891759001760544, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
+      propertyPath: maxHP
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 5859196373591376669, guid: 4f7a89f0773d2a34e823d6e053206a51, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3358,6 +3406,22 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: counterGauge.Array.data[1]
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: counterGauge.Array.data[2]
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: counterGauge.Array.data[3]
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: counterGauge.Array.data[4]
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: counterDamages.Array.data[0]
       value: 20
       objectReference: {fileID: 0}
@@ -3376,6 +3440,14 @@ PrefabInstance:
     - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: counterDamages.Array.data[4]
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: damageMultipliers.Array.data[3]
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
+      propertyPath: damageMultipliers.Array.data[4]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 770010313425714840, guid: fe99cf82abdbb0c43a452c7944d15b7a, type: 3}
       propertyPath: m_CounterStanDamages.Array.data[1]
