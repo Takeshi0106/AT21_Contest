@@ -1406,7 +1406,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -244.96823, y: -212.86238}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &980983153
 MonoBehaviour:
@@ -1586,7 +1586,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 244.96823, y: 121.000015}
+  m_AnchoredPosition: {x: 300, y: 121.000015}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1188786392
@@ -1609,10 +1609,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u64CD\u4F5C\u8AAC\u660E\r\n\u5DE6\u30AF\u30EA\u30C3\u30AF  \u653B\u6483\nQ\u30AD\u30FC\u3000\u3000
-    \u6B66\u5668\u3092\u6295\u3052\u308B\r\n\u53F3\u30AF\u30EA\u30C3\u30AF  \u30AB\u30A6\u30F3\u30BF\u30FC\r\nE\u30AD\u30FC\u3000\u3000 
-    \u56DE\u907F\r\nWASD    \u79FB\u52D5\r\n\u30DE\u30A6\u30B9       \u30AB\u30E1\u30E9\u64CD\u4F5C\r\nSPACE  
-    \u30B8\u30E3\u30F3\u30D7\r\nSHIFT     \u30C0\u30C3\u30B7\u30E5\r\n\nPlease  
+  m_text: "\u64CD\u4F5C\u8AAC\u660E\r\nWASD    \u79FB\u52D5\n\u30DE\u30A6\u30B9      
+    \u30AB\u30E1\u30E9\u64CD\u4F5C\r\n\u5DE6\u30AF\u30EA\u30C3\u30AF  \u653B\u6483\n\u53F3\u30AF\u30EA\u30C3\u30AF 
+    \u30AB\u30A6\u30F3\u30BF\u30FC\r\nQ\u30AD\u30FC\u3000\u3000 \u6B66\u5668\u3092\u6295\u3052\u308B\r\nE\u30AD\u30FC\u3000\u3000 
+    \u56DE\u907F\r\nSPACE   \u30B8\u30E3\u30F3\u30D7\r\nSHIFT     \u30C0\u30C3\u30B7\u30E5\r\n\nPlease  
     Enter"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ddddd66bfe433d641b2dd04183c2fa7b, type: 2}
@@ -2210,7 +2210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 244.9682, y: 121}
+  m_AnchoredPosition: {x: 300, y: 121}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1858680742
@@ -2350,7 +2350,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -200, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2033076090
 MonoBehaviour:

@@ -31,6 +31,7 @@ public class OperationInstructions : MonoBehaviour
     {
         if (m_Flag)
         {
+            Time.timeScale = 0.0f;
             this.gameObject.SetActive(true);
 
             string[] joysticks = Input.GetJoystickNames();
@@ -50,6 +51,8 @@ public class OperationInstructions : MonoBehaviour
             m_Key.SetActive(false);
 
             this.gameObject.SetActive(false);
+
+            Time.timeScale = 1.0f;
         }
     }
 
