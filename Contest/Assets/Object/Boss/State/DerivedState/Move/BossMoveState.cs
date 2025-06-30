@@ -40,6 +40,8 @@ public class BossMoveState : StateClass<BossState>
     // ó‘Ô’†‚Ìˆ—
     public override void Excute(BossState bossState)
     {
+        bossState.HandleDamage();
+
         Vector3 vec = bossState.GetPlayerState().transform.position - bossState.transform.position;
 
 

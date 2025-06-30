@@ -59,7 +59,7 @@ public class BossState : EnemyBaseState<BossState>
     {
         StateUpdate();
 
-        HandleDamage();
+        // HandleDamage();
     }
 
     // ダメージ処理 Boss用
