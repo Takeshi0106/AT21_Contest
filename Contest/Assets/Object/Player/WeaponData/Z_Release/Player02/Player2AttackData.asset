@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weponName: player02
   maxCombo: 5
-  attackStartupFruem: 1400000014000000140000001400000014000000
+  attackStartupFruem: 1400000014000000140000001400000005000000
   attackFruem: 1400000028000000140000001e00000014000000
   attackStaggerFruem: 1400000014000000140000001400000014000000
   attackDamage:
@@ -22,13 +22,13 @@ MonoBehaviour:
   - 10
   - 10
   - 10
-  - 10
+  - 30
   m_AttackStanDamage:
+  - 20
   - 10
-  - 10
-  - 10
-  - 10
-  - 10
+  - 20
+  - 20
+  - 60
   attackAnimations:
   - {fileID: 7400000, guid: e585a9831cc540f4b9bd1d7580ddc856, type: 2}
   - {fileID: 7400000, guid: ac96dd25d3b43b845901efd2a64ec50d, type: 2}

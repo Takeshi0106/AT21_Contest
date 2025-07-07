@@ -5,14 +5,14 @@ public class HPManager : MonoBehaviour
 {
     [Header("最大HP")]
     [SerializeField] private float maxHP = 100;
-    [Header("現在のHP（デバッグ用）")]
-    [SerializeField] private float firstHP;
+    // [Header("現在のHP（デバッグ用）")]
+    // [SerializeField] private float firstHP;
 
     private UnityEvent onDeath = new UnityEvent();
     private UnityEvent onDamaged = new UnityEvent();
 
     // 現在のHP
-    public float currentHP;
+    private float currentHP;
 
 
     private void Awake()
@@ -22,7 +22,7 @@ public class HPManager : MonoBehaviour
 
 #if UNITY_EDITOR
         // デバッグ用
-        currentHP = firstHP;
+        // currentHP = firstHP;
 #endif
     }
 
@@ -52,6 +52,7 @@ public class HPManager : MonoBehaviour
     {
         currentHP += amount;
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+        onDamaged.Invoke();
     }
 
 

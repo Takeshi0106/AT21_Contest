@@ -86,12 +86,15 @@ public class EnemyState : EnemyBaseState<EnemyState>
 
                 Debug.Log($"Enemyのダメージ: {attackInterface.GetOtherAttackDamage()}（{(isCounterAttack ? "カウンター" : "通常")}）");
                 Debug.Log(Time.frameCount + ": Counter Hit!");
+                Debug.Log($"Enemyのスタンダメージ　：　{attackInterface.GetOtherStanAttackDamage()}");
 #endif
                 // 怯み処理
                 if (enemyDamageResponseManager.FlinchDamage(attackInterface.GetOtherStanAttackDamage()))
                 {
                     ChangeState(new EnemyFlinchState());
                 }
+
+                if(isCounterAttack) { hitCounter = true; }
                 // ダメージをあたえる
                 hpManager.TakeDamage(attackInterface.GetOtherAttackDamage());
 
@@ -100,8 +103,6 @@ public class EnemyState : EnemyBaseState<EnemyState>
 
                 // ダメージ処理をした
                 info.hitFlag = true;
-
-                if(isCounterAttack) { hitCounter = true; }
 
                 // attackInterface.HitAttack();
 
@@ -125,11 +126,12 @@ public class EnemyState : EnemyBaseState<EnemyState>
         }
 
 #if UNITY_EDITOR
-        Debug.Log($"{gameObject.name} が死亡しました");
+        Debug.Log($"{gameObject.name} が死亡しました {hitCounter}");
 #endif
 
         enemyRigidbody.useGravity = false; // 重力をOFFにする
         this.GetComponent<Collider>().enabled = false; // コライダーを無効にする
+        enemyRigidbody.velocity = Vector3.zero;
 
         ChangeState(new EnemyDeadState()); // Dead状態に変更
     }

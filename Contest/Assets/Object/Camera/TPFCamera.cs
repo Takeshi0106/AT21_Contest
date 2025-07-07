@@ -73,6 +73,9 @@ public class TPFCamera : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (Time.timeScale == 0f)
+            return; // 操作説明中ならカメラ停止
+
         // ESCキーが押されたらロックを解除する
         if (Input.GetKeyDown(KeyCode.Escape))
         {

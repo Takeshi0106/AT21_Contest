@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class BossStanState : StateClass<BossState>
 {
@@ -35,6 +31,8 @@ public class BossStanState : StateClass<BossState>
     // ó‘Ô’†‚Ìˆ—
     public override void Excute(BossState _BossState)
     {
+        _BossState.HandleDamage();
+
         // ƒXƒ^ƒ“‚ÌI—¹ˆ—
         _BossState.GetBossStatusEffectManager().UpdateStan(_BossState.GetEnemySpeed());
     }

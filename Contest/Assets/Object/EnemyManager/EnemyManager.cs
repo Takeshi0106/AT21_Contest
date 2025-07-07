@@ -18,6 +18,10 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private string playerTag = "Player";
     [Header("敵のsystem")]
     [SerializeField] private EnemySystem system = null;
+    [Header("出現時のパーティクル")]
+    [SerializeField] private GameObject m_Particle = null;
+    [Header("出現時のパーティクルの位置")]
+    [SerializeField] private Vector3 m_ParticlePos;
 
 
     // 開始処理
@@ -97,13 +101,36 @@ public class EnemyManager : MonoBehaviour
             // Enemyを有効化
             foreach (EnemyBaseState<EnemyState> enemy in enemyList)
             {
+                Instantiate(m_Particle, enemy.transform.position + m_ParticlePos, Quaternion.identity);
                 enemy.gameObject.SetActive(true);  // 登録された敵を有効化
             }
             // Bossを有効化
             foreach (EnemyBaseState<BossState> boss in bossList)
             {
+                Instantiate(m_Particle, boss.transform.position + m_ParticlePos, Quaternion.identity);
                 boss.gameObject.SetActive(true);  // 登録された敵を有効化
             }
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        MultiTag tag = other.GetComponent<MultiTag>();
+
+        if (tag != null && tag.HasTag(playerTag))
+        {
+            // Enemyを無効化
+            foreach (EnemyBaseState<EnemyState> enemy in enemyList)
+            {
+                if (enemy != null)
+                {
+                    Instantiate(m_Particle, enemy.transform.position + m_ParticlePos, Quaternion.identity);
+                    enemy.ResetEnemy();
+                    enemy.gameObject.SetActive(false);
+                }
+            }
+
+            Debug.Log("プレイヤーがエリア外に出たため、敵を非アクティブにしました。");
         }
     }
 
@@ -160,7 +187,6 @@ public class EnemyManager : MonoBehaviour
     public void NearEnemyFlag(Vector3 playerPosition)
     {
         EnemyBaseState<EnemyState> enemyNearest = null;
-        EnemyBaseState<BossState> bossNearest = null;
         float shortestDistance = float.MaxValue;
 
         foreach (EnemyBaseState<EnemyState> enemy in enemyList)
@@ -176,28 +202,12 @@ public class EnemyManager : MonoBehaviour
                 enemyNearest = enemy;
             }
         }
-        // 一番近いBossを探る
-        foreach (EnemyBaseState<BossState> boss in bossList)
-        {
-            if (boss == null || !boss.gameObject.activeInHierarchy) continue;
 
-            float distance = Vector3.Distance(playerPosition, boss.transform.position);
-            if (distance < shortestDistance)
-            {
-                shortestDistance = distance;
-                enemyNearest = null;
-                bossNearest = boss;
-            }
-        }
 
         // Nullチェックを追加
         if (enemyNearest != null)
         {
             enemyNearest.SetEnemyAttackFlag(true);
-        }
-        else if (bossNearest != null)
-        {
-            bossNearest.SetEnemyAttackFlag(true);
         }
     }
 
@@ -209,12 +219,6 @@ public class EnemyManager : MonoBehaviour
             if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
 
             enemy.SetEnemyAttackFlag(false);
-        }
-        foreach (EnemyBaseState<BossState> boss in bossList)
-        {
-            if (boss == null || !boss.gameObject.activeInHierarchy) continue;
-
-            boss.SetEnemyAttackFlag(false);
         }
     }
 }
